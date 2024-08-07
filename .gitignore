@@ -1,0 +1,11 @@
+env.py
+venv
+__pycache__
+*.log
+.xlsx
+*.xlsx
+*.mp3
+*.csv
+github/trad/*
+.vscode
+scripts/env.py

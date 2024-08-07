@@ -1,0 +1,4327 @@
+[{
+        'id': 'f970e0a6d1d65039ff0bf43b50d7452c',
+        'sport_key': 'soccer_brazil_serie_b',
+        'sport_title': 'Brazil Série B',
+        'commence_time': '2024-07-28T21: 30: 00Z',
+        'home_team': 'América Mineiro',
+        'away_team': 'Ceará',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 23: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 23: 34Z',
+                    'outcomes': [{
+                            'name': 'América Mineiro',
+                            'price': 13.0
+                        },
+                        {
+                            'name': 'Ceará',
+                            'price': 15.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.05
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 36Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 36Z',
+                    'outcomes': [{
+                            'name': 'América Mineiro',
+                            'price': 4.75
+                        },
+                        {
+                            'name': 'Ceará',
+                            'price': 6.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.3
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 23: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 23: 34Z',
+                    'outcomes': [{
+                            'name': 'América Mineiro',
+                            'price': 15.0
+                        },
+                        {
+                            'name': 'Ceará',
+                            'price': 15.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.06
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 23: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 23: 34Z',
+                    'outcomes': [{
+                            'name': 'América Mineiro',
+                            'price': 12.0
+                        },
+                        {
+                            'name': 'Ceará',
+                            'price': 13.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.09
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 23: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 23: 34Z',
+                    'outcomes': [{
+                            'name': 'América Mineiro',
+                            'price': 17.0
+                        },
+                        {
+                            'name': 'Ceará',
+                            'price': 23.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.03
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 37Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 37Z',
+                        'outcomes': [{
+                                'name': 'América Mineiro',
+                                'price': 46.0
+                            },
+                            {
+                                'name': 'Ceará',
+                                'price': 5.5
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 1.01
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 37Z',
+                        'outcomes': [{
+                                'name': 'América Mineiro',
+                                'price': 1000.0
+                            },
+                            {
+                                'name': 'Ceará',
+                                'price': 1000.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 1.03
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 36Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 36Z',
+                    'outcomes': [{
+                            'name': 'América Mineiro',
+                            'price': 5.85
+                        },
+                        {
+                            'name': 'Ceará',
+                            'price': 7.9
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.25
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 23: 04Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 23: 04Z',
+                    'outcomes': [{
+                            'name': 'América Mineiro',
+                            'price': 13.0
+                        },
+                        {
+                            'name': 'Ceará',
+                            'price': 14.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.06
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': '447849acd17db2a7a57792701fbfad1e',
+        'sport_key': 'soccer_argentina_primera_division',
+        'sport_title': 'Primera División - Argentina',
+        'commence_time': '2024-07-28T21: 30: 00Z',
+        'home_team': 'River Plate',
+        'away_team': 'Sarmiento de Junin',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'River Plate',
+                            'price': 1.01
+                        },
+                        {
+                            'name': 'Sarmiento de Junin',
+                            'price': 751.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 26.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 48Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 48Z',
+                    'outcomes': [{
+                            'name': 'River Plate',
+                            'price': 1.01
+                        },
+                        {
+                            'name': 'Sarmiento de Junin',
+                            'price': 90.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 17.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'River Plate',
+                            'price': 1.01
+                        },
+                        {
+                            'name': 'Sarmiento de Junin',
+                            'price': 40.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 10.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 24: 37Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 37Z',
+                    'outcomes': [{
+                            'name': 'River Plate',
+                            'price': 1.01
+                        },
+                        {
+                            'name': 'Sarmiento de Junin',
+                            'price': 126.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 15.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'River Plate',
+                            'price': 1.01
+                        },
+                        {
+                            'name': 'Sarmiento de Junin',
+                            'price': 126.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 15.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 23: 41Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 23: 41Z',
+                        'outcomes': [{
+                                'name': 'River Plate',
+                                'price': 1.05
+                            },
+                            {
+                                'name': 'Sarmiento de Junin',
+                                'price': 240.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 16.5
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 23: 41Z',
+                        'outcomes': [{
+                                'name': 'River Plate',
+                                'price': 1.07
+                            },
+                            {
+                                'name': 'Sarmiento de Junin',
+                                'price': 870.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 20.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        'id': 'd1f17efa3f227d2c808d2f9cf52ea355',
+        'sport_key': 'soccer_chile_campeonato',
+        'sport_title': 'Primera División - Chile',
+        'commence_time': '2024-07-28T21: 30: 09Z',
+        'home_team': 'Audax Italiano',
+        'away_team': 'Universidad de Chile',
+        'bookmakers': [{
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.01
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 60.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 8.25
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 26: 03Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 26: 03Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.05
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 100.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 11.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.2
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 23.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.15
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 37Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 37Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.16
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 23.14
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.33
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.05
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 81.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 9.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.08
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 67.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 7.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 39Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 39Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.05
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 76.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 10.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 18: 51Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 18: 51Z',
+                    'outcomes': [{
+                            'name': 'Audax Italiano',
+                            'price': 1.15
+                        },
+                        {
+                            'name': 'Universidad de Chile',
+                            'price': 41.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 23: 36Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 23: 36Z',
+                        'outcomes': [{
+                                'name': 'Audax Italiano',
+                                'price': 1.11
+                            },
+                            {
+                                'name': 'Universidad de Chile',
+                                'price': 1.01
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 6.4
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 23: 36Z',
+                        'outcomes': [{
+                                'name': 'Audax Italiano',
+                                'price': 1.18
+                            },
+                            {
+                                'name': 'Universidad de Chile',
+                                'price': 330.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 12.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        'id': '2edf41c9d18d1ce41ac7fcb1c5e31966',
+        'sport_key': 'soccer_brazil_serie_b',
+        'sport_title': 'Brazil Série B',
+        'commence_time': '2024-07-28T21: 33: 34Z',
+        'home_team': 'Clube de Regatas Brasil',
+        'away_team': 'Santos',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 24: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 43Z',
+                    'outcomes': [{
+                            'name': 'Clube de Regatas Brasil',
+                            'price': 8.5
+                        },
+                        {
+                            'name': 'Santos',
+                            'price': 8.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.14
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 24: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 43Z',
+                    'outcomes': [{
+                            'name': 'Clube de Regatas Brasil',
+                            'price': 9.5
+                        },
+                        {
+                            'name': 'Santos',
+                            'price': 9.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.16
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 37Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 37Z',
+                    'outcomes': [{
+                            'name': 'Clube de Regatas Brasil',
+                            'price': 9.5
+                        },
+                        {
+                            'name': 'Santos',
+                            'price': 9.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.16
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 37Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 37Z',
+                    'outcomes': [{
+                            'name': 'Clube de Regatas Brasil',
+                            'price': 10.0
+                        },
+                        {
+                            'name': 'Santos',
+                            'price': 9.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.14
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Clube de Regatas Brasil',
+                            'price': 9.5
+                        },
+                        {
+                            'name': 'Santos',
+                            'price': 8.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.14
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 37Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 37Z',
+                        'outcomes': [{
+                                'name': 'Clube de Regatas Brasil',
+                                'price': 11.5
+                            },
+                            {
+                                'name': 'Santos',
+                                'price': 8.2
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 1.22
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 37Z',
+                        'outcomes': [{
+                                'name': 'Clube de Regatas Brasil',
+                                'price': 13.5
+                            },
+                            {
+                                'name': 'Santos',
+                                'price': 10.5
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 1.24
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 36Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 36Z',
+                    'outcomes': [{
+                            'name': 'Clube de Regatas Brasil',
+                            'price': 5.66
+                        },
+                        {
+                            'name': 'Santos',
+                            'price': 5.24
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.4
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 16Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 16Z',
+                    'outcomes': [{
+                            'name': 'Clube de Regatas Brasil',
+                            'price': 10.0
+                        },
+                        {
+                            'name': 'Santos',
+                            'price': 8.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.14
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': '8bc90241898e30059754954ff59616b9',
+        'sport_key': 'lacrosse_pll',
+        'sport_title': 'PLL',
+        'commence_time': '2024-07-28T21: 40: 00Z',
+        'home_team': 'California Redwoods',
+        'away_team': 'Maryland Whipsnakes',
+        'bookmakers': []
+    },
+    {
+        'id': 'a0c07efb919a8822736d2aa5bd04efc6',
+        'sport_key': 'soccer_brazil_campeonato',
+        'sport_title': 'Brazil Série A',
+        'commence_time': '2024-07-28T22: 00: 00Z',
+        'home_team': 'Atletico Mineiro',
+        'away_team': 'Corinthians',
+        'bookmakers': [{
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.65
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 5.75
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.9
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.5
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 5.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.83
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 32Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 32Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.63
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 6.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.91
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.25
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 4.65
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.1
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 44Z',
+                        'outcomes': [{
+                                'name': 'Atletico Mineiro',
+                                'price': 2.88
+                            },
+                            {
+                                'name': 'Corinthians',
+                                'price': 5.8
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 2.04
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 44Z',
+                        'outcomes': [{
+                                'name': 'Atletico Mineiro',
+                                'price': 2.92
+                            },
+                            {
+                                'name': 'Corinthians',
+                                'price': 5.9
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 2.08
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.65
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 6.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.9
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.6
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 6.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.95
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.57
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 5.04
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.11
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.7
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 5.4
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.87
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Mineiro',
+                            'price': 2.65
+                        },
+                        {
+                            'name': 'Corinthians',
+                            'price': 5.2
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 1.87
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 43Z',
+                        'outcomes': [{
+                                'name': 'Atletico Mineiro',
+                                'price': 2.96
+                            },
+                            {
+                                'name': 'Corinthians',
+                                'price': 6.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 1.96
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 43Z',
+                        'outcomes': [{
+                                'name': 'Atletico Mineiro',
+                                'price': 3.0
+                            },
+                            {
+                                'name': 'Corinthians',
+                                'price': 6.4
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 2.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        'id': '8f8068b918eb27979ee4d50f49bc6cdf',
+        'sport_key': 'soccer_brazil_campeonato',
+        'sport_title': 'Brazil Série A',
+        'commence_time': '2024-07-28T22: 00: 00Z',
+        'home_team': 'Grêmio',
+        'away_team': 'Vasco da Gama',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 1.15
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 21.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 32Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 32Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 1.18
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 28.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 44Z',
+                        'outcomes': [{
+                                'name': 'Grêmio',
+                                'price': 1.28
+                            },
+                            {
+                                'name': 'Vasco da Gama',
+                                'price': 34.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.4
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 44Z',
+                        'outcomes': [{
+                                'name': 'Grêmio',
+                                'price': 1.33
+                            },
+                            {
+                                'name': 'Vasco da Gama',
+                                'price': 42.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.2
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 2.36
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 5.43
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.2
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 1.17
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 26.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 6.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 1.18
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 26.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 1.15
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 23.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.8
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 1.15
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 20.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 43Z',
+                        'outcomes': [{
+                                'name': 'Grêmio',
+                                'price': 1.27
+                            },
+                            {
+                                'name': 'Vasco da Gama',
+                                'price': 36.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.9
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 43Z',
+                        'outcomes': [{
+                                'name': 'Grêmio',
+                                'price': 1.31
+                            },
+                            {
+                                'name': 'Vasco da Gama',
+                                'price': 44.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Grêmio',
+                            'price': 1.16
+                        },
+                        {
+                            'name': 'Vasco da Gama',
+                            'price': 27.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.75
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': '25287552009ae5c286e275a88b1b08dd',
+        'sport_key': 'soccer_brazil_campeonato',
+        'sport_title': 'Brazil Série A',
+        'commence_time': '2024-07-28T22: 00: 45Z',
+        'home_team': 'Cuiabá',
+        'away_team': 'Atletico Paranaense',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 24: 56Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 56Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.4
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 10.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.25
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 32Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 32Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.44
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 11.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.56
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 8.33
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.29
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 44Z',
+                        'outcomes': [{
+                                'name': 'Atletico Paranaense',
+                                'price': 1.52
+                            },
+                            {
+                                'name': 'Cuiabá',
+                                'price': 14.5
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.55
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 44Z',
+                        'outcomes': [{
+                                'name': 'Atletico Paranaense',
+                                'price': 1.53
+                            },
+                            {
+                                'name': 'Cuiabá',
+                                'price': 15.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.75
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 43Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.45
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 11.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.44
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 11.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.6
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.36
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 11.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.7
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.37
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 10.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.6
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 43Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 43Z',
+                        'outcomes': [{
+                                'name': 'Atletico Paranaense',
+                                'price': 1.52
+                            },
+                            {
+                                'name': 'Cuiabá',
+                                'price': 14.5
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.55
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 43Z',
+                        'outcomes': [{
+                                'name': 'Atletico Paranaense',
+                                'price': 1.55
+                            },
+                            {
+                                'name': 'Cuiabá',
+                                'price': 15.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.6
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 44Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 44Z',
+                    'outcomes': [{
+                            'name': 'Atletico Paranaense',
+                            'price': 1.43
+                        },
+                        {
+                            'name': 'Cuiabá',
+                            'price': 11.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.4
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': 'ccc9a34dfe05b0f5afdf03eb56a047a6',
+        'sport_key': 'baseball_mlb',
+        'sport_title': 'MLB',
+        'commence_time': '2024-07-28T23: 11: 00Z',
+        'home_team': 'Boston Red Sox',
+        'away_team': 'New York Yankees',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 34Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 3.75
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.22
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'gtbets',
+                'title': 'GTbets',
+                'last_update': '2024-07-28T23: 24: 39Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 39Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 4.11
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.24
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'williamhill',
+                'title': 'William Hill',
+                'last_update': '2024-07-28T23: 25: 50Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 50Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 1.95
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.87
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 34Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 2.15
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.7
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 34Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 34Z',
+                        'outcomes': [{
+                                'name': 'Boston Red Sox',
+                                'price': 3.75
+                            },
+                            {
+                                'name': 'New York Yankees',
+                                'price': 1.18
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 34Z',
+                        'outcomes': [{
+                                'name': 'Boston Red Sox',
+                                'price': 6.6
+                            },
+                            {
+                                'name': 'New York Yankees',
+                                'price': 1.36
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 24: 41Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 24: 41Z',
+                        'outcomes': [{
+                                'name': 'Boston Red Sox',
+                                'price': 3.8
+                            },
+                            {
+                                'name': 'New York Yankees',
+                                'price': 1.3
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 24: 41Z',
+                        'outcomes': [{
+                                'name': 'Boston Red Sox',
+                                'price': 4.4
+                            },
+                            {
+                                'name': 'New York Yankees',
+                                'price': 1.36
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 13Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 13Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 4.15
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.22
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 35Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 35Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 4.5
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.18
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 34Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 4.3
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.2
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 35Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 35Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 4.5
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.2
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 49Z',
+                    'outcomes': [{
+                            'name': 'Boston Red Sox',
+                            'price': 4.25
+                        },
+                        {
+                            'name': 'New York Yankees',
+                            'price': 1.2
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': '9ddb15598060d8d884e2f8cbe5081935',
+        'sport_key': 'americanfootball_cfl',
+        'sport_title': 'CFL',
+        'commence_time': '2024-07-28T23: 15: 00Z',
+        'home_team': 'Edmonton Elks',
+        'away_team': 'Hamilton Tiger-Cats',
+        'bookmakers': [{
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 39Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 39Z',
+                    'outcomes': [{
+                            'name': 'Edmonton Elks',
+                            'price': 1.37
+                        },
+                        {
+                            'name': 'Hamilton Tiger-Cats',
+                            'price': 3.25
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 39Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 39Z',
+                    'outcomes': [{
+                            'name': 'Edmonton Elks',
+                            'price': 1.38
+                        },
+                        {
+                            'name': 'Hamilton Tiger-Cats',
+                            'price': 3.2
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 39Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 39Z',
+                    'outcomes': [{
+                            'name': 'Edmonton Elks',
+                            'price': 1.45
+                        },
+                        {
+                            'name': 'Hamilton Tiger-Cats',
+                            'price': 2.79
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 40Z',
+                    'outcomes': [{
+                            'name': 'Edmonton Elks',
+                            'price': 1.4
+                        },
+                        {
+                            'name': 'Hamilton Tiger-Cats',
+                            'price': 2.9
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 53Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 53Z',
+                    'outcomes': [{
+                            'name': 'Edmonton Elks',
+                            'price': 1.34
+                        },
+                        {
+                            'name': 'Hamilton Tiger-Cats',
+                            'price': 3.09
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': '677ad9f2e7d7ec365f98ba88a7ea13d4',
+        'sport_key': 'soccer_argentina_primera_division',
+        'sport_title': 'Primera División - Argentina',
+        'commence_time': '2024-07-28T23: 30: 00Z',
+        'home_team': 'Instituto de Córdoba',
+        'away_team': 'Boca Juniors',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.25
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.4
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.88
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 48Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 48Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.17
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.28
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.73
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.36
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.41
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.88
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.15
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.38
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.85
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.26
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.48
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.87
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'everygame',
+                'title': 'Everygame',
+                'last_update': '2024-07-28T23: 25: 10Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 10Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.35
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.4
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.8
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.2
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.45
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.92
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.2
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.45
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.92
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 49Z',
+                        'outcomes': [{
+                                'name': 'Boca Juniors',
+                                'price': 3.55
+                            },
+                            {
+                                'name': 'Instituto de Córdoba',
+                                'price': 2.54
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.0
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 49Z',
+                        'outcomes': [{
+                                'name': 'Boca Juniors',
+                                'price': 3.6
+                            },
+                            {
+                                'name': 'Instituto de Córdoba',
+                                'price': 2.58
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.05
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'marathonbet',
+                'title': 'Marathon Bet',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.26
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.4
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.02
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.44
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.48
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.91
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 33Z',
+                        'outcomes': [{
+                                'name': 'Boca Juniors',
+                                'price': 3.55
+                            },
+                            {
+                                'name': 'Instituto de Córdoba',
+                                'price': 2.58
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.0
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 33Z',
+                        'outcomes': [{
+                                'name': 'Boca Juniors',
+                                'price': 3.6
+                            },
+                            {
+                                'name': 'Instituto de Córdoba',
+                                'price': 2.62
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betonlineag',
+                'title': 'BetOnline.ag',
+                'last_update': '2024-07-28T23: 25: 48Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 48Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.35
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.48
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.87
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betanysports',
+                'title': 'BetAnySports',
+                'last_update': '2024-07-28T23: 25: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 33Z',
+                    'outcomes': [{
+                            'name': 'Boca Juniors',
+                            'price': 3.39
+                        },
+                        {
+                            'name': 'Instituto de Córdoba',
+                            'price': 2.43
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.94
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': '9d488e5f9f62030279f10dd00888802f',
+        'sport_key': 'baseball_milb',
+        'sport_title': 'MiLB',
+        'commence_time': '2024-07-28T23: 35: 00Z',
+        'home_team': 'Sugar Land Space Cowboys',
+        'away_team': 'Sacramento River Cats',
+        'bookmakers': [{
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 40Z',
+                    'outcomes': [{
+                            'name': 'Sacramento River Cats',
+                            'price': 2.16
+                        },
+                        {
+                            'name': 'Sugar Land Space Cowboys',
+                            'price': 1.62
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 40Z',
+                    'outcomes': [{
+                            'name': 'Sacramento River Cats',
+                            'price': 2.21
+                        },
+                        {
+                            'name': 'Sugar Land Space Cowboys',
+                            'price': 1.68
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'williamhill',
+                'title': 'William Hill',
+                'last_update': '2024-07-28T23: 25: 56Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 56Z',
+                    'outcomes': [{
+                            'name': 'Sacramento River Cats',
+                            'price': 2.1
+                        },
+                        {
+                            'name': 'Sugar Land Space Cowboys',
+                            'price': 1.67
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betonlineag',
+                'title': 'BetOnline.ag',
+                'last_update': '2024-07-28T23: 25: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 40Z',
+                    'outcomes': [{
+                            'name': 'Sacramento River Cats',
+                            'price': 2.25
+                        },
+                        {
+                            'name': 'Sugar Land Space Cowboys',
+                            'price': 1.65
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': 'dbde71dc5532bde07787db1f0d035a83',
+        'sport_key': 'soccer_chile_campeonato',
+        'sport_title': 'Primera División - Chile',
+        'commence_time': '2024-07-29T00: 00: 00Z',
+        'home_team': 'Union La Calera',
+        'away_team': 'Huachipato',
+        'bookmakers': [{
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.83
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.52
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.14
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.82
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.52
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.87
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'marathonbet',
+                'title': 'Marathon Bet',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.81
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.54
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.12
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 26: 03Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 26: 03Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.9
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.6
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.15
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.9
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.51
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.96
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 37Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 37Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 3.04
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.64
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.02
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.88
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.58
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.95
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.9
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.55
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.1
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 39Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 39Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.8
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.55
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.8
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'gtbets',
+                'title': 'GTbets',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.83
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.54
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.17
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'everygame',
+                'title': 'Everygame',
+                'last_update': '2024-07-28T23: 25: 52Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 52Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.85
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.9
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.88
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.4
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 39Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 39Z',
+                        'outcomes': [{
+                                'name': 'Huachipato',
+                                'price': 3.1
+                            },
+                            {
+                                'name': 'Union La Calera',
+                                'price': 2.7
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.15
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 39Z',
+                        'outcomes': [{
+                                'name': 'Huachipato',
+                                'price': 3.15
+                            },
+                            {
+                                'name': 'Union La Calera',
+                                'price': 2.78
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.2
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betonlineag',
+                'title': 'BetOnline.ag',
+                'last_update': '2024-07-28T23: 25: 37Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 37Z',
+                    'outcomes': [{
+                            'name': 'Huachipato',
+                            'price': 2.77
+                        },
+                        {
+                            'name': 'Union La Calera',
+                            'price': 2.49
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 2.96
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': 'e99e3e48bfb678d7b3570f89b8791cab',
+        'sport_key': 'baseball_milb',
+        'sport_title': 'MiLB',
+        'commence_time': '2024-07-29T00: 05: 00Z',
+        'home_team': 'Albuquerque Isotopes',
+        'away_team': 'Round Rock Express',
+        'bookmakers': [{
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 40Z',
+                    'outcomes': [{
+                            'name': 'Albuquerque Isotopes',
+                            'price': 2.11
+                        },
+                        {
+                            'name': 'Round Rock Express',
+                            'price': 1.65
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 40Z',
+                    'outcomes': [{
+                            'name': 'Albuquerque Isotopes',
+                            'price': 2.19
+                        },
+                        {
+                            'name': 'Round Rock Express',
+                            'price': 1.69
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'williamhill',
+                'title': 'William Hill',
+                'last_update': '2024-07-28T23: 25: 56Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 56Z',
+                    'outcomes': [{
+                            'name': 'Albuquerque Isotopes',
+                            'price': 2.1
+                        },
+                        {
+                            'name': 'Round Rock Express',
+                            'price': 1.67
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': 'e31a3531f62c47806bfb4df4335993af',
+        'sport_key': 'soccer_china_superleague',
+        'sport_title': 'Super League - China',
+        'commence_time': '2024-07-29T11: 35: 00Z',
+        'home_team': 'Wuhan Three Towns',
+        'away_team': 'Shanghai Shenhua FC',
+        'bookmakers': [{
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 22: 27Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 22: 27Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.49
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 6.15
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.45
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 49Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.52
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 5.97
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.49
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 49Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.5
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 6.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.33
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 10Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 10Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.5
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 6.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.33
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'marathonbet',
+                'title': 'Marathon Bet',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 49Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.49
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 5.85
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.4
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 50Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 50Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.5
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 6.25
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.4
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 24: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 40Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.49
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 6.2
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 49Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.52
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 5.95
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.27
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'gtbets',
+                'title': 'GTbets',
+                'last_update': '2024-07-28T23: 24: 41Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 41Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.5
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 5.9
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.44
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'williamhill',
+                'title': 'William Hill',
+                'last_update': '2024-07-28T23: 25: 10Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 10Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.44
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 5.8
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.2
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 49Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.47
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 6.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 49Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 49Z',
+                        'outcomes': [{
+                                'name': 'Shanghai Shenhua FC',
+                                'price': 1.53
+                            },
+                            {
+                                'name': 'Wuhan Three Towns',
+                                'price': 6.4
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.6
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 49Z',
+                        'outcomes': [{
+                                'name': 'Shanghai Shenhua FC',
+                                'price': 1.56
+                            },
+                            {
+                                'name': 'Wuhan Three Towns',
+                                'price': 7.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.2
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 11Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 11Z',
+                        'outcomes': [{
+                                'name': 'Shanghai Shenhua FC',
+                                'price': 1.54
+                            },
+                            {
+                                'name': 'Wuhan Three Towns',
+                                'price': 6.2
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.6
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 11Z',
+                        'outcomes': [{
+                                'name': 'Shanghai Shenhua FC',
+                                'price': 1.57
+                            },
+                            {
+                                'name': 'Wuhan Three Towns',
+                                'price': 6.8
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betonlineag',
+                'title': 'BetOnline.ag',
+                'last_update': '2024-07-28T23: 24: 40Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 40Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.47
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 5.8
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.4
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'everygame',
+                'title': 'Everygame',
+                'last_update': '2024-07-28T23: 24: 41Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 41Z',
+                    'outcomes': [{
+                            'name': 'Shanghai Shenhua FC',
+                            'price': 1.5
+                        },
+                        {
+                            'name': 'Wuhan Three Towns',
+                            'price': 5.25
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.2
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': 'f7fcfa51c51d960d21461ff9933b74b8',
+        'sport_key': 'soccer_sweden_allsvenskan',
+        'sport_title': 'Allsvenskan - Sweden',
+        'commence_time': '2024-07-29T17: 00: 00Z',
+        'home_team': 'AIK',
+        'away_team': 'GAIS',
+        'bookmakers': [{
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 25Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 25Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.84
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.02
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.88
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 24Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 24Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.82
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.14
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.84
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 24Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 24Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.8
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 25Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 25Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.83
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.32
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.74
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 26Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 26Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.84
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.35
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'suprabets',
+                'title': 'Suprabets',
+                'last_update': '2024-07-28T23: 22: 50Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 22: 50Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.84
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.33
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.1
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 26Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 26Z',
+                        'outcomes': [{
+                                'name': 'AIK',
+                                'price': 1.85
+                            },
+                            {
+                                'name': 'GAIS',
+                                'price': 4.4
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.0
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 26Z',
+                        'outcomes': [{
+                                'name': 'AIK',
+                                'price': 1.9
+                            },
+                            {
+                                'name': 'GAIS',
+                                'price': 4.7
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'everygame',
+                'title': 'Everygame',
+                'last_update': '2024-07-28T23: 25: 25Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 25Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.8
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.1
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.85
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 25Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 25Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.81
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.1
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.8
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 25Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 25Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.73
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 3.95
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.7
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 42Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 42Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.83
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 3.95
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.85
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 24Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 24Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.81
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.18
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.99
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'gtbets',
+                'title': 'GTbets',
+                'last_update': '2024-07-28T23: 25: 26Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 26Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.79
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.18
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.8
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 26Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 26Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.85
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.1
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.9
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'williamhill',
+                'title': 'William Hill',
+                'last_update': '2024-07-28T23: 25: 03Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 03Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.75
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 3.9
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.7
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 24Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 24Z',
+                        'outcomes': [{
+                                'name': 'AIK',
+                                'price': 1.83
+                            },
+                            {
+                                'name': 'GAIS',
+                                'price': 4.4
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.95
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 24Z',
+                        'outcomes': [{
+                                'name': 'AIK',
+                                'price': 1.89
+                            },
+                            {
+                                'name': 'GAIS',
+                                'price': 4.7
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betonlineag',
+                'title': 'BetOnline.ag',
+                'last_update': '2024-07-28T23: 25: 24Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 24Z',
+                    'outcomes': [{
+                            'name': 'AIK',
+                            'price': 1.81
+                        },
+                        {
+                            'name': 'GAIS',
+                            'price': 4.15
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.8
+                        }
+                    ]
+                }]
+            }
+        ]
+    },
+    {
+        'id': '1eeec1d4e0c64c3dd40d317e6fe2ec5e',
+        'sport_key': 'soccer_denmark_superliga',
+        'sport_title': 'Denmark Superliga',
+        'commence_time': '2024-07-29T17: 00: 00Z',
+        'home_team': 'Brondby IF',
+        'away_team': 'Vejle Boldklub',
+        'bookmakers': [{
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 46Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.4
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 7.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 5.0
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 06Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 06Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.45
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.6
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 46Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.43
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.89
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.94
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 46Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.42
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.85
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.9
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'marathonbet',
+                'title': 'Marathon Bet',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 46Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.44
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.65
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'suprabets',
+                'title': 'Suprabets',
+                'last_update': '2024-07-28T23: 22: 21Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 22: 21Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.45
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 7.2
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.9
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 46Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.43
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 7.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.7
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 46Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.4
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.75
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 46Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.43
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 7.04
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.73
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 47Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 47Z',
+                        'outcomes': [{
+                                'name': 'Brondby IF',
+                                'price': 1.45
+                            },
+                            {
+                                'name': 'Vejle Boldklub',
+                                'price': 8.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.1
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 47Z',
+                        'outcomes': [{
+                                'name': 'Brondby IF',
+                                'price': 1.47
+                            },
+                            {
+                                'name': 'Vejle Boldklub',
+                                'price': 8.6
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'williamhill',
+                'title': 'William Hill',
+                'last_update': '2024-07-28T23: 25: 47Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 47Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.4
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.0
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 48Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 48Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.42
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 7.5
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betonlineag',
+                'title': 'BetOnline.ag',
+                'last_update': '2024-07-28T23: 24: 33Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 33Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.45
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.7
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'everygame',
+                'title': 'Everygame',
+                'last_update': '2024-07-28T23: 24: 34Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 24: 34Z',
+                    'outcomes': [{
+                            'name': 'Brondby IF',
+                            'price': 1.4
+                        },
+                        {
+                            'name': 'Vejle Boldklub',
+                            'price': 6.75
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 4.6
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 46Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 46Z',
+                        'outcomes': [{
+                                'name': 'Brondby IF',
+                                'price': 1.43
+                            },
+                            {
+                                'name': 'Vejle Boldklub',
+                                'price': 8.0
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.0
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 46Z',
+                        'outcomes': [{
+                                'name': 'Brondby IF',
+                                'price': 1.47
+                            },
+                            {
+                                'name': 'Vejle Boldklub',
+                                'price': 8.8
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 5.4
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        'id': '96b0fb3350667dba32c44b6654c44894',
+        'sport_key': 'soccer_poland_ekstraklasa',
+        'sport_title': 'Ekstraklasa - Poland',
+        'commence_time': '2024-07-29T17: 00: 00Z',
+        'home_team': 'Raków Częstochowa',
+        'away_team': 'Cracovia Kraków',
+        'bookmakers': [{
+                'key': 'betclic',
+                'title': 'Betclic',
+                'last_update': '2024-07-28T23: 25: 16Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 16Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 4.62
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.63
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.47
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'coolbet',
+                'title': 'Coolbet',
+                'last_update': '2024-07-28T23: 25: 53Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 53Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.25
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.68
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'marathonbet',
+                'title': 'Marathon Bet',
+                'last_update': '2024-07-28T23: 25: 52Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 52Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.0
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.66
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'sport888',
+                'title': '888sport',
+                'last_update': '2024-07-28T23: 25: 52Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 52Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.0
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.65
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.6
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'pinnacle',
+                'title': 'Pinnacle',
+                'last_update': '2024-07-28T23: 25: 52Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 52Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.7
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.68
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.57
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'onexbet',
+                'title': '1xBet',
+                'last_update': '2024-07-28T23: 25: 52Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 52Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 4.93
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.68
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'suprabets',
+                'title': 'Suprabets',
+                'last_update': '2024-07-28T23: 22: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 22: 38Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.9
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.72
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.71
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'mybookieag',
+                'title': 'MyBookie.ag',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.0
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.69
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.75
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'livescorebet_eu',
+                'title': 'LiveScore Bet (EU)',
+                'last_update': '2024-07-28T23: 25: 53Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 53Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 4.9
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.65
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.3
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'unibet_eu',
+                'title': 'Unibet',
+                'last_update': '2024-07-28T23: 25: 53Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 53Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.3
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.7
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.5
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'nordicbet',
+                'title': 'Nordic Bet',
+                'last_update': '2024-07-28T23: 25: 52Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 52Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.0
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.68
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.6
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betsson',
+                'title': 'Betsson',
+                'last_update': '2024-07-28T23: 25: 53Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 53Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 5.0
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.68
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.6
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'betfair_ex_eu',
+                'title': 'Betfair',
+                'last_update': '2024-07-28T23: 25: 53Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 53Z',
+                        'outcomes': [{
+                                'name': 'Cracovia Kraków',
+                                'price': 6.0
+                            },
+                            {
+                                'name': 'Raków Częstochowa',
+                                'price': 1.67
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.75
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 53Z',
+                        'outcomes': [{
+                                'name': 'Cracovia Kraków',
+                                'price': 7.0
+                            },
+                            {
+                                'name': 'Raków Częstochowa',
+                                'price': 1.72
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'key': 'betonlineag',
+                'title': 'BetOnline.ag',
+                'last_update': '2024-07-28T23: 25: 38Z',
+                'markets': [{
+                    'key': 'h2h',
+                    'last_update': '2024-07-28T23: 25: 38Z',
+                    'outcomes': [{
+                            'name': 'Cracovia Kraków',
+                            'price': 4.6
+                        },
+                        {
+                            'name': 'Raków Częstochowa',
+                            'price': 1.7
+                        },
+                        {
+                            'name': 'Draw',
+                            'price': 3.65
+                        }
+                    ]
+                }]
+            },
+            {
+                'key': 'matchbook',
+                'title': 'Matchbook',
+                'last_update': '2024-07-28T23: 25: 52Z',
+                'markets': [{
+                        'key': 'h2h',
+                        'last_update': '2024-07-28T23: 25: 52Z',
+                        'outcomes': [{
+                                'name': 'Cracovia Kraków',
+                                'price': 5.4
+                            },
+                            {
+                                'name': 'Raków Częstochowa',
+                                'price': 1.6
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 3.6
+                            }
+                        ]
+                    },
+                    {
+                        'key': 'h2h_lay',
+                        'last_update': '2024-07-28T23: 25: 52Z',
+                        'outcomes': [{
+                                'name': 'Cracovia Kraków',
+                                'price': 7.0
+                            },
+                            {
+                                'name': 'Raków Częstochowa',
+                                'price': 1.81
+                            },
+                            {
+                                'name': 'Draw',
+                                'price': 4.6
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
