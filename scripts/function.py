@@ -662,6 +662,191 @@ def parse_html(file_path):
         append_new_line(file_path, str(df))
     return games
 
+
+def oddspedia(file_path):
+        
+    with open(file_path, 'r', encoding='utf-8') as file:
+        soup = BeautifulSoup(file, 'html.parser')
+
+    # Trouver tous les blocs de match
+    match_blocks = soup.find_all('div', class_='match-list-item')
+
+    # Liste pour stocker les informations de chaque match
+    matches_info = []
+
+    for match in match_blocks:
+        today_date = datetime.now().strftime('%Y-%m-%d')
+        first_link = match.find('a', href=True)
+        if first_link:
+            href_value = first_link['href']
+            category = href_value.split('/')[1]
+        else:
+            category = ''
+    
+        # Extraire les noms des équipes
+        team_names = match.find_all('div', class_='match-team__name')
+        if len(team_names) >= 2:
+            home_team = team_names[0].get_text(strip=True)
+            away_team = team_names[1].get_text(strip=True)
+        
+            # Extraire les cotes
+            odds_values = match.find_all('span', class_='odd__value')
+            if len(odds_values) < 2:
+                continue
+            
+            if len(odds_values) == 3:
+                odds_home = str(odds_values[0].get_text(strip=True))
+                odds_draw = str(odds_values[1].get_text(strip=True))
+                odds_away = str(odds_values[2].get_text(strip=True))
+            
+                # Créer un dictionnaire avec les informations du match
+                match_info = {
+                    'home_team': home_team,
+                    'away_team': away_team,
+                    'date': today_date,
+                    'initial_odds_home': odds_home,
+                    'initial_draw_odds': odds_draw,
+                    'initial_odds_away': odds_away,
+                    'initial_difference': abs(float(odds_home) - float(odds_away)),
+                    'actual_odds_home': "",
+                    'draw_odds_actual': "",
+                    'actual_odds_away': "",
+                    'actual_difference': "",
+                    'category': category
+                }
+                matches_info.append(match_info)
+            if len(odds_values) == 2:
+                odds_home = str(odds_values[0].get_text(strip=True))
+                odds_away = str(odds_values[1].get_text(strip=True))
+                odds_draw = ''
+                # Créer un dictionnaire avec les informations du match
+                match_info = {
+                    'home_team': home_team,
+                    'away_team': away_team,
+                    'date': today_date,
+                    'initial_odds_home': odds_home,
+                    'initial_draw_odds': odds_draw,
+                    'initial_odds_away': odds_away,
+                    'initial_difference': abs(float(odds_home) - float(odds_away)),
+                    'actual_odds_home': "",
+                    'draw_odds_actual': "",
+                    'actual_odds_away': "",
+                    'actual_difference': "",
+                    'category': category
+                }
+                matches_info.append(match_info)
+    return matches_info
+    
+def merge_result(parent, child):
+    for elm in child:
+        parent.append(elm)
+    return parent
+
+def check_number_type(value):
+    if isinstance(value, float):
+        return "float"
+    elif isinstance(value, int):
+        return "int"
+    else:
+        return "string" 
+
+def oddsportal(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+
+    cleaned_lines = []
+    skip_next = False
+
+    for i in range(len(lines)):
+        line = lines[i].strip()
+
+        # Si on doit sauter la ligne, on continue
+        if skip_next:
+            skip_next = False
+            continue
+
+        # Vérifie si la ligne actuelle n'est pas un float, que la ligne suivante est identique
+        # et que la ligne a plus de 2 caractères
+        if (not is_float(line) and len(line) > 2 and 
+            i + 1 < len(lines) and line == lines[i + 1].strip()):
+            skip_next = True  # On saute la prochaine ligne (on garde la première)
+        
+        # Ajouter la ligne nettoyée
+        cleaned_lines.append(line)
+
+    # Joindre les lignes nettoyées en un seul bloc de texte
+    cleaned_text = "\n".join(cleaned_lines)
+
+    # Remplacer tous les "\n\n" par un seul "\n"
+    cleaned_text = cleaned_text.replace("\n\n", "\n")
+
+    # Supprimer les lignes vides restantes
+    cleaned_text = "\n".join([line for line in cleaned_text.split("\n") if line.strip() != ""])
+
+    match_info_list = []
+
+    lines = cleaned_text.splitlines()
+
+    for i in range(len(lines)):
+        line = lines[i].strip()
+
+        # Recherche du caractère "–"
+        if "–" in line:
+            parts = line.split("–")
+            if len(parts) == 2:
+                home_team = lines[i-1].strip()
+                away_team = lines[i+1].strip()
+
+                if len(home_team) > 3 and len(away_team) < 3:
+                    home_team = lines[i-1].strip()
+                    away_team = lines[i+2].strip()
+                # Vérifie qu'il y a au moins trois lignes suivantes pour les cotes
+                if i + 3 < len(lines):
+                    odds_home = lines[i + 2].strip()
+                    odds_draw = lines[i + 3].strip()
+                    odds_away = lines[i + 4].strip()
+                    
+                    if 'int' in check_number_type(odds_away) and 'float' in check_number_type(odds_home) and 'float' in check_number_type(odds_draw):
+                    
+                        odds_home = odds_home
+                        odds_away = odds_draw
+                        odds_draw = 0
+
+                    try:
+                        odds_home = float(odds_home)
+                    except ValueError:
+                        odds_home = lines[i + 3].strip()
+                        odds_away = lines[i + 4].strip()
+                        odds_draw = 0
+                    try:
+                        odds_home = float(odds_home)
+                        odds_draw = float(odds_draw)
+                        odds_away = float(odds_away)
+                        initial_difference = abs(float(odds_home) - float(odds_away))
+                    except ValueError:
+                        odds_home = ""
+                        odds_draw = ""
+                        odds_away = ""
+                        initial_difference = ""
+
+                    match_info = {
+                        'home_team': home_team,
+                        'away_team': away_team,
+                        'date': "-",
+                        'initial_odds_home': odds_home,
+                        'initial_draw_odds': odds_draw,
+                        'initial_odds_away': odds_away,
+                        'initial_difference': initial_difference,
+                        'actual_odds_home': "",
+                        'draw_odds_actual': "",
+                        'actual_odds_away': "",
+                        'actual_difference': ""
+                    }
+
+                    match_info_list.append(match_info)
+
+    return match_info_list
+
 # Function to save the data to an Excel sheet
 """def save_to_excel(games, excel_file):
     # Convert the list of games to a DataFrame

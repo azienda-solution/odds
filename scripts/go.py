@@ -6,7 +6,7 @@ import requests
 from selenium.webdriver.common.by import By
 import random
 
-from function import american_to_european_odds, append_new_line, calcul_diff, check_exists_by_xpath, check_price_difference, check_price_difference_onfileJson, clean_url, convert_to_number, convet_to_european_odds, fetch_all_sports, fetch_odds, get_all_a_link_in_tag, json_to_csv, json_to_excel, json_to_excel_all, parse_html, save_to_excel, scrap_selenium, tryAndRetryClickXpath, waitloading
+from function import american_to_european_odds, append_new_line, calcul_diff, check_exists_by_xpath, check_price_difference, check_price_difference_onfileJson, oddsportal, clean_url, convert_to_number, convet_to_european_odds, fetch_all_sports, fetch_odds, get_all_a_link_in_tag, json_to_csv, json_to_excel, json_to_excel_all, merge_result, oddspedia, parse_html, save_to_excel, scrap_selenium, tryAndRetryClickXpath, waitloading
 
 # Get today's date
 today = datetime.today()
@@ -150,6 +150,47 @@ def lucksport_1x2_mmatch():
     games = parse_html(file_path)
     save_to_excel(games, excel_file)
     print('53')
+    
+def three_func():
+    
+    """
+    
+1. Allez sur le site [1x2 Lucksport](https://1x2.lucksport.com/com_index_en.shtml?cid=740).
+2. Copiez le HTML extérieur de la div avec `id="odds_tb"`.
+3. Collez-le dans le fichier `daily_data/111.html`.
+    
+    
+    
+1. Allez sur le site [oddsportal](https://www.oddsportal.com/matches/football/).
+2. Scrollez et charger tous les matchs
+3. Copiez avec la souris le 1er match qui n'a pas encore commencé au dernier match 
+
+
+1- Va sur le site [https://oddspedia.com/](https://oddspedia.com/)
+2. Scrollez et charger tous les matchs et mettre "ALL BOOKMAKER"
+3. Copier la div <main class="content-inner"> TOUS LES SPORTS POSSIBLES
+    
+    """
+        
+    file_path = 'daily_data/111.html'
+    file_txt = 'daily_data/oddsportal.txt'
+    file_html = 'daily_data/oddspedia.html'
+    excel_file = 'games.xlsx'
+
+
+    games = parse_html(file_path)
+    game_oddspedia = oddspedia(file_html)
+    game_oddsportal = oddsportal(file_txt)
+    
+
+    result = []
+    result = merge_result(result, games)
+    result = merge_result(result, game_oddsportal)
+    result = merge_result(result, game_oddspedia)
+    
+    
+    save_to_excel(result, excel_file)
+    print('53')
 """
 
 env.py i can change DIFFERENC = 7
@@ -172,4 +213,4 @@ env.py i can change DIFFERENC = 7
 
 """
 
-lucksport_1x2_mmatch()
+three_func()
