@@ -2,3 +2,10 @@ beautifulsoup4
 pandas
 openpyxl
 requests
+undetected-chromedriver
+pickle
+playsound
+google-api-python-client
+google-auth 
+google-auth-oauthlib 
+google-auth-httplib2
