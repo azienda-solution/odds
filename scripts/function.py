@@ -1,7 +1,13 @@
    
+import csv
+import io
 import mimetypes
 import os
+import pickle
 import re
+from playsound import playsound
+import unicodedata
+from urllib.parse import urlparse
 from urllib.request import urlopen
 import requests
 import pandas as pd
@@ -33,6 +39,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+
+from webdriver_manager.chrome import ChromeDriverManager
+import undetected_chromedriver as uc
+
 import time
 from datetime import datetime
 
@@ -41,6 +53,8 @@ from env import API_KEY, BASE_URL, COMMENCE_TIME_FROM, COMMENCE_TIME_TO, DIFFERE
 def append_new_line(file_name, text_to_append):
     # Check if the directory exists, if not, create it
     directory = os.path.dirname(file_name)
+    if directory == '':
+        directory = '.'
     if not os.path.exists(directory):
         os.makedirs(directory)
 
@@ -208,7 +222,7 @@ def getinnertextXpath(driver, xPath):
         result = driver.find_element(By.XPATH, xPath)
         result = (result.get_attribute('innerText'))
     except NoSuchElementException:  #spelling error making this code not work as expected
-        result = "ZZZZZZZZZZZ"
+        result = ""
         pass
     return str(result)
 
@@ -585,6 +599,69 @@ def scrap_selenium():
     return driverinstance
 
 
+def check_and_load_cookies(driver, cookie_file="cookies.pkl", sound_file="D:/Documents/Advanced-Python/ODDS/config/fail.mp3"):
+    # Check if the cookie file exists
+    if os.path.exists(cookie_file):
+        print("Cookie file found. Loading cookies...")
+        # Load cookies from the file and add them to the browser
+        cookies = pickle.load(open(cookie_file, "rb"))
+        for cookie in cookies:
+            driver.add_cookie(cookie)
+        print("Cookies loaded successfully.")
+    else:
+        print("Cookie file not found. Playing alert sound and saving current cookies...")
+        # Play a sound to alert that cookies do not exist
+        playsound(sound_file)
+        
+        # Save the cookies from the current session
+        pickle.dump(driver.get_cookies(), open(cookie_file, "wb"))
+        print("Cookies saved successfully.")
+
+def scrap_selenium_v1():
+    """option = FirefoxOptions()
+    option.add_argument('--disable-notifications')
+    option.add_argument("--mute-audio")
+    #option.add_argument("--headless")
+    option.add_argument("user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
+
+    driverinstance = webdriver.Firefox(options=option, executable_path='D:/Documents/bin/geckodriver/geckodriver')
+    initGoogle(driverinstance)
+    waitloading(2, driver=driverinstance)
+    return driverinstance"""
+    """
+
+    chrome_options = Options()
+    
+    # Add necessary Chrome options
+    # chrome_options.add_argument('--headless')  # Uncomment if you want to run Chrome in headless mode
+    chrome_options.add_argument('disable-infobars')
+    chrome_options.add_argument('--disable-gpu')  # Disable GPU acceleration if using headless
+    chrome_options.add_argument('--disable-extensions')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument("user-data-dir=selenium")
+    
+    # Use Service to specify the ChromeDriver path
+    chrome_service = Service(executable_path='D:/Documents/bin/geckodriver/chromedriver')
+
+    # Initialize the WebDriver
+    driverinstance = webdriver.Chrome(service=chrome_service, options=chrome_options)"""
+    
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--profile-directory=Default')
+    #chrome_options.add_argument('--user-data-dir=~/.config/google-chrome')
+    #chrome_options.add_argument("user-data-dir=selenium")
+    driverinstance = webdriver.Chrome(ChromeDriverManager().install())
+
+    initGoogle(driverinstance)
+    waitloading(2, driver=driverinstance)
+    #check_and_load_cookies(driverinstance)
+    return driverinstance
+    
 def is_float(value):
     try:
         float(value)
@@ -662,6 +739,11 @@ def parse_html(file_path):
         append_new_line(file_path, str(df))
     return games
 
+def array_to_csv_string(array):
+    output = io.StringIO()
+    writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(array)
+    return output.getvalue().strip()
 
 def oddspedia(file_path):
         
@@ -679,7 +761,7 @@ def oddspedia(file_path):
         first_link = match.find('a', href=True)
         if first_link:
             href_value = first_link['href']
-            category = href_value.split('/')[1]
+            category = href_value.split('/')[1] if len(href_value) > 1 else ''
         else:
             category = ''
     
@@ -895,3 +977,320 @@ def save_to_excel(games, excel_file):
         today_date = str(today_date) + '-1'
         with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
             df.to_excel(writer, sheet_name=today_date, index=False)
+
+
+def check_fitness_state(result):
+    # Define the possible states
+    possible_states = ['fit', 'neutral', 'injury']
+    for state in possible_states:
+        if state in result:
+            return state
+    return ""
+
+def remove_accents(text):
+    # Normalize the text to decompose accents and special characters
+    text = unicodedata.normalize('NFKD', text)
+    
+    # Remove the accents (diacritical marks)
+    text = text.encode('ASCII', 'ignore').decode('utf-8')
+    
+    # Optionally, remove any other non-alphanumeric characters (if needed)
+    text = re.sub(r'[^\w\s]', '', text)
+    
+    return text
+
+def extract_content(driverinstance, google_query):
+    my_list = fing_google(driverinstance, google_query)
+    return my_list
+
+def flashscore_player(driverinstance, team, country, sport):
+    list_player = []
+    list_link = extract_list_from_google(driverinstance, "Squad Player of "+team + " " + sport +" " + country +" in flashscore.com")
+    if len(list_link) > 1:
+        for l in list_link:
+            if 'flashscore' in l and 'squad' in l:
+                driverinstance.get(l)
+                waitloading(4, driver=driverinstance)
+                try:
+                    player_name_elements = driverinstance.find_elements(By.XPATH, "//div[@class='lineupTable lineupTable--soccer']//a[contains(@class, 'lineupTable__cell--name')]")
+                    # Iterate through all found elements and extract the text (player name)
+                    for player in player_name_elements:
+                        player_name = player.text.strip()  # .text will extract the visible text
+                        if len(player_name) > 1:  # Only add if there is meaningful content
+                            list_player.append(player_name)
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                return list_player
+            else:
+                if 'flashscore.com' in l:
+                    driverinstance.get(l)
+                    waitloading(4, driver=driverinstance)
+                    if driverinstance.find_elements(By.XPATH, "//body"):
+                        l = l + '/squad/'
+                        l = l.replace('//', '/')
+                        driverinstance.get(l)
+                        waitloading(4, driver=driverinstance)
+                        if driverinstance.find_elements(By.XPATH, "//body"):
+                            try:
+                                player_name_elements = driverinstance.find_elements(By.XPATH, "//div[@class='lineupTable lineupTable--soccer']//a[contains(@class, 'lineupTable__cell--name')]")
+                                # Iterate through all found elements and extract the text (player name)
+                                for player in player_name_elements:
+                                    player_name = player.text.strip()  # .text will extract the visible text
+                                    if len(player_name) > 1:  # Only add if there is meaningful content
+                                        list_player.append(player_name)
+                            except Exception as e:
+                                print(f"An error occurred: {e}")
+                            return list_player
+    return list_player
+    
+def add_row_sheet(sheet, array_row):
+    # Open an existing workbook
+    try:
+        wb = openpyxl.load_workbook(sheet)
+    except Exception as e:
+        print(f"Failed to open Excel file: {e}")
+        return
+
+    # Select the active sheet (or specify the sheet name)
+    ws = wb.active
+
+    # Add the new row data to the next empty row
+    next_row = ws.max_row + 1
+    for col_num, value in enumerate(array_row, start=1):  # Columns start from 1 (A)
+        ws.cell(row=next_row, column=col_num, value=value)
+
+    # Save the updated workbook
+    try:
+        wb.save(sheet)
+        print("Row added successfully!")
+    except Exception as e:
+        print(f"Failed to save Excel file: {e}")
+
+def extract_list_from_google(driverinstance, title):
+    driverinstance.get('https://www.google.com/')
+    waitloading(4, driver=driverinstance)
+    my_list = list()
+    try:
+        try:
+            driverinstance.find_element(By.XPATH, '//textarea[contains(@maxlength, "2048")]').send_keys(title)
+        except NoSuchElementException:
+            driverinstance.find_element(By.XPATH, '//input[contains(@maxlength, "2048")]').send_keys(title)
+        actions = ActionChains(driverinstance)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+        time.sleep(5)
+        waitloading(4, driver=driverinstance)
+        links = driverinstance.find_elements(By.XPATH,"//div[contains(@data-snhf, '0')]//a")
+        to_delete = []
+        for i in links:
+            step1 = (i.get_attribute('href'))
+            __parsed_uri = urlparse(step1)
+            __result = '{uri.scheme}://{uri.netloc}/'.format(uri=__parsed_uri)
+            __hostname = __result
+            to_delete.append(step1)
+            EXCLUDED_KEYWORDS = ["translate.g", "translate.google", ".pdf", ".docx", ".doc", ".jpeg", ".webp", ".rar", "dictionnaire", "dictionnaire.", "facebook.", "tikok.", "/download/", "/apt/", "apt/", ".txt", "amazon.", "adobe.", ".lingue", "-francais", "/traduction/", "/dictionary", "/traduction/", ".ebay", ".fnac", "/traduction/", "definitions", "/definition", "dictionary.", "twitch.", "encyclo", ".youtube", "?pdf", "pdf=", ".html", ".php", ".pptx", "?path", "path=", "/path", ".pps", "google.", ".google.", ".tiktok", "search.do?recordID", ".pensoft.net", ".virginialiving.", "/PDF/", "/object/", "PDF/", ".mnhn.fr", "gtgrecords.net", "komitid.fr", "/translate/", "linkedin.", ".parismuseescollections."]
+            if any(keyword in str(step1) for keyword in EXCLUDED_KEYWORDS):
+                pass
+            else:
+                my_list.append(step1)
+    except Exception as e:
+        print(f"-------- Failed get google ( crashed ) crash cause: {e}")
+        raise Exception(e)
+    return my_list
+        
+def fing_google(driverinstance, title):
+    driverinstance.get('https://www.google.com/')
+    waitloading(2, driver=driverinstance)
+    check_and_load_cookies(driverinstance)
+    my_list = list()
+    content = ''
+    try:
+        try:
+            driverinstance.find_element(By.XPATH, '//textarea[contains(@maxlength, "2048")]').send_keys(title)
+        except NoSuchElementException:
+            driverinstance.find_element(By.XPATH, '//input[contains(@maxlength, "2048")]').send_keys(title)
+        #tryAndRetryFillByXpath(driverinstance, '//input[contains(@maxlength, "")]', title)
+        
+        actions = ActionChains(driverinstance)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+        #time.sleep(5)
+        waitloading(3, driver=driverinstance)
+        content = getinnertextXpath(driverinstance, '//body//div[@id="appbar"]')
+        if len(content) < 300:
+            content += getinnertextXpath(driverinstance, '//body//div[@id="search"]')
+    except Exception as e:
+        print(f"-------- Failed get google ( crashed ) crash cause: {e}")
+        raise Exception(e)
+    return content
+
+
+def forebet(html):
+    
+    """with open(html, 'r', encoding='utf-8') as file:
+        soup = BeautifulSoup(file, 'html.parser')"""
+    soup = BeautifulSoup(html, 'html.parser')
+
+    matches = []
+        
+    for match in soup.select('div.rcnt'):
+        try:
+            sport = match.select_one('strong.sportfill').text.strip() if match.select_one('strong.sportfill') else ''
+            
+            # Team Names
+            home_team = match.select_one('.homeTeam span').text.strip() if match.select_one('.homeTeam span') else ''
+            away_team = match.select_one('.awayTeam span').text.strip() if match.select_one('.awayTeam span') else ''
+            
+            # Date
+            date = match.select_one('.date_bah').text.strip() if match.select_one('.date_bah') else ''
+            
+            # Probabilities
+            probabilities = match.select('.fprc span')
+            num_probabilities = len(probabilities)
+            # Set probabilities based on the number of spans
+            if num_probabilities == 3:
+                home_probability = probabilities[0].text.strip() if len(probabilities) > 0 else ''
+                draw_probability = probabilities[1].text.strip() if len(probabilities) > 1 else ''
+                away_probability = probabilities[2].text.strip() if len(probabilities) > 2 else ''
+            elif num_probabilities == 2:
+                home_probability = probabilities[0].text.strip() if len(probabilities) > 0 else ''
+                draw_probability = ''  # No draw for basketball with only two values
+                away_probability = probabilities[1].text.strip() if len(probabilities) > 1 else ''
+            else:
+                home_probability = draw_probability = away_probability = ''  # Default if no valid probabilities found
+            
+            
+            # Predictions
+            prediction = match.select_one('.predict_y .forepr span, .predict .forepr span')
+            prediction_value = prediction.text.strip() if prediction else ''
+            
+            # Scores
+            correct_score = match.select_one('.ex_sc').text.strip().replace('\n', ' ') if match.select_one('.ex_sc') else ''
+            average_score = match.select_one('.avg_sc').text.strip() if match.select_one('.avg_sc') else ''
+            
+            # Compile match details
+            match_info = {
+                'home_team': home_team,
+                'away_team': away_team,
+                'date': date,
+                'home_probability': home_probability,
+                'draw_probability': draw_probability,
+                'away_probability': away_probability,
+                'prediction': prediction_value,
+                'correct_score': correct_score,
+                'average_score': average_score,
+                'sport': sport
+            }
+            
+            matches.append(match_info)
+        
+        except Exception as e:
+            print(f"Error parsing match: {e}")
+
+    return matches
+
+
+def click_consent(driver, language):
+    time.sleep(1)
+        
+    try:
+        btns_list = driver.find_elements(By.TAG_NAME, "button")
+    except Exception as e:
+        print("Error finding buttons:", e)
+        btns_list = []
+    for b in btns_list:
+        try:
+            # print(b.get_attribute('innerText'))
+            has_clicked = click_consent_list(btns_list, driver, language)
+            
+            if not has_clicked:
+                btns_list = driver.find_element(By.CLASS_NAME, "button")
+                has_clicked = click_consent_list(btns_list, driver, language)
+            else:
+                return has_clicked
+        except Exception as e:
+            print(f"Error with button: {e}, skipping...")
+            continue
+    
+    return has_clicked
+
+
+TAGS_CONSENT = {'fr': {'exact': ['ok'],
+                       'rel': ['accept', 'accord', 'autor', 'Autor']},
+                'en': {'exact': ['ok'],
+                       'rel': ['accept', 'consent', 'agree', 'autor', 'Autor']},
+                }
+
+
+def click_consent_list(btns_list, driver, language):
+    if not btns_list:
+        return False
+    for btn in btns_list:
+        try:
+            # Ensure the button is still attached to the DOM and interactable
+            assert btn.is_displayed()
+            assert bool(btn.text)
+            
+            btn_text = btn.text.lower()
+            consent_tags = TAGS_CONSENT[language]
+            if any([tag in btn_text for tag in consent_tags['rel']] + 
+                   [tag == btn_text for tag in consent_tags['exact']]):
+                
+                driver.execute_script("arguments[0].scrollIntoView();", btn)
+                btn.click()
+                return True
+        except StaleElementReferenceException:
+            continue
+        except AssertionError:
+            # Skip invisible or empty-text buttons
+            continue
+        except NoSuchElementException:
+            # Handle cases where the element no longer exists
+            continue
+        except Exception as e:
+            # Handle other unexpected errors
+            continue
+    return False
+
+
+
+def forebet_scrap(driver):
+    allcontent = str("")
+    driver.get("https://www.forebet.com/")
+    waitloading(2, driver=driver)
+    click_consent(driver, 'en')
+    for ii in  ('https://www.forebet.com/en/football-tips-and-predictions-for-today', 
+                'https://www.forebet.com/en/basketball/predictions-today',
+                'https://www.forebet.com/en/hockey/predictions-today',
+                'https://www.forebet.com/en/american-football/all-predictions',
+                'https://www.forebet.com/en/volleyball/predictions-today',
+                'https://www.forebet.com/en/handball/predictions-today',
+                'https://www.forebet.com/en/rugby/predictions-today'):
+        driver.get(ii)
+        sport = str(ii.split("en/")[1].split("/")[0])
+        sport = sport.split("-")[0] if '-' in sport else sport
+        waitloading(2, driver=driver)
+        if check_exists_by_xpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span') == 0:
+            tryAndRetryClickXpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span')
+        else:
+            waitloading(1, driver=driver)
+        content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+        content = (content.get_attribute('outerHTML'))
+        if content:
+            content = ajouter_sportfill(content, sport)
+        allcontent += content
+    return allcontent
+
+def ajouter_sportfill(texte, sport):
+    try:
+        pattern = r'(<div class="rcnt[^>]*">)(?!.*<strong class="sportfill">)'
+        remplacement = r'\1 <strong class="sportfill"> '+sport+'</strong>'
+        texte_modifie = re.sub(pattern, remplacement, texte)
+        
+        return texte_modifie
+
+    except re.error as e:
+        return texte
+
+    except Exception as e:
+        return texte

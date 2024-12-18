@@ -213,4 +213,4 @@ env.py i can change DIFFERENC = 7
 
 """
 
-three_func()
+lucksport_1x2_mmatch()
