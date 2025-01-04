@@ -1,10 +1,13 @@
    
 import csv
 import io
+import json
+import math
 import mimetypes
 import os
 import pickle
 import re
+import subprocess
 from playsound import playsound
 import unicodedata
 from urllib.parse import urlparse
@@ -48,7 +51,8 @@ import undetected_chromedriver as uc
 import time
 from datetime import datetime
 
-from env import API_KEY, BASE_URL, COMMENCE_TIME_FROM, COMMENCE_TIME_TO, DIFFERENC, MARKETS, REGIONS
+from env import API_KEY, BASE_URL, COMMENCE_TIME_FROM, COMMENCE_TIME_TO, DIFFERENC, MARKETS, OPENAI_KEY, REGIONS
+last_check_time = time.time()
 
 def append_new_line(file_name, text_to_append):
     # Check if the directory exists, if not, create it
@@ -222,8 +226,14 @@ def getinnertextXpath(driver, xPath):
         result = driver.find_element(By.XPATH, xPath)
         result = (result.get_attribute('innerText'))
     except NoSuchElementException:  #spelling error making this code not work as expected
-        result = ""
-        pass
+        try:
+            result = ""
+            result = driver.find_elements(By.XPATH, xPath)
+            result = ' '.join([span.get_attribute('innerText') for span in result])
+        except NoSuchElementException:  
+            
+            result = ""
+            pass
     return str(result)
 
 
@@ -431,7 +441,7 @@ def findATTR(driver, xpath, attr):
         value_attr = driver.find_element(By.XPATH, xpath)
         value_attr = value_attr.get_attribute(attr)
     except NoSuchElementException:
-        value_attr = ' '
+        value_attr = ''
         pass
     return str(value_attr)
 
@@ -649,13 +659,13 @@ def scrap_selenium_v1():
     
     chrome_options = Options()
     chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--headless')
+    #chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--profile-directory=Default')
     #chrome_options.add_argument('--user-data-dir=~/.config/google-chrome')
     #chrome_options.add_argument("user-data-dir=selenium")
-    driverinstance = webdriver.Chrome(ChromeDriverManager().install())
+    driverinstance = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 
     initGoogle(driverinstance)
     waitloading(2, driver=driverinstance)
@@ -847,22 +857,14 @@ def oddsportal(file_path):
             skip_next = False
             continue
 
-        # Vérifie si la ligne actuelle n'est pas un float, que la ligne suivante est identique
-        # et que la ligne a plus de 2 caractères
         if (not is_float(line) and len(line) > 2 and 
             i + 1 < len(lines) and line == lines[i + 1].strip()):
             skip_next = True  # On saute la prochaine ligne (on garde la première)
         
-        # Ajouter la ligne nettoyée
         cleaned_lines.append(line)
 
-    # Joindre les lignes nettoyées en un seul bloc de texte
     cleaned_text = "\n".join(cleaned_lines)
-
-    # Remplacer tous les "\n\n" par un seul "\n"
     cleaned_text = cleaned_text.replace("\n\n", "\n")
-
-    # Supprimer les lignes vides restantes
     cleaned_text = "\n".join([line for line in cleaned_text.split("\n") if line.strip() != ""])
 
     match_info_list = []
@@ -871,8 +873,6 @@ def oddsportal(file_path):
 
     for i in range(len(lines)):
         line = lines[i].strip()
-
-        # Recherche du caractère "–"
         if "–" in line:
             parts = line.split("–")
             if len(parts) == 2:
@@ -929,56 +929,41 @@ def oddsportal(file_path):
 
     return match_info_list
 
-# Function to save the data to an Excel sheet
-"""def save_to_excel(games, excel_file):
-    # Convert the list of games to a DataFrame
-    df = pd.DataFrame(games)
-    
-    # Get today's date
-    today_date = datetime.now().strftime('%Y-%m-%d')
-    
-    # Load the workbook if it exists, otherwise create a new one
-    try:
-        workbook = openpyxl.load_workbook(excel_file)
-        sheetnames = workbook.sheetnames
-    except FileNotFoundError:
-        workbook = None
-        sheetnames = []
-    
-    # Check if the sheet with today's date already exists
-    sheet_name = today_date
-    counter = 1
-    while sheet_name in sheetnames:
-        sheet_name = f"{today_date}_{counter}"
-        counter += 1
-
-    # Write the DataFrame to the Excel file
-    if workbook:
-        with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-            writer.book = workbook
-            df.to_excel(writer, sheet_name=sheet_name, index=False)
-    else:
-        with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
-            df.to_excel(writer, sheet_name=sheet_name, index=False)"""
             
 def save_to_excel(games, excel_file):
-    # Convert the list of games to a DataFrame
     df = pd.DataFrame(games)
-    
-    # Get today's date
     today_date = datetime.now().strftime('%Y-%m-%d')
     
-    # Write the DataFrame to an Excel file
-    try:
-        with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-            df.to_excel(writer, sheet_name=today_date, index=False)
-    except Exception as e:
-        print(e)
-        today_date = str(today_date) + '-1'
-        with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-            df.to_excel(writer, sheet_name=today_date, index=False)
+    counter = 0
+    while True:
+        try:
+            # Adjust sheet name if there's a conflict
+            sheet_name = today_date if counter == 0 else f"{today_date}-{counter}"
+            with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+                df.to_excel(writer, sheet_name=sheet_name, index=False)
+            print(f"Data saved to sheet: {sheet_name}")
+            break
+        except Exception as e:
+            print(f"Error: {e}. Retrying with a new sheet name.")
+            counter += 1
 
-
+def check_and_refresh(driver, expected_url, timeout=120):
+    """
+    Check if the time passed since the last URL load exceeds `timeout` seconds
+    or if the current URL differs from `expected_url`. Refresh the page if needed.
+    
+    :param driver: Selenium WebDriver instance
+    :param expected_url: The expected URL to check against `driver.current_url`
+    :param timeout: Timeout in seconds (default: 60)
+    """
+    global last_check_time
+    current_time = time.time()
+    
+    if (current_time - last_check_time > timeout) and (driver.current_url == expected_url):
+        print("Condition met: refreshing the page...")
+        driver.refresh()
+        last_check_time = time.time()
+        
 def check_fitness_state(result):
     # Define the possible states
     possible_states = ['fit', 'neutral', 'injury']
@@ -1125,11 +1110,22 @@ def fing_google(driverinstance, title):
     return content
 
 
-def forebet(html):
+def forebet(html, types=None, folder=None):
     
-    """with open(html, 'r', encoding='utf-8') as file:
-        soup = BeautifulSoup(file, 'html.parser')"""
+    content_folder = ""
     soup = BeautifulSoup(html, 'html.parser')
+    if types:
+        if types == "folder":
+            for filename in os.listdir(folder):
+                if filename.endswith('.html'):
+                    file_path = os.path.join(folder, filename)
+                    with open(file_path, 'r', encoding='utf-8') as file:
+                        content_folder += str(file.read())
+            if len(content_folder) > 22:
+                soup = BeautifulSoup(content_folder, 'html.parser')
+        else:
+            with open(html, 'r', encoding='utf-8') as file:
+                soup = BeautifulSoup(file, 'html.parser')
 
     matches = []
         
@@ -1166,20 +1162,29 @@ def forebet(html):
             
             # Scores
             correct_score = match.select_one('.ex_sc').text.strip().replace('\n', ' ') if match.select_one('.ex_sc') else ''
+            correct_score = format_text_score(correct_score)
             average_score = match.select_one('.avg_sc').text.strip() if match.select_one('.avg_sc') else ''
+            get_odds = match.select_one('.lscrsp').text.strip() if match.select_one('.lscrsp') else ''
             
+            link = ""
+            link_tag = match.select_one('a.tnmscn, a[itemprop="url"]')
+            if link_tag and link_tag.get('href'):
+                link = str("https://www.forebet.com/"+(link_tag['href'])).replace("//", "/")
             # Compile match details
             match_info = {
                 'home_team': home_team,
                 'away_team': away_team,
                 'date': date,
-                'home_probability': home_probability,
-                'draw_probability': draw_probability,
-                'away_probability': away_probability,
+                'home_probability': to_percentage(home_probability),
+                'draw_probability': to_percentage(draw_probability),
+                'away_probability': to_percentage(away_probability),
                 'prediction': prediction_value,
                 'correct_score': correct_score,
                 'average_score': average_score,
-                'sport': sport
+                'sport': sport,
+                'initial_difference': abs(float(home_probability) - float(away_probability)),
+                'get_odds': clean_text(get_odds),
+                'link': link
             }
             
             matches.append(match_info)
@@ -1253,22 +1258,41 @@ def click_consent_list(btns_list, driver, language):
     return False
 
 
+def is_evening():
+    array_today = [
+        'https://www.forebet.com/en/football-tips-and-predictions-for-today', 
+                'https://www.forebet.com/en/basketball/predictions-today',
+                'https://www.forebet.com/en/hockey/predictions-today',
+                'https://www.forebet.com/en/american-football/predictions-today',
+                'https://www.forebet.com/en/volleyball/predictions-today',
+                'https://www.forebet.com/en/handball/predictions-today',
+                'https://www.forebet.com/en/rugby/predictions-today']
+    array_tomorrow = [
+        "https://www.forebet.com/en/football-tips-and-predictions-for-tomorrow",
+        "https://www.forebet.com/en/basketball/predictions-tomorrow",
+        "https://www.forebet.com/en/hockey/predictions-tomorrow",
+        "https://www.forebet.com/en/american-football/predictions-tomorrow",
+        "https://www.forebet.com/en/volleyball/predictions-tomorrow",
+        "https://www.forebet.com/en/handball/predictions-tomorrow",
+        "https://www.forebet.com/en/rugby/predictions-tomorrow",
+    ]
+    hour = datetime.now().hour
+    if hour >= 17 and hour <= 23:
+        return array_tomorrow
+    if hour >= 0 and hour < 15:
+        return array_today
 
 def forebet_scrap(driver):
     allcontent = str("")
     driver.get("https://www.forebet.com/")
     waitloading(2, driver=driver)
     click_consent(driver, 'en')
-    for ii in  ('https://www.forebet.com/en/football-tips-and-predictions-for-today', 
-                'https://www.forebet.com/en/basketball/predictions-today',
-                'https://www.forebet.com/en/hockey/predictions-today',
-                'https://www.forebet.com/en/american-football/all-predictions',
-                'https://www.forebet.com/en/volleyball/predictions-today',
-                'https://www.forebet.com/en/handball/predictions-today',
-                'https://www.forebet.com/en/rugby/predictions-today'):
+    for ii in is_evening():
         driver.get(ii)
         sport = str(ii.split("en/")[1].split("/")[0])
         sport = sport.split("-")[0] if '-' in sport else sport
+        if "football" in ii:
+            time.sleep(6)
         waitloading(2, driver=driver)
         if check_exists_by_xpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span') == 0:
             tryAndRetryClickXpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span')
@@ -1294,3 +1318,543 @@ def ajouter_sportfill(texte, sport):
 
     except Exception as e:
         return texte
+
+def clean_html_and_return_innertext(elements):
+    try:
+        # If the input is a list, process each element
+        if isinstance(elements, list):
+            plain_texts = " "
+            for el in elements:
+                html_text = el.get_attribute('innerHTML')
+                soup = BeautifulSoup(html_text, 'html.parser')
+                for tag in soup(['script', 'style']):
+                    tag.decompose()  # Remove script and style tags
+                for div in soup.find_all('div', class_='st_arrdt'):
+                    div.decompose()
+                plain_text = soup.get_text(strip=False)  # Get text
+                plain_texts += (plain_text)
+                plain_texts = clean_text(plain_texts)
+            return plain_texts
+        
+        # If it's a single element, process it
+        else:
+            html_text = elements.get_attribute('innerHTML')
+            soup = BeautifulSoup(html_text, 'html.parser')
+            for tag in soup(['script', 'style']):
+                tag.decompose()
+            for div in soup.find_all('div', class_='st_arrdt'):
+                div.decompose()
+            plain_text = soup.get_text(strip=False)
+            plain_text = clean_text(plain_text)
+            return plain_text
+
+    except Exception as e:
+        return ""
+
+def convert_sheet_csv(sheet_name, file_path):
+    df = pd.read_excel(file_path, sheet_name=sheet_name)
+    json_data = df.to_json(orient='records', date_format='iso')
+    output_file = 'output.json'
+    data = json.loads(json_data)
+
+    return data
+
+def clean_text(article_text):
+    if not bool(article_text):
+        return article_text
+    article_text = re.sub(r' {2,}', ' ', article_text.replace('\xa0', ' ').replace('\n', ' ')).strip()
+    cleantext = re.sub(r'\.([^. 0-9]{2})', r'. \1', article_text)
+    cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+    cleantext = re.sub(cleanr, '', cleantext)
+    normalized_text = unicodedata.normalize("NFKD", cleantext)
+    return normalized_text
+
+def forebet_scrap_trend(driver, link):
+    allcontent = str()
+    driver.get(link)
+    sport = str(link.split("en/")[1].split("/")[0])
+    sport = sport.split("-")[0] if '-' in sport else sport
+    waitloading(2, driver=driver)
+    if check_exists_by_xpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span') == 0:
+        tryAndRetryClickXpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span')
+    else:
+        waitloading(1, driver=driver)
+    
+    waitloading(2, driver=driver)
+    content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+    content = (content.get_attribute('outerHTML'))
+    allcontent += content
+            
+    visited_urls = []
+    pagination_container = driver.find_element(By.XPATH, '//div[contains(@class, "list-footer")]')
+    pagination_links = pagination_container.find_elements(By.XPATH, './/a[@class="pagenav"]')
+    
+    for link in pagination_links:
+        # Get the URL from the href attribute
+        href = link.get_attribute('href')
+        if href and href not in visited_urls:  # Avoid duplicates
+            visited_urls.append(href)
+            print(f"Navigating to: {href}")
+            driver.get(href)
+            waitloading(2, driver=driver)
+            content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+            content = (content.get_attribute('outerHTML'))
+            allcontent += content
+    return allcontent
+
+def get_gpt_response_name(title, GPT_CONFIG):
+    url = "https://api.openai.com/v1/chat/completions"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": OPENAI_KEY
+    }
+    data = {
+        "model": "gpt-3.5-turbo-1106",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+            {"role": "user", "content": GPT_CONFIG + title}
+        ],
+        "temperature": 0.7
+    }
+
+    try:
+        # Send request to OpenAI API
+        response = requests.post(url, headers=headers, json=data, timeout=30)
+        response.raise_for_status()  # Check for HTTP errors
+
+        # Parse the response to JSON
+        response_json = response.json()
+
+        # Extract the content from the response
+        content = response_json['choices'][0]['message']['content']
+        append_new_line('log_open_ai.txt', str(GPT_CONFIG)+'\n'+str(content))
+        # Remove markdown formatting (triple backticks and "json" keyword)
+        if content.startswith("```json") and content.endswith("```"):
+            content = content.strip("```json").strip("```")
+
+        # Unescape characters like \n, \", etc.
+        unescaped_content = content.encode('utf-8').decode('unicode_escape')
+        content_json = json.loads(unescaped_content)
+
+        return content_json  # Return the array of player names
+
+    except requests.exceptions.RequestException as e:
+        print(f"HTTP Request failed: {e}")
+        return None
+    except (KeyError, json.JSONDecodeError) as e:
+        print(f"Error parsing response: {e}")
+        return None
+
+def set_text(match__):
+    text = f"""
+    _______________________________________________________________________________________________________
+                    - Home Team: {match__['home_team']}
+                    - Away Team: {match__['away_team']}
+                    - Date: {match__['date']}
+                    - Home Win Probability: {match__['home_probability']}
+                    - Draw Probability: {match__['draw_probability']}
+                    - Away Win Probability: {match__['away_probability']}
+                    - My Prediction: {match__['prediction']}
+                    - Correct Score: {match__['correct_score']}
+                    - Average Score: {match__['average_score']}
+                    - Sport: {match__['sport']}
+                    
+    """
+    return text
+
+def format_text_score(text):
+    if not text.isdigit():
+        return text
+    
+    # Calculer la longueur du texte
+    length = len(text)
+    
+    # Si la longueur est paire
+    if length % 2 == 0:
+        mid = length // 2
+        left_part = text[:mid]
+        right_part = text[mid:]
+        
+        # Comparer la partie gauche et droite
+        if int(left_part) > int(right_part):
+            return left_part + '-' + right_part
+        else:
+            return right_part[:len(right_part)//2] + '-' + right_part[len(right_part)//2:]
+    
+    # Si la longueur est impair
+    else:
+        mid = length // 2
+        left_part = text[:mid+1]  # La partie gauche aura un caractère de plus
+        right_part = text[mid+1:]
+        
+        # Comparer la partie gauche et droite
+        if int(left_part) > int(right_part):
+            return left_part + '-' + right_part
+        else:
+            return right_part[:len(right_part)//2] + '-' + right_part[len(right_part)//2:]
+
+def get_trend_forebet(driver):
+    html_text = ""
+    try:
+        divs = driver.find_elements(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "short_trends")]')
+        if divs:
+            if len(divs) > 1:
+                for el in divs:
+                    html_text += el.get_attribute('innerText')
+            else:
+                html_text += divs.get_attribute('innerText')
+        return html_text
+    except Exception as e:
+       return html_text
+
+def cleaner(file):
+    try:
+        bash_command = "scripts/cleaner.sh "+file
+        process = subprocess.run(bash_command, shell=True, text=True, capture_output=True)
+    except Exception as e:
+        pass
+
+def to_percentage(value):
+    try:
+        # Convert the value to float
+        float_value = float(value)
+        
+        # If the value is less than 1, convert to percentage
+        if float_value < 1:
+            return float_value * 100  # Return the value as a percentage (float)
+        elif 1 <= float_value <= 100:
+            return float_value  # Return as is if the value is between 1 and 100
+        else:
+            return float_value  # Return the value as is if it's greater than 100
+
+    except (ValueError, TypeError):
+        return value
+    
+def bayesian_inference(p1, p2, type_call=None):
+    if str(p1) == "" or str(p2) == "":
+        return ""
+
+    if type_call is None:
+        p1 = p1 / 100.0
+        p2 = p2 / 100.0
+    numerator = p1 * p2
+    denominator = (p1 * p2) + ((1 - p1) * (1 - p2))
+    result = numerator / denominator
+
+    if type_call:
+        return result
+    result = to_percentage(result)
+    return result
+
+
+def weighted_average(p1, p2, w1=70, w2=30, type_call=None):
+    if str(p1) == "" or  str(p2) == "" :
+        return ""
+    """
+    Combines two probabilities using a weighted average.
+    Weights w1 and w2 represent the confidence or reliability of each probability.
+    """
+    result = (w1 * p1 + w2 * p2) / (w1 + w2)
+    if type_call:
+        return result
+    result = to_percentage(result)
+    return result
+
+def logarithmic_opinion_pool(p1, p2, type_call=None):
+    if str(p1) == "" or  str(p2) == "" :
+        return ""
+    """
+    Combines two probabilities using the logarithmic opinion pool.
+    Assumes the probabilities are independent views of the event.
+    """
+    log_avg = (math.log(p1) + math.log(p2)) / 2
+    result = math.exp(log_avg)
+    if type_call:
+        return result
+    result = to_percentage(result)
+    return result
+
+def calcul_ponderation(source_1, source_2_api, source_3_math, source_4_math, type_call=None):
+    try:
+        
+        if str(source_1) == "" or str(source_2_api) == "" or str(source_3_math) == "" or str(source_4_math) == "":
+            return ""
+        # Poids des sources : 
+        poids_source_1 = 0.5  # 50% pour la source la plus fiable
+        poids_source_2_api = 0.1667  # 16.67% pour la source moyennement fiable
+        poids_source_3_math = 0.1667  # 16.67% pour la source moyennement fiable
+        poids_source_4_math = 0.1667  # 16.67% pour la source moyennement fiable
+
+        # Calcul de la pondération finale
+        ponderation_finale = (source_1 * poids_source_1 +
+                            source_2_api * poids_source_2_api +
+                            source_3_math * poids_source_3_math +
+                            source_4_math * poids_source_4_math)
+
+        result = ponderation_finale
+        if type_call:
+            return result
+        result = to_percentage(result)
+        return result
+    except Exception as e:
+        return ""
+    
+def prompt(match__, last_match, trend):
+    sport = match__['sport']
+
+    def switch(sport):
+        if "football" in sport:
+            return """
+            ### Football Specificity:
+            - Focus on head-to-head history between the two teams.
+            - Analyze the recent performances of the home and away teams separately.
+            - Use trends such as average goals scored and conceded to evaluate consistency.
+            - Consider goal differentials and the frequency of draws.
+            """
+        elif "american" in sport:
+            return """
+            ### American Football Specificity:
+            - The data provided for this sport is **very robust and reliable**.
+            - Trust the initial prediction provided and focus on complementing it with a small additional analysis.
+            - Prioritize recent team performance and trends, such as scoring averages per game and team-specific strengths (e.g., offense vs defense efficiency).
+            - Avoid unnecessary adjustments unless the trends clearly indicate an anomaly.
+            """
+        elif "basketball" in sport:
+            return """
+            ### Basketball Specificity:
+            - Emphasize recent match history of each team and scoring trends.
+            - Use average points per quarter and overall scoring trends to refine the forecast.
+            - if in my prediction, the gap is clear between the 2 teams but in recent matches we have the impression that one team has a lot of dissuasive results when there is such a big gap, it is perhaps because their level is really different, check if they faced the same team and see the difference from this benchmark
+            - Consider the team's momentum, win streaks, and defensive performance.
+            """
+        elif sport in ["rugby", "volleyball", "handball"]:
+            return f"""
+            ### {sport.capitalize()} Specificity:
+            - Focus on team-level trends such as recent win/loss streaks and scoring averages.
+            - Use head-to-head history if available to refine the analysis.
+            - Avoid relying on external variables like weather or player-specific stats, as they are not provided.
+            """
+        else:
+            return """
+            ### General Specificity:
+            - Use trends and recent performance data to refine predictions.
+            - Focus on team-level patterns and overall scoring trends to improve consistency.
+            """
+
+    sport_specificity = switch(sport)
+
+    GPT_prompt = f"""
+    Ok chat, you are a highly skilled sports analyst specializing in the analysis of all sports. Your task is to evaluate and refine the given forecast based on an advanced analysis of the following data:
+
+    ### Important Notes:
+    - My initial forecast is based on **data sources and statistical models** that I cannot fully provide here (e.g., external trends, proprietary analysis).
+    - While this forecast is **reliable and well-researched**, it is **not perfect** and does not reflect all situational variables (e.g., player injuries, live game conditions).
+
+    ### Match Details:
+    - **Home Team**: {match__['home_team']}
+    - **Away Team**: {match__['away_team']}
+    - **Date**: {match__['date']}
+    - **Sport**: {match__['sport']}
+
+    ### My Forecast:
+    - **Prediction**: {match__['prediction']}
+    - **Correct Score**: {match__['correct_score']}
+    - **Average Score**: {match__['average_score']}
+
+    ### Recent Team Performance:
+    {last_match}
+    - **Key Trends**:
+    {trend}
+
+    ### Task:
+    1. Analyze the **consistency of the provided forecast** (`prediction` and `correct_score`) using probabilities, recent matches, and trends.
+    2. Evaluate the **strength of my forecast** in light of the data provided and identify any gaps or inconsistencies.
+    3. Provide a **realistic prediction** based on:
+        - The team's recent performance (e.g., win/loss streaks, scoring trends).
+        - Head-to-head performance.
+        - Team-level trends (e.g., scoring patterns, defensive consistency).
+    4. **If you are confident that one team will win and the recent matches and form confirm this, clearly state that the home or away team is the likely winner**.
+    5. **If you have any doubts or see elements that might cause the prediction to change, mention them clearly**.
+    6. Output the following in JSON format:
+    ```json
+    {{
+        "home_probability_api": <float>,
+        "draw_probability_api": <float>,
+        "away_probability_api": <float>,
+        "prediction_api": "<string>",
+        "correct_score_api": "<string>",
+        "average_score_api": <float>
+    }}
+    ```
+
+    ### Additional Notes:
+    {sport_specificity}
+    """
+    return GPT_prompt
+
+
+def analys_per_link(array, driver):
+    matches = []
+    filtered_array = [
+        match__ for match__ in array
+        if (
+            (float(match__['initial_difference']) >= 35 and ("football" in str(match__['sport']).lower() or "football" in match__['link']))
+            or (float(match__['initial_difference']) >= 51)
+            or (float(match__['initial_difference']) >= 15 and "american" in str(match__['sport']).lower())
+        )
+    ]
+    for match__ in filtered_array:
+            link = match__['link'] if (match__ and len(match__['link'])>2) else None
+            if link:
+                try:
+                    print(str(link))
+                    driver.get(link)
+                    waitloading(2, driver=driver)
+                    content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+                    try:
+                        divs = content.find_elements(By.XPATH, './/div[contains(@class, "st_scrblock")]')
+                        if not divs:
+                            divs = content.find_elements(By.XPATH, './/div[contains(@class, "mx-width_hc")]')
+                    except Exception as e:
+                        divs = []
+                    expected_url = driver.current_url
+                    if divs:
+                        div_count = len(divs)
+                        first_divs = divs[:3] if div_count > 3 else divs
+                        last_match = forebet_add_title_on_htmlElement(match__['home_team'], match__['away_team'], first_divs)
+                        trend = clean_text(get_trend_forebet(driver))
+                        if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]') == 0:
+                            trend += getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]')
+                        #find result if present
+                        if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span') == 0:
+                            final_score = getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span')
+                        else:
+                            final_score = ""
+                            
+                        GPT_prompt = prompt(match__, last_match, trend)
+                        json_result = get_gpt_response_name(" ", GPT_prompt)
+                        if json_result:
+                            if len(json_result) > 0:
+                                home_probability = to_percentage(match__['home_probability'])
+                                draw_probability = to_percentage(match__['draw_probability'])
+                                away_probability = to_percentage(match__['away_probability'])
+                                average_score = match__['average_score']
+                                home_probability_api = to_percentage(json_result["home_probability_api"]) if json_result["home_probability_api"] else ''
+                                draw_probability_api = to_percentage(json_result["draw_probability_api"]) if json_result["draw_probability_api"] else ''
+                                away_probability_api = to_percentage(json_result["away_probability_api"]) if json_result["away_probability_api"] else ''
+                                average_score_api = json_result["average_score_api"] if json_result["average_score_api"] else ''
+                                match_info = {
+                                    'home_team': match__['home_team'],
+                                    'away_team': match__['away_team'],
+                                    'date': match__['date'],
+                                    'home_probability': home_probability,
+                                    'draw_probability': draw_probability,
+                                    'away_probability': away_probability,
+                                    'initial_difference': match__['initial_difference'],
+                                    'initial_difference_api': abs(float(home_probability_api) - float(away_probability_api)),
+                                    "home_probability_api": home_probability_api if home_probability_api else '',
+                                    "draw_probability_api": draw_probability_api if draw_probability_api else '',
+                                    "away_probability_api": away_probability_api if away_probability_api else '',
+                                    'prediction': match__['prediction'],
+                                    "prediction_api": json_result["prediction_api"] if json_result["prediction_api"] else '',
+                                    'correct_score': match__['correct_score'],
+                                    "correct_score_api": json_result["correct_score_api"] if json_result["correct_score_api"] else '',
+                                    'average_score': average_score,
+                                    "average_score_api": average_score_api if average_score_api else '',
+                                    'sport': match__['sport'],
+                                    "final_score": final_score,
+                                    'link': match__['link']
+                                }
+                                append_new_line('analyse-log.txt', str(match_info))
+                                matches.append(match_info)
+                                check_and_refresh(driver, expected_url, timeout=120)
+                        else:
+                            append_new_line('content.txt', str(set_text(match__)))
+                except Exception as e:
+                    print(e)
+                    append_new_line('error_by_link.txt', str(set_text(match__)))
+                    append_new_line('error_by_link.txt', str(e))
+                    continue
+    if len(matches) < 2 :
+        if len(filtered_array) > 2:
+            save_to_excel(filtered_array, "IA_forebet.xlsx")
+    return matches
+
+def forebet_scrap_history(driver):
+    
+    allcontent = str("")
+    all_link = []
+    driver.get("https://www.forebet.com/")
+    waitloading(2, driver=driver)
+    click_consent(driver, 'en')
+    for ii in  ('https://www.forebet.com/en/football-tips-and-predictions-for-today', 
+                'https://www.forebet.com/en/basketball/predictions-today',
+                'https://www.forebet.com/en/hockey/predictions-today',
+                'https://www.forebet.com/en/american-football/all-predictions',
+                'https://www.forebet.com/en/volleyball/predictions-today',
+                'https://www.forebet.com/en/handball/predictions-today',
+                'https://www.forebet.com/en/rugby/predictions-today'):
+        driver.get(ii)
+        sport = str(ii.split("en/")[1].split("/")[0])
+        sport = sport.split("-")[0] if '-' in sport else sport
+        waitloading(2, driver=driver)
+        if check_exists_by_xpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span') == 0:
+            tryAndRetryClickXpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span')
+        links = driver.find_elements(By.XPATH, '//div[contains(@class, "moduletable")]//div[contains(@class, "calpick")]//table[contains(@id, "cal-12")]//td[contains(@class, "active")]')
+        if links and len(links) > 1:
+            for el in links:
+                link_ = findATTR(el, ".//a", "href")
+                if link_:
+                    all_link.append(link_)
+                    append_new_line(r'forebet/all_link.html', str(link_))
+    if all_link and len(all_link) > 1:
+        for date in all_link:
+            print(clean_text(date))
+            driver.get(date)
+            waitloading(1, driver=driver)
+            content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+            content = (content.get_attribute('outerHTML'))
+            if content:
+                content = ajouter_sportfill(content, sport)
+            allcontent += content
+            append_new_line(r'forebet/history-log.html', str(content))
+    if allcontent:
+        return allcontent
+
+
+def remplacer_en_mois_annee(texte):
+    pattern = r'\b(\d{2})(\d{4})\b'
+    texte_modifie = re.sub(pattern, r'\1/\2', texte)
+    
+    return texte_modifie
+
+def forebet_add_title_on_htmlElement(home_team, away_team, first_divs):
+    content_final, title = "", ""
+    
+    # Normalize the home_team and away_team by stripping extra spaces
+    home_team_normalized = " ".join(home_team.lower().split())
+    away_team_normalized = " ".join(away_team.lower().split())
+    
+    if first_divs:
+        for i, block in enumerate(first_divs):
+            text_extract = clean_html_and_return_innertext(block)
+            
+            # Normalize the block text
+            text_extract_normalized = " ".join(text_extract.lower().split())
+
+            # Count occurrences of normalized home_team and away_team
+            count_word1 = text_extract_normalized.count(home_team_normalized)
+            count_word2 = text_extract_normalized.count(away_team_normalized)
+            
+            # Determine the title based on the word counts
+            if count_word1 > 0 and (count_word1 - 3) > count_word2:
+                title = " . Recent Match History: " + str(home_team) + " Last Matches Overview : "
+            elif count_word2 > 0 and (count_word2 - 3) > count_word1:
+                title = " . Recent Match History: " + str(away_team) + " Last Matches Overview : "
+            else:
+                title = " . Comprehensive Statistics: " + str(home_team) + " and " + str(away_team) + " Analysis : "
+            
+            # Append the title and the block content
+            content_final += title + text_extract
+
+    return remplacer_en_mois_annee(content_final)

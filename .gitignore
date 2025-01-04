@@ -6,7 +6,16 @@ __pycache__
 *.xlsx
 *.mp3
 *.csv
-github/trad/*
+github/*
 .vscode
 scripts/env.py
 selenium/
+*/trash/*
+forebet/file/*.html
+config/*.json
+*log*.txt
+*log.html
+~/.config/*
+.~lock.*
+trash/*
+cookies.pkl
