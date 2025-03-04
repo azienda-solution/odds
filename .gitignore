@@ -19,3 +19,5 @@ config/*.json
 .~lock.*
 trash/*
 cookies.pkl
+daily_data/*
+forebet/data.html
