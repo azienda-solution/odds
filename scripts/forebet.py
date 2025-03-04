@@ -18,7 +18,7 @@ def ffunc():
     excel_file = 'forebet.xlsx'
     
     cleaner('forebet/data.html')
-    driver = scrap_selenium_v1()
+    driver = scrap_selenium_v1("forebet.com")
     content_html = forebet_scrap(driver)
     append_new_line(r'forebet/data.html', str(content_html))
     game_oddspedia = forebet(content_html)

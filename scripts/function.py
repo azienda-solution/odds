@@ -627,8 +627,13 @@ def check_and_load_cookies(driver, cookie_file="cookies.pkl", sound_file="D:/Doc
         pickle.dump(driver.get_cookies(), open(cookie_file, "wb"))
         print("Cookies saved successfully.")
 
-def scrap_selenium_v1():
-    """option = FirefoxOptions()
+def scrap_selenium_v1(init_url):
+    """
+    
+    VERSION 1
+    ______________________________________________2022-2024
+    
+    option = FirefoxOptions()
     option.add_argument('--disable-notifications')
     option.add_argument("--mute-audio")
     #option.add_argument("--headless")
@@ -657,6 +662,10 @@ def scrap_selenium_v1():
     # Initialize the WebDriver
     driverinstance = webdriver.Chrome(service=chrome_service, options=chrome_options)"""
     
+    """
+    VERSION 2
+    _____________________________________________________2024-2024
+    
     chrome_options = Options()
     chrome_options.add_argument('--no-sandbox')
     #chrome_options.add_argument('--headless')
@@ -670,7 +679,28 @@ def scrap_selenium_v1():
     initGoogle(driverinstance)
     waitloading(2, driver=driverinstance)
     #check_and_load_cookies(driverinstance)
-    return driverinstance
+    return driverinstance"""
+    
+    
+    """
+    VERSION 3
+    _____________________________________________________2025-2025
+    """
+    # pip3 install seleniumbase
+    from seleniumbase import Driver
+
+    # initialize the driver in GUI mode with UC enabled
+    driver = Driver(uc=True, headless=True)
+
+    initGoogle(driver)
+    waitloading(2, driver=driver)
+    driver.uc_open_with_reconnect(init_url, reconnect_time=6)
+    driver.uc_gui_click_captcha()
+    return driver
+
+    """driver.save_screenshot("cloudflare-challenge.png")
+    driver.quit()"""
+    
     
 def is_float(value):
     try:
@@ -1284,7 +1314,6 @@ def is_evening():
 
 def forebet_scrap(driver):
     allcontent = str("")
-    driver.get("https://www.forebet.com/")
     waitloading(2, driver=driver)
     click_consent(driver, 'en')
     for ii in is_evening():
@@ -1693,31 +1722,68 @@ def prompt(match__, last_match, trend):
     return GPT_prompt
 
 
+def wait_for_element(driver, xpath, timeout=120):
+    """
+    Wait for an element to appear within the given timeout.
+    Reload the page if the element is not found.
+    """
+    retries = 3  # Maximum retries
+    for attempt in range(retries):
+        try:
+            return WebDriverWait(driver, timeout).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+        except Exception as e:
+            if attempt < retries - 1:
+                print(f"Element not found, reloading page... Attempt {attempt + 1}/{retries}")
+                driver.refresh()
+            else:
+                print("Max retries reached. Element not found.")
+                return None  # Fail gracefully
+
 def analys_per_link(array, driver):
     matches = []
+    analyse_manual = []
     filtered_array = [
         match__ for match__ in array
         if (
-            (float(match__['initial_difference']) >= 35 and ("football" in str(match__['sport']).lower() or "football" in match__['link']))
-            or (float(match__['initial_difference']) >= 51)
+            (float(match__['initial_difference']) >= 38 and ("football" in str(match__['sport']).lower() or "football" in match__['link']))
+            or (float(match__['initial_difference']) >= 45)
             or (float(match__['initial_difference']) >= 15 and "american" in str(match__['sport']).lower())
+            or (float(match__['initial_difference']) >= 30  and ("rugby" in str(match__['sport']).lower() or "rugby" in match__['link']))
         )
     ]
     for match__ in filtered_array:
             link = match__['link'] if (match__ and len(match__['link'])>2) else None
-            if link:
+            mots_interdits = ["ncaa", "chile", "tb2l", "u21", "georgi", "u19", "bulgar", "ligue-b", "espoir", "-a2-", "-a2/", "2-bundesliga"]
+            paires_interdites = [("basket", "al-"), ("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
+            if link and all(mot not in link for mot in mots_interdits) and all(not (mot1 in link and mot2 in link) for mot1, mot2 in paires_interdites):
                 try:
-                    print(str(link))
+                    link = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
+                    print(f"Navigating to: {link}")
                     driver.get(link)
-                    waitloading(2, driver=driver)
-                    content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
-                    try:
-                        divs = content.find_elements(By.XPATH, './/div[contains(@class, "st_scrblock")]')
-                        if not divs:
-                            divs = content.find_elements(By.XPATH, './/div[contains(@class, "mx-width_hc")]')
-                    except Exception as e:
-                        divs = []
+                    content_xpath = '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]'
+                    content = wait_for_element(driver, content_xpath)
+                    if not content:
+                        print("Critical element missing. Skipping this page.")
+                        return
+                    div_xpaths = [
+                        './/div[contains(@class, "st_scrblock")]',
+                        './/div[contains(@class, "mx-width_hc")]'
+                    ]
+                    divs = []
+                    for xpath in div_xpaths:
+                        try:
+                            divs = content.find_elements(By.XPATH, xpath)
+                            if divs:
+                                break
+                        except Exception as e:
+                            continue
+                    
                     expected_url = driver.current_url
+                    div_count = len(divs) if divs else 0
+                    
+                    print(f"Divs found: {div_count} at {expected_url}")
                     if divs:
                         div_count = len(divs)
                         first_divs = divs[:3] if div_count > 3 else divs
@@ -1774,10 +1840,13 @@ def analys_per_link(array, driver):
                     print(e)
                     append_new_line('error_by_link.txt', str(set_text(match__)))
                     append_new_line('error_by_link.txt', str(e))
+                    analyse_manual.append(match__)
                     continue
     if len(matches) < 2 :
         if len(filtered_array) > 2:
             save_to_excel(filtered_array, "IA_forebet.xlsx")
+    if len(analyse_manual) > 2 :
+        save_to_excel(analyse_manual, "analyse-manual.xlsx")
     return matches
 
 def forebet_scrap_history(driver):
