@@ -30,7 +30,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support.ui import Select
-from webdriver_manager.firefox import GeckoDriverManager
+#from webdriver_manager.firefox import GeckoDriverManager
 ################
 
 import sys
@@ -406,8 +406,12 @@ def check_price_difference_onfileJson(events):
 
 def initGoogle(driver):
     driver.get('https://www.google.com/')
+    cookieGoogle = False
     waitloading(4, driver=driver)
-    cookieGoogle = driver.find_element(By.ID, 'L2AGLb').click()
+    if check_exists_by_xpath(driver, '//buuton[contains(@id, "L2AGLb")]') == 0:
+        cookieGoogle = driver.find_element(By.ID, 'L2AGLb').click()
+    else:
+        pass
     try:
         driver.find_element(By.CLASS_NAME, 'h-captcha')
     except NoSuchElementException:
@@ -594,7 +598,7 @@ def json_to_excel_all(json_data, excel_file):
     
     print(f"Data successfully written to {excel_file}")
     
-def scrap_selenium():
+"""def scrap_selenium():
     option = FirefoxOptions()
     option.add_argument('--disable-notifications')
     option.add_argument("--mute-audio")
@@ -606,7 +610,7 @@ def scrap_selenium():
     driverinstance.maximize_window()
     initGoogle(driverinstance)
     waitloading(2, driver=driverinstance)
-    return driverinstance
+    return driverinstance"""
 
 
 def check_and_load_cookies(driver, cookie_file="cookies.pkl", sound_file="D:/Documents/Advanced-Python/ODDS/config/fail.mp3"):
@@ -690,7 +694,7 @@ def scrap_selenium_v1(init_url):
     from seleniumbase import Driver
 
     # initialize the driver in GUI mode with UC enabled
-    driver = Driver(uc=True, headless=True)
+    driver = Driver(uc=True, headless=False)
 
     initGoogle(driver)
     waitloading(2, driver=driver)
