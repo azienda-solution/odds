@@ -690,7 +690,7 @@ def scrap_selenium_v1(init_url):
     from seleniumbase import Driver
 
     # initialize the driver in GUI mode with UC enabled
-    driver = Driver(uc=True, headless=True)
+    driver = Driver(uc=True, headless=False)
 
     initGoogle(driver)
     waitloading(2, driver=driver)
@@ -1833,6 +1833,7 @@ def analys_per_link(array, driver):
                                 }
                                 append_new_line('analyse-log.txt', str(match_info))
                                 matches.append(match_info)
+                                append_new_line('already-done.txt', str(link))
                                 check_and_refresh(driver, expected_url, timeout=120)
                         else:
                             append_new_line('content.txt', str(set_text(match__)))
