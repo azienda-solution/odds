@@ -8,6 +8,7 @@ import os
 import pickle
 import re
 import subprocess
+import numpy as np
 from playsound import playsound
 import unicodedata
 from urllib.parse import urlparse
@@ -40,6 +41,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import TimeoutException
+from urllib3.exceptions import ReadTimeoutError
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.service import Service
@@ -50,8 +54,16 @@ import undetected_chromedriver as uc
 
 import time
 from datetime import datetime
+import importlib.util
 
-from env import API_KEY, BASE_URL, COMMENCE_TIME_FROM, COMMENCE_TIME_TO, DIFFERENC, MARKETS, OPENAI_KEY, REGIONS
+env_path = "/media/ds/DATA/Documents/Advanced-Python/ODDS/scripts/env.py"
+spec = importlib.util.spec_from_file_location("env", env_path)
+env = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(env)
+
+#from env import API_KEY, BASE_URL, COMMENCE_TIME_FROM, COMMENCE_TIME_TO, DIFFERENC, MARKETS, OPENAI_KEY, REGIONS
+globals().update(vars(env))
+
 last_check_time = time.time()
 
 def append_new_line(file_name, text_to_append):
@@ -408,7 +420,7 @@ def initGoogle(driver):
     driver.get('https://www.google.com/')
     cookieGoogle = False
     waitloading(4, driver=driver)
-    if check_exists_by_xpath(driver, '//buuton[contains(@id, "L2AGLb")]') == 0:
+    if check_exists_by_xpath(driver, '//button[contains(@id, "L2AGLb")]') == 0:
         cookieGoogle = driver.find_element(By.ID, 'L2AGLb').click()
     else:
         pass
@@ -1107,14 +1119,13 @@ def extract_list_from_google(driverinstance, title):
             __result = '{uri.scheme}://{uri.netloc}/'.format(uri=__parsed_uri)
             __hostname = __result
             to_delete.append(step1)
-            EXCLUDED_KEYWORDS = ["translate.g", "translate.google", ".pdf", ".docx", ".doc", ".jpeg", ".webp", ".rar", "dictionnaire", "dictionnaire.", "facebook.", "tikok.", "/download/", "/apt/", "apt/", ".txt", "amazon.", "adobe.", ".lingue", "-francais", "/traduction/", "/dictionary", "/traduction/", ".ebay", ".fnac", "/traduction/", "definitions", "/definition", "dictionary.", "twitch.", "encyclo", ".youtube", "?pdf", "pdf=", ".html", ".php", ".pptx", "?path", "path=", "/path", ".pps", "google.", ".google.", ".tiktok", "search.do?recordID", ".pensoft.net", ".virginialiving.", "/PDF/", "/object/", "PDF/", ".mnhn.fr", "gtgrecords.net", "komitid.fr", "/translate/", "linkedin.", ".parismuseescollections."]
+            EXCLUDED_KEYWORDS = ["translate.g", "wikipedia.", ".wikipedia", "translate.google", ".pdf", ".docx", ".doc", ".jpeg", ".webp", ".rar", "dictionnaire", "dictionnaire.", "facebook.", "tikok.", "/download/", "/apt/", "apt/", ".txt", "amazon.", "adobe.", ".lingue", "-francais", "/traduction/", "/dictionary", "/traduction/", ".ebay", ".fnac", "/traduction/", "definitions", "/definition", "dictionary.", "twitch.", "encyclo", ".youtube", "?pdf", "pdf=", ".html", ".php", ".pptx", "?path", "path=", "/path", ".pps", "google.", ".google.", ".tiktok", "search.do?recordID", ".pensoft.net", ".virginialiving.", "/PDF/", "/object/", "PDF/", ".mnhn.fr", "gtgrecords.net", "komitid.fr", "/translate/", "linkedin.", ".parismuseescollections."]
             if any(keyword in str(step1) for keyword in EXCLUDED_KEYWORDS):
                 pass
             else:
                 my_list.append(step1)
     except Exception as e:
         print(f"-------- Failed get google ( crashed ) crash cause: {e}")
-        raise Exception(e)
     return my_list
         
 def fing_google(driverinstance, title):
@@ -1338,6 +1349,29 @@ def forebet_scrap(driver):
         allcontent += content
     return allcontent
 
+def safe_get(driver, url, retries=3, delay=5, timeout=120):
+    """
+    Attempt to get a URL using Selenium with retries in case of timeouts.
+    """
+    for attempt in range(retries):
+        try:
+            # Set the page load timeout for the current attempt
+            driver.set_page_load_timeout(timeout)
+            driver.get(url)
+            time.sleep(2)  # Adjust sleep as needed
+            return True  # Successfully loaded the page
+        except (TimeoutException, ReadTimeoutError) as e:
+            print(f"Attempt {attempt + 1} failed for {url}: {e}")
+            if attempt < retries - 1:
+                print(f"Retrying in {delay} seconds...")
+                time.sleep(delay)  # Wait before retrying
+            else:
+                print(f"Failed to load {url} after {retries} attempts.")
+                return False  # If all retries failed, return False
+        except Exception as e:
+            print(f"An unexpected error occurred while loading {url}: {e}")
+            return False  # Return False for other errors
+        
 def ajouter_sportfill(texte, sport):
     try:
         pattern = r'(<div class="rcnt[^>]*">)(?!.*<strong class="sportfill">)'
@@ -1385,6 +1419,7 @@ def clean_html_and_return_innertext(elements):
         return ""
 
 def convert_sheet_csv(sheet_name, file_path):
+    # load_excel_file load_excel load excel file
     df = pd.read_excel(file_path, sheet_name=sheet_name)
     json_data = df.to_json(orient='records', date_format='iso')
     output_file = 'output.json'
@@ -1932,3 +1967,181 @@ def forebet_add_title_on_htmlElement(home_team, away_team, first_divs):
             content_final += title + text_extract
 
     return remplacer_en_mois_annee(content_final)
+
+
+def extract_hour(datetime_str):
+    """
+    Extract the hour from a datetime string by getting all text after the year '2025'.
+
+    Parameters:
+    - datetime_str (str): The datetime string.
+
+    Returns:
+    - str: The time part of the datetime string.
+    """
+    try:
+        # Split the string at '2025' and return the remaining part
+        time_part = datetime_str.split('2025')[-1].strip()
+        return time_part
+    except Exception as e:
+        print(f"Error extracting hour: {e}")
+        return None
+    
+def get_day_of_week(datetime_str):
+    """
+    Get the day of the week for a given datetime string.
+
+    Parameters:
+    - datetime_str (str): The datetime string in the format 'DD/MM/YYYY HH:MM'.
+
+    Returns:
+    - str: The day of the week for the given datetime.
+    """
+    try:
+        # Parse the datetime string
+        dt = datetime.strptime(datetime_str, '%d/%m/%Y %H:%M')
+        # Get the day of the week (0 = Monday, 6 = Sunday)
+        day_of_week = dt.strftime('%A')
+        return day_of_week
+    except ValueError as e:
+        print(f"Error parsing datetime: {e}")
+        return None
+
+    
+
+def parse_score(score, sport):
+    if 'basket' in sport:
+        if isinstance(score, str) and "-" in score:
+            parts = score.strip().split("-")
+            try:
+                return int(parts[0].strip()), int(parts[1].strip())
+            except ValueError:
+                return np.nan, np.nan
+        return np.nan, np.nan
+    if 'foot' in sport:
+        if isinstance(score, str) and "-" in score:
+            parts = score.strip().split("-")
+            try:
+                return int(parts[0].strip()), int(parts[1].strip())
+            except ValueError:
+                return np.nan, np.nan
+        return np.nan, np.nan
+    else:
+        if isinstance(score, str) and "-" in score:
+            parts = score.strip().split("-")
+            try:
+                return int(parts[0].strip()), int(parts[1].strip())
+            except ValueError:
+                return np.nan, np.nan
+        return np.nan, np.nan
+    
+def compare_variables(var1, var2):
+    """
+    Compare two variables and return the 1X2 result.
+
+    Parameters:
+    - var1 (str/int): The first variable.
+    - var2 (str/int): The second variable.
+
+    Returns:
+    - str: '1' if var1 is greater, 'X' if equal, '2' if var2 is greater.
+    """
+    try:
+        var1 = int(var1)
+        var2 = int(var2)
+        if var1 == var2:
+            return "X"
+        elif var2 > var1:
+            return "2"
+        else:
+            return "1"
+    except ValueError:
+        print("Error: Both variables must be convertible to integers.")
+        return None
+    
+
+def result_predict(Home_Score_, Away_Score_, Home_Score_Final, Away_Score_Final):
+    """
+    Determine if the predicted result matches the actual result.
+
+    Parameters:
+    - Home_Score_ (str/int): Predicted home score.
+    - Away_Score_ (str/int): Predicted away score.
+    - Home_Score_Final (str/int): Actual home score.
+    - Away_Score_Final (str/int): Actual away score.
+
+    Returns:
+    - str: 100 if the predicted result matches the actual result, otherwise '0'.
+    """
+    predicted_result = compare_variables(Home_Score_, Away_Score_)
+    actual_result = compare_variables(Home_Score_Final, Away_Score_Final)
+
+    if predicted_result == actual_result:
+        return 100
+    else:
+        return 0
+    
+def addition_var(var1, var2):
+    var1 = int(var1)
+    var2 = int(var2)
+    return var1 + var2
+
+def pourcentage_predict(Home_Score_Forebet, Away_Score_Forebet, Home_Score_Final, Away_Score_Final):
+    """
+    Compare home and away scores from Forebet and Final, with safety checks and conversion to integers.
+
+    Parameters:
+    - Home_Score_Forebet (str/int): Home score from Forebet.
+    - Away_Score_Forebet (str/int): Away score from Forebet.
+    - Home_Score_Final (str/int): Home score from Final.
+    - Away_Score_Final (str/int): Away score from Final.
+
+    Returns:
+    - int: 100 if both home and away scores match, otherwise 0.
+    """
+    try:
+        # Convert inputs to integers
+        Home_Score_Forebet = int(Home_Score_Forebet)
+        Away_Score_Forebet = int(Away_Score_Forebet)
+        Home_Score_Final = int(Home_Score_Final)
+        Away_Score_Final = int(Away_Score_Final)
+
+        # Compare the scores
+        if (Home_Score_Forebet == Home_Score_Final) and (Away_Score_Forebet == Away_Score_Final):
+            return 100
+        else:
+            return 0
+
+    except ValueError:
+        # Handle cases where conversion to integer fails
+        print("Error: All inputs must be convertible to integers.")
+        return ''
+    
+def pourcentage_proche(moyenne_predit, moyenne_reel):
+    """
+    Calcule le pourcentage de proximité entre la moyenne prédite et la moyenne réelle.
+
+    Paramètres :
+    - moyenne_predit (float) : La moyenne prédite.
+    - moyenne_reel (float) : La moyenne réelle.
+
+    Retourne :
+    - float : Le pourcentage de proximité (0 à 100).
+    """
+    try:
+        # Calculer la différence absolue entre les deux moyennes
+        difference = abs(moyenne_predit - moyenne_reel)
+
+        # Utiliser une fonction de score pour calculer le pourcentage de proximité
+        # Ici, nous utilisons une fonction linéaire simple
+        # Si la différence est 0, le score est 100
+        # Si la différence est égale à la moyenne réelle, le score est 0
+        if moyenne_reel == 0:
+            return 100  # Éviter la division par zéro
+
+        pourcentage = max(0, 100 - (difference / moyenne_reel) * 100)
+        return pourcentage
+
+    except Exception as e:
+        print(f"Erreur : {e}")
+        return None
