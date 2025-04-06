@@ -22,3 +22,6 @@ cookies.pkl
 daily_data/*
 forebet/data.html
 .venv
+forebet/data.html
+error_by_link.txt
+content.txt

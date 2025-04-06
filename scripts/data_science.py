@@ -1,0 +1,125 @@
+import pandas as pd
+
+from function import addition_var, compare_variables, convert_sheet_csv, extract_hour, get_day_of_week, parse_score, pourcentage_predict, pourcentage_proche, result_predict
+
+
+
+def data_inge():
+    data = convert_sheet_csv('one', 'echant.xlsx')
+    matches = []
+    for match__ in data:
+        link = match__['link']
+        link = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
+        Home_Score_Forebet = (parse_score(match__['correct_score'], match__['sport']))[0]
+        Away_Score_Forebet = (parse_score(match__['correct_score'], match__['sport']))[1]
+        Home_Score_ChatGPT = (parse_score(match__['correct_score_api'], match__['sport']))[0]
+        Away_Score_ChatGPT = (parse_score(match__['correct_score_api'], match__['sport']))[1]
+        Home_Score_Final = (parse_score(match__['final_score'], match__['sport']))[0]
+        Away_Score_Final = (parse_score(match__['final_score'], match__['sport']))[1]
+        data_save = {
+                "ID_Match": '',
+                "Date": match__['date'],
+                "Heure": extract_hour(match__['date']),
+                "Compétition": '',
+                "Home_Team": match__['home_team'],
+                "Away_Team": match__['away_team'],
+                "Jour_Semaine": get_day_of_week(match__['date']),
+                "Match_Importance": '',
+                "Home_Probability_Forebet": match__['home_probability'],
+                "Draw_Probability_Forebet": match__['draw_probability'],
+                "Away_Probability_Forebet": match__['away_probability'],
+                "Initial_Difference_Forebet": match__['initial_difference'],
+                "Home_Probability_ChatGPT": match__['home_probability'],
+                "Draw_Probability_ChatGPT": match__['draw_probability_api'],
+                "Away_Probability_ChatGPT": match__['away_probability_api'],
+                "Initial_Difference_ChatGPT": match__['initial_difference_api'],
+                "Prediction_Result_Forebet": match__['prediction'],
+                "Prediction_Result_ChatGPT": match__['prediction_api'],
+                "Correct_Score_Forebet": match__['correct_score'],
+                "Correct_Score_ChatGPT": match__['correct_score_api'],
+                "Final_Score": match__['final_score'],
+                "Home_Score_Forebet": Home_Score_Forebet,
+                "Away_Score_Forebet": Away_Score_Forebet,
+                "Home_Score_ChatGPT": Home_Score_ChatGPT,
+                "Away_Score_ChatGPT": Away_Score_ChatGPT,
+                "Home_Score_Final": Home_Score_Final,
+                "Away_Score_Final": Away_Score_Final,
+                "Match_Result": compare_variables(Home_Score_Final, Away_Score_Final),
+                "Average_Score_Forebet": match__['average_score'],
+                "Average_Score_ChatGPT": match__['average_score_api'],
+                "Average_Score_Final": Home_Score_Final + Away_Score_Final,
+                "Forebet_Predicted_Result_Correct": result_predict(Home_Score_Forebet, Away_Score_Forebet, Home_Score_Final, Away_Score_Final),
+                "ChatGPT_Predicted_Result_Correct": result_predict(Home_Score_ChatGPT, Away_Score_ChatGPT, Home_Score_Final, Away_Score_Final),
+                "Forebet_Exact_Score_Correct": pourcentage_predict(Home_Score_Forebet, Away_Score_Forebet, Home_Score_Final, Away_Score_Final),
+                "ChatGPT_Exact_Score_Correct": pourcentage_predict(Home_Score_ChatGPT, Away_Score_ChatGPT, Home_Score_Final, Away_Score_Final),
+                "Forebet_Avg_Score_Proximité": pourcentage_proche(match__['average_score'], Home_Score_Final + Away_Score_Final),
+                "ChatGPT_Avg_Score_Proximité": pourcentage_proche(match__['average_score_api'], Home_Score_Final + Away_Score_Final),
+                "Final_Avg_Score_": Home_Score_Final + Away_Score_Final,
+                "Best_Avg_Score_Model": '',
+                "Forebet_Goal_Diff_Error": '',
+                "ChatGPT_Goal_Diff_Error": '',
+                "Best_Goal_Diff_Model": '',
+                "Home_Goals_Range": '',
+                "Away_Goals_Range": '',
+                "Forebet_Home_Range_Correct": '',
+                "Forebet_Away_Range_Correct": '',
+                "ChatGPT_Home_Range_Correct": '',
+                "ChatGPT_Away_Range_Correct": '',
+                "Over_Under_2.5_Real": 100 if (Home_Score_Final + Away_Score_Final) > 2.5 else 0,
+                "Forebet_Over_Under_Prediction": '',
+                "ChatGPT_Over_Under_Prediction": '',
+                "Forebet_Over_Under_Correct": 100 if int(match__['average_score']) > 2.5 else 0,
+                "ChatGPT_Over_Under_Correct": 100 if int(match__['average_score_api']) > 2.5 else 0,
+                "Match_Type": '',
+                "Favorite_Team": '',
+                "Underdog_Team": '',
+                "Upset_Result": '',
+                "Forebet_Predicted_Upset": '',
+                "ChatGPT_Predicted_Upset": '',
+                "Both_Teams_Scored": '',
+                "Forebet_BTTS_Prediction": '',
+                "ChatGPT_BTTS_Prediction": '',
+                "Forebet_BTTS_Correct": '',
+                "ChatGPT_BTTS_Correct": '',
+                "Home_Clean_Sheet": '',
+                "Away_Clean_Sheet": '',
+                "Forebet_Home_Clean_Sheet_Pred": '',
+                "Forebet_Away_Clean_Sheet_Pred": '',
+                "ChatGPT_Home_Clean_Sheet_Pred": '',
+                "ChatGPT_Away_Clean_Sheet_Pred": '',
+                "Days_Before_Match": '',
+                "Home_Recent_Form": '',
+                "Away_Recent_Form": '',
+                "Home_Form_Rating": '',
+                "Away_Form_Rating": '',
+                "Form_Advantage": '',
+                "Home_League_Position": '',
+                "Away_League_Position": '',
+                "Position_Difference": '',
+                "Same_Prediction_Models": '',
+                "Same_Score_Prediction": '',
+                "Best_Model_When_Same_Result": '',
+                "Atypical_Score": '',
+                "Forebet_Atypical_Prediction": '',
+                "ChatGPT_Atypical_Prediction": '',
+                "Forebet_Avg_Score_Correlation": '',
+                "ChatGPT_Avg_Score_Correlation": '',
+                "Weighted_Accuracy_Forebet": '',
+                "Weighted_Accuracy_ChatGPT": '',
+                "Best_Weighted_Model": '',
+                "Forebet_Variance": '',
+                "ChatGPT_Variance": '',
+                "Most_Consistent_Model": '',
+                "Better_Result_Predictor": '',
+                "Better_Score_Predictor": '',
+                "Better_Home_Goals_Predictor": '',
+                "Better_Away_Goals_Predictor": '',
+                "Overall_Better_Model": '',
+                "Forebet_Historical_Accuracy": '',
+                "ChatGPT_Historical_Accuracy": '',
+                "Notes": '',
+                "link": link
+            }
+        matches.append(data_save)
+    print('1')
+data_inge()

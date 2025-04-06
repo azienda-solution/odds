@@ -322,6 +322,13 @@ def check_price_difference(events):
     return result
 
 
+def load_file(path):
+    try:
+        with open(path, "r") as f:
+            return set(line.strip() for line in f)
+    except FileNotFoundError:
+        return set() 
+
 def download_video(url, save_path):
     # Send a GET request to the video URL
     response = requests.get(url, stream=True)
@@ -1470,6 +1477,17 @@ def forebet_scrap_trend(driver, link):
             allcontent += content
     return allcontent
 
+def callAi(prompt):
+    from together import Together
+
+    client = Together()
+
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+        messages=[{"role": "user", "content": str(prompt)}],
+    )
+    print(response.choices[0].message.content)
+
 def get_gpt_response_name(title, GPT_CONFIG):
     url = "https://api.openai.com/v1/chat/completions"
     headers = {
@@ -1793,101 +1811,124 @@ def analys_per_link(array, driver):
         )
     ]
     for match__ in filtered_array:
-            link = match__['link'] if (match__ and len(match__['link'])>2) else None
-            mots_interdits = ["ncaa", "chile", "tb2l", "u21", "georgi", "u19", "bulgar", "ligue-b", "espoir", "-a2-", "-a2/", "2-bundesliga"]
-            paires_interdites = [("basket", "al-"), ("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
-            if link and all(mot not in link for mot in mots_interdits) and all(not (mot1 in link and mot2 in link) for mot1, mot2 in paires_interdites):
-                try:
-                    link = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
-                    print(f"Navigating to: {link}")
-                    driver.get(link)
-                    content_xpath = '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]'
-                    content = wait_for_element(driver, content_xpath)
-                    if not content:
-                        print("Critical element missing. Skipping this page.")
-                        return
-                    div_xpaths = [
-                        './/div[contains(@class, "st_scrblock")]',
-                        './/div[contains(@class, "mx-width_hc")]'
-                    ]
-                    divs = []
-                    for xpath in div_xpaths:
-                        try:
-                            divs = content.find_elements(By.XPATH, xpath)
-                            if divs:
-                                break
-                        except Exception as e:
-                            continue
-                    
-                    expected_url = driver.current_url
-                    div_count = len(divs) if divs else 0
-                    
-                    print(f"Divs found: {div_count} at {expected_url}")
-                    if divs:
-                        div_count = len(divs)
-                        first_divs = divs[:3] if div_count > 3 else divs
-                        last_match = forebet_add_title_on_htmlElement(match__['home_team'], match__['away_team'], first_divs)
-                        trend = clean_text(get_trend_forebet(driver))
-                        if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]') == 0:
-                            trend += getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]')
-                        #find result if present
-                        if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span') == 0:
-                            final_score = getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span')
-                        else:
-                            final_score = ""
-                            
-                        GPT_prompt = prompt(match__, last_match, trend)
-                        json_result = get_gpt_response_name(" ", GPT_prompt)
-                        if json_result:
-                            if len(json_result) > 0:
-                                home_probability = to_percentage(match__['home_probability'])
-                                draw_probability = to_percentage(match__['draw_probability'])
-                                away_probability = to_percentage(match__['away_probability'])
-                                average_score = match__['average_score']
-                                home_probability_api = to_percentage(json_result["home_probability_api"]) if json_result["home_probability_api"] else ''
-                                draw_probability_api = to_percentage(json_result["draw_probability_api"]) if json_result["draw_probability_api"] else ''
-                                away_probability_api = to_percentage(json_result["away_probability_api"]) if json_result["away_probability_api"] else ''
-                                average_score_api = json_result["average_score_api"] if json_result["average_score_api"] else ''
-                                match_info = {
-                                    'home_team': match__['home_team'],
-                                    'away_team': match__['away_team'],
-                                    'date': match__['date'],
-                                    'home_probability': home_probability,
-                                    'draw_probability': draw_probability,
-                                    'away_probability': away_probability,
-                                    'initial_difference': match__['initial_difference'],
-                                    'initial_difference_api': abs(float(home_probability_api) - float(away_probability_api)),
-                                    "home_probability_api": home_probability_api if home_probability_api else '',
-                                    "draw_probability_api": draw_probability_api if draw_probability_api else '',
-                                    "away_probability_api": away_probability_api if away_probability_api else '',
-                                    'prediction': match__['prediction'],
-                                    "prediction_api": json_result["prediction_api"] if json_result["prediction_api"] else '',
-                                    'correct_score': match__['correct_score'],
-                                    "correct_score_api": json_result["correct_score_api"] if json_result["correct_score_api"] else '',
-                                    'average_score': average_score,
-                                    "average_score_api": average_score_api if average_score_api else '',
-                                    'sport': match__['sport'],
-                                    "final_score": final_score,
-                                    'link': match__['link']
-                                }
-                                append_new_line('analyse-log.txt', str(match_info))
-                                matches.append(match_info)
-                                append_new_line('already-done.txt', str(link))
-                                check_and_refresh(driver, expected_url, timeout=120)
-                        else:
-                            append_new_line('content.txt', str(set_text(match__)))
-                except Exception as e:
-                    print(e)
-                    append_new_line('error_by_link.txt', str(set_text(match__)))
-                    append_new_line('error_by_link.txt', str(e))
-                    analyse_manual.append(match__)
-                    continue
+        link = match__['link'] if (match__ and len(match__['link'])>2) else None
+        useless = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
+        processed_links = load_file("./already-done.txt")
+        mots_interdits = ["ncaa", "chile", "tb2l", "u21", "georgi", "u19", "bulgar", "ligue-b", "espoir", "-a2-", "-a2/", "2-bundesliga"]
+        paires_interdites = [("basket", "al-"), ("basket", "-w-"),("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
+        if link and (link not in processed_links) and (useless not in processed_links) and all(mot not in link for mot in mots_interdits) and all(not (mot1 in link and mot2 in link) for mot1, mot2 in paires_interdites):
+            try:
+                link = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
+                print(f"Navigating to: {link}")
+                driver.get(link)
+                content_xpath = '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]'
+                content = wait_for_element(driver, content_xpath)
+                if not content:
+                    print("Critical element missing. Skipping this page.")
+                    return
+                div_xpaths = [
+                    './/div[contains(@class, "st_scrblock")]',
+                    './/div[contains(@class, "mx-width_hc")]'
+                ]
+                divs = []
+                for xpath in div_xpaths:
+                    try:
+                        divs = content.find_elements(By.XPATH, xpath)
+                        if divs:
+                            break
+                    except Exception as e:
+                        continue
+                
+                expected_url = driver.current_url
+                div_count = len(divs) if divs else 0
+                
+                print(f"Divs found: {div_count} at {expected_url}")
+                if divs:
+                    div_count = len(divs)
+                    first_divs = divs[:3] if div_count > 3 else divs
+                    last_match = forebet_add_title_on_htmlElement(match__['home_team'], match__['away_team'], first_divs)
+                    trend = clean_text(get_trend_forebet(driver))
+                    if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]') == 0:
+                        trend += getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]')
+                    #find result if present
+                    if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span') == 0:
+                        final_score = getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span')
+                    else:
+                        final_score = ""
+                        
+                    GPT_prompt = prompt(match__, last_match, trend)
+                    json_result = get_gpt_response_name(" ", GPT_prompt)
+                    if json_result:
+                        if len(json_result) > 0:
+                            home_probability = to_percentage(match__['home_probability'])
+                            draw_probability = to_percentage(match__['draw_probability'])
+                            away_probability = to_percentage(match__['away_probability'])
+                            average_score = match__['average_score']
+                            home_probability_api = to_percentage(json_result["home_probability_api"]) if json_result["home_probability_api"] else ''
+                            draw_probability_api = to_percentage(json_result["draw_probability_api"]) if json_result["draw_probability_api"] else ''
+                            away_probability_api = to_percentage(json_result["away_probability_api"]) if json_result["away_probability_api"] else ''
+                            average_score_api = json_result["average_score_api"] if json_result["average_score_api"] else ''
+                            match_info = {
+                                'home_team': match__['home_team'],
+                                'away_team': match__['away_team'],
+                                'date': match__['date'],
+                                'home_probability': home_probability,
+                                'draw_probability': draw_probability,
+                                'away_probability': away_probability,
+                                'initial_difference': match__['initial_difference'],
+                                'initial_difference_api': abs(float(home_probability_api) - float(away_probability_api)),
+                                "home_probability_api": home_probability_api if home_probability_api else '',
+                                "draw_probability_api": draw_probability_api if draw_probability_api else '',
+                                "away_probability_api": away_probability_api if away_probability_api else '',
+                                'prediction': match__['prediction'],
+                                "prediction_api": json_result["prediction_api"] if json_result["prediction_api"] else '',
+                                'correct_score': match__['correct_score'],
+                                "correct_score_api": json_result["correct_score_api"] if json_result["correct_score_api"] else '',
+                                'average_score': average_score,
+                                "average_score_api": average_score_api if average_score_api else '',
+                                'sport': match__['sport'],
+                                "final_score": final_score,
+                                'link': match__['link']
+                            }
+                            append_new_line('analyse-log.txt', str(match_info))
+                            matches.append(match_info)
+                            append_new_line('already-done.txt', str(link))
+                            check_and_refresh(driver, expected_url, timeout=120)
+                    else:
+                        append_new_line('content.txt', str(set_text(match__)))
+            except Exception as e:
+                print(e)
+                append_new_line('error_by_link.txt', str(set_text(match__)))
+                append_new_line('error_by_link.txt', str(e))
+                analyse_manual.append(match__)
+                continue
     if len(matches) < 2 :
         if len(filtered_array) > 2:
             save_to_excel(filtered_array, "IA_forebet.xlsx")
     if len(analyse_manual) > 2 :
         save_to_excel(analyse_manual, "analyse-manual.xlsx")
     return matches
+
+def forebet_per_page(driver, page):
+    allcontent = str("")
+    waitloading(2, driver=driver)
+    click_consent(driver, 'en')
+    driver.get(page)
+    sport = str(page.split("en/")[1].split("/")[0])
+    sport = sport.split("-")[0] if '-' in sport else sport
+    if "football" in page:
+        time.sleep(6)
+        waitloading(2, driver=driver)
+    if check_exists_by_xpath(driver, '//div[contains(@Class, "fc-dialog-container")]//div[contains(@Class, "fc-close fc-icon-button")]//span') == 0:
+        tryAndRetryClickXpath(driver, '//div[contains(@Class, "fc-dialog-container")]//div[contains(@Class, "fc-close fc-icon-button")]//span')
+    else:
+        waitloading(1, driver=driver)
+        content = driver.find_element(By.XPATH, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]')
+        content = (content.get_attribute('outerHTML'))
+        if content:
+            content = ajouter_sportfill(content, sport)
+            allcontent += content
+    return allcontent
 
 def forebet_scrap_history(driver):
     

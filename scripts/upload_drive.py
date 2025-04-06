@@ -19,7 +19,7 @@ def upload_file_to_drive(file_path, file_name, folder_id):
     try:
         # Authenticate using service account credentials
         SCOPES = ['https://www.googleapis.com/auth/drive']
-        creds = Credentials.from_service_account_file('D:/Documents/Advanced-Python/ODDS/config/life-cm-f5238641f3f9.json', scopes=SCOPES)
+        creds = Credentials.from_service_account_file('../config/life-cm-f5238641f3f9.json', scopes=SCOPES)
         service = build('drive', 'v3', credentials=creds)
 
         # Check if the folder exists. If not, create it.
@@ -72,7 +72,7 @@ def upload_text_file_to_drive(folder_id, file_name):
     try:
         # Authenticate using service account credentials
         SCOPES = ['https://www.googleapis.com/auth/drive']
-        creds = Credentials.from_service_account_file('D:/Documents/Advanced-Python/ODDS/config/life-cm-f5238641f3f9.json', scopes=SCOPES)
+        creds = Credentials.from_service_account_file('./config/life-cm-f5238641f3f9.json', scopes=SCOPES)
         service = build('drive', 'v3', credentials=creds)
         
         
