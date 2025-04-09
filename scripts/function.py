@@ -1565,10 +1565,11 @@ def extract_json(content):
         print("No JSON block found.")
         return None
     
+
 def callAi(prompt):
     from together import Together
 
-    client = Together()
+    client = Together(api_key="32361b05686792d2eab2a29551bd4571282d6910757950158eb215f9b90f60c0")
 
     response = client.chat.completions.create(
         model="meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
