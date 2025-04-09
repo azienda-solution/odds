@@ -25,3 +25,6 @@ forebet/data.html
 forebet/data.html
 error_by_link.txt
 content.txt
+*.lzma
+daily_data/202**
+daily_data/2024-*

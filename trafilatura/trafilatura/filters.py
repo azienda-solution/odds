@@ -109,6 +109,8 @@ def language_filter(temp_text, temp_comments, target_language, docmeta):
         #        LOGGER.error('wrong HTML meta language for URL %s', url)
         #        raise ValueError
         if docmeta.language is not None and docmeta.language != target_language:
+            global global_variable
+            global_variable = docmeta.language
             LOGGER.warning('wrong language: %s %s', docmeta.language, docmeta.url)
             return True, docmeta
     return False, docmeta

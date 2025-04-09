@@ -1,5 +1,6 @@
    
 import csv
+import html
 import io
 import json
 import math
@@ -55,6 +56,11 @@ import undetected_chromedriver as uc
 import time
 from datetime import datetime
 import importlib.util
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from trafilatura.trafilatura import *
+from trafilatura.trafilatura.core import get_global_variable
 
 env_path = "/media/ds/DATA/Documents/Advanced-Python/ODDS/scripts/env.py"
 spec = importlib.util.spec_from_file_location("env", env_path)
@@ -426,9 +432,10 @@ def check_price_difference_onfileJson(events):
 def initGoogle(driver):
     driver.get('https://www.google.com/')
     cookieGoogle = False
-    waitloading(4, driver=driver)
-    if check_exists_by_xpath(driver, '//button[contains(@id, "L2AGLb")]') == 0:
-        cookieGoogle = driver.find_element(By.ID, 'L2AGLb').click()
+    waitloading(8, driver=driver)
+    if check_exists_by_xpath(driver, '//body//div//div[contains(@role, "dialog")]//button[contains(@id, "L2AGLb")]') == 0:
+        #cookieGoogle = driver.find_element(By.XPATH, '//body//div//div[contains(@role, "dialog")]//button[contains(@id, "L2AGLb")]').click()
+        waitBeforeClickOnXpath(driver, '//body//div//div[contains(@role, "dialog")]//button[contains(@id, "L2AGLb")]')
     else:
         pass
     try:
@@ -483,6 +490,32 @@ def clean_url(url):
     cleaned_url = cleaned_url.replace('/', '-')
     return cleaned_url
 
+def get_domain(url, strip_www=True, keep_scheme=False):
+    """
+    Extracts the domain name from a URL.
+    
+    Args:
+        url (str): The URL to extract from.
+        strip_www (bool): If True, removes 'www.' prefix.
+        keep_scheme (bool): If True, includes scheme (e.g., https://).
+
+    Returns:
+        str: The extracted domain (with or without scheme).
+    """
+    if not url.startswith(('http://', 'https://')):
+        url = 'http://' + url 
+
+    parsed = urlparse(url)
+    domain = parsed.netloc
+
+    if strip_www and domain.startswith('www.'):
+        domain = domain[4:]
+
+    if keep_scheme:
+        return f'{parsed.scheme}://{domain}/'
+    else:
+        return domain
+    
 def json_to_excel(json_data, excel_file):
     # Aplatir les données JSON
     flattened_data = []
@@ -1104,7 +1137,7 @@ def add_row_sheet(sheet, array_row):
     except Exception as e:
         print(f"Failed to save Excel file: {e}")
 
-def extract_list_from_google(driverinstance, title):
+def extract_list_from_google(driverinstance, title, by_day=None):
     driverinstance.get('https://www.google.com/')
     waitloading(4, driver=driverinstance)
     my_list = list()
@@ -1117,6 +1150,12 @@ def extract_list_from_google(driverinstance, title):
         actions.send_keys(Keys.ENTER)
         actions.perform()
         time.sleep(5)
+        google_url = (driverinstance.current_url)
+        if by_day:
+            google_url = google_url.replace('search?q=', 'search?num=30&tbs=qdr:d&q=')
+        else:
+            google_url = google_url.replace('search?q=', 'search?num=80&q=')
+        driverinstance.get(google_url)
         waitloading(4, driver=driverinstance)
         links = driverinstance.find_elements(By.XPATH,"//div[contains(@data-snhf, '0')]//a")
         to_delete = []
@@ -1126,7 +1165,7 @@ def extract_list_from_google(driverinstance, title):
             __result = '{uri.scheme}://{uri.netloc}/'.format(uri=__parsed_uri)
             __hostname = __result
             to_delete.append(step1)
-            EXCLUDED_KEYWORDS = ["translate.g", "wikipedia.", ".wikipedia", "translate.google", ".pdf", ".docx", ".doc", ".jpeg", ".webp", ".rar", "dictionnaire", "dictionnaire.", "facebook.", "tikok.", "/download/", "/apt/", "apt/", ".txt", "amazon.", "adobe.", ".lingue", "-francais", "/traduction/", "/dictionary", "/traduction/", ".ebay", ".fnac", "/traduction/", "definitions", "/definition", "dictionary.", "twitch.", "encyclo", ".youtube", "?pdf", "pdf=", ".html", ".php", ".pptx", "?path", "path=", "/path", ".pps", "google.", ".google.", ".tiktok", "search.do?recordID", ".pensoft.net", ".virginialiving.", "/PDF/", "/object/", "PDF/", ".mnhn.fr", "gtgrecords.net", "komitid.fr", "/translate/", "linkedin.", ".parismuseescollections."]
+            EXCLUDED_KEYWORDS = ["translate.g", "wikipedia.", ".wikipedia", "Mumbai", "Pune", "Bangalore", "shows/", "translate.google", ".pdf", ".docx", ".doc", ".jpeg", ".webp", ".rar", "dictionnaire", "dictionnaire.", "facebook.", "tikok.", "/download/", "/apt/", "apt/", ".txt", "amazon.", "adobe.", ".lingue", "-francais", "/traduction/", "/dictionary", "/traduction/", ".ebay", ".fnac", "/traduction/", "definitions", "/definition", "dictionary.", "twitch.", "encyclo", ".youtube", "?pdf", "pdf=", ".pptx", "?path", "path=", "/path", ".pps", "google.", ".google.", ".tiktok", "search.do?recordID", ".pensoft.net", ".virginialiving.", "/PDF/", "/object/", "PDF/", ".mnhn.fr", "gtgrecords.net", "komitid.fr", "/translate/", ".parismuseescollections."]
             if any(keyword in str(step1) for keyword in EXCLUDED_KEYWORDS):
                 pass
             else:
@@ -1249,7 +1288,7 @@ def forebet(html, types=None, folder=None):
 
 def click_consent(driver, language):
     time.sleep(1)
-        
+    has_clicked = True
     try:
         btns_list = driver.find_elements(By.TAG_NAME, "button")
     except Exception as e:
@@ -1272,41 +1311,55 @@ def click_consent(driver, language):
     return has_clicked
 
 
-TAGS_CONSENT = {'fr': {'exact': ['ok'],
-                       'rel': ['accept', 'accord', 'autor', 'Autor']},
-                'en': {'exact': ['ok'],
-                       'rel': ['accept', 'consent', 'agree', 'autor', 'Autor']},
-                }
+
+TAGS_CONSENT = {
+    'fr': {
+        'exact': ['ok'],
+        'rel': ['accept', 'accord', 'autor', 'Autor', 'accepter', 'continuer']
+    },
+    'en': {
+        'exact': ['ok'],
+        'rel': ['accept', 'consent', 'agree', 'allow', 'authorize', 'autor']
+    },
+}
 
 
 def click_consent_list(btns_list, driver, language):
     if not btns_list:
         return False
+    
+    consent_tags = TAGS_CONSENT.get(language, TAGS_CONSENT['en'])  # fallback to 'en'
+
     for btn in btns_list:
         try:
-            # Ensure the button is still attached to the DOM and interactable
-            assert btn.is_displayed()
-            assert bool(btn.text)
-            
-            btn_text = btn.text.lower()
-            consent_tags = TAGS_CONSENT[language]
-            if any([tag in btn_text for tag in consent_tags['rel']] + 
-                   [tag == btn_text for tag in consent_tags['exact']]):
-                
-                driver.execute_script("arguments[0].scrollIntoView();", btn)
+            if not btn.is_displayed():
+                continue
+
+            # Combine sources of button "meaning": text, id, class, data attributes
+            btn_text = (btn.text or "").lower()
+            btn_id = (btn.get_attribute("id") or "").lower()
+            btn_class = (btn.get_attribute("class") or "").lower()
+            btn_data = (btn.get_attribute("data-gdpr-expression") or "").lower()
+
+            match = (
+                any(tag in btn_text for tag in consent_tags['rel']) or
+                any(tag in btn_id for tag in consent_tags['rel']) or
+                any(tag in btn_class for tag in consent_tags['rel']) or
+                any(tag in btn_data for tag in consent_tags['rel']) or
+                btn_text in consent_tags['exact']
+            )
+
+            if match:
+                driver.execute_script("arguments[0].scrollIntoView(true);", btn)
                 btn.click()
                 return True
-        except StaleElementReferenceException:
-            continue
-        except AssertionError:
-            # Skip invisible or empty-text buttons
-            continue
-        except NoSuchElementException:
-            # Handle cases where the element no longer exists
+
+        except (StaleElementReferenceException, NoSuchElementException, AssertionError):
             continue
         except Exception as e:
-            # Handle other unexpected errors
+            print(f"[!] Erreur inattendue: {e}")
             continue
+    
     return False
 
 
@@ -1333,6 +1386,17 @@ def is_evening():
         return array_tomorrow
     if hour >= 0 and hour < 15:
         return array_today
+
+def extract_html_from_link(driver, link, xpath):
+    driver.get(link)
+    allcontent = str("")
+    waitloading(6, driver=driver)
+    click_consent(driver, 'en')
+    check_and_refresh(driver, link, timeout=120)
+    content = driver.find_element(By.XPATH, xpath)
+    content = (content.get_attribute('outerHTML'))
+    allcontent += content
+    return allcontent
 
 def forebet_scrap(driver):
     allcontent = str("")
@@ -1410,6 +1474,9 @@ def clean_html_and_return_innertext(elements):
                 plain_texts = clean_text(plain_texts)
             return plain_texts
         
+        elif isinstance(elements, str):
+            plain_text = clean_text(plain_text)
+            return plain_text
         # If it's a single element, process it
         else:
             html_text = elements.get_attribute('innerHTML')
@@ -1477,6 +1544,27 @@ def forebet_scrap_trend(driver, link):
             allcontent += content
     return allcontent
 
+def extract_json(content):
+    # Regex to extract the JSON block between ```json and ```
+    match = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
+    
+    if match:
+        # Extract the JSON content
+        json_content = match.group(1)
+        
+        # Clean up any remaining unwanted escape sequences like literal "\n"
+        json_content = json_content.replace("\\n", "").strip()
+
+        try:
+            # Try parsing the cleaned JSON content
+            content_json = json.loads(json_content)
+            return content_json
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+    else:
+        print("No JSON block found.")
+        return None
+    
 def callAi(prompt):
     from together import Together
 
@@ -1486,7 +1574,11 @@ def callAi(prompt):
         model="meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
         messages=[{"role": "user", "content": str(prompt)}],
     )
-    print(response.choices[0].message.content)
+    content = response.choices[0].message.content
+    append_new_line('log_callAi.txt', str(prompt)+'\n'+str(content))
+    
+    content_json = extract_json(content)
+    return content_json
 
 def get_gpt_response_name(title, GPT_CONFIG):
     url = "https://api.openai.com/v1/chat/completions"
@@ -1857,6 +1949,7 @@ def analys_per_link(array, driver):
                         final_score = ""
                         
                     GPT_prompt = prompt(match__, last_match, trend)
+                    #json_result = callAi(GPT_prompt)
                     json_result = get_gpt_response_name(" ", GPT_prompt)
                     if json_result:
                         if len(json_result) > 0:
@@ -2186,3 +2279,273 @@ def pourcentage_proche(moyenne_predit, moyenne_reel):
     except Exception as e:
         print(f"Erreur : {e}")
         return None
+    
+    
+class Client:
+    def __init__(self, url, domain, driver=None, e=None):
+        self.url = url
+        self.domain = domain
+        self.max_height = float('inf')
+        self.domain_full = None
+        self.title = None
+        self.driver = driver
+        self.node = None
+        self.og_im = None
+        self.html_blocks = []
+        self.video_blocks = []
+        self.image_blocks = []
+        self.arr = []
+        self.node_name = ""
+        self.topic = None
+        self.top_image = None
+        self.date = None
+        self.language = None
+        self.pool = None
+        self.e = e
+        self.prompt = None
+        self.xml_result = None
+        self.scrapping_type = None
+
+    def scrapping_base(self):
+        downloaded = extract_html_from_link(self.driver, self.url, "//html")
+        downloaded = clean_html_and_return_innertext(downloaded)
+        self.xml_result = downloaded
+        self.title = "exclu"
+
+    def scrapping_trafilatura(self):
+        try:
+            downloaded = extract_html_from_link(self.driver, self.url, "//html")
+            result, merged_array_link = extract(downloaded, url=self.url, include_comments=False, include_formatting=True, output_format="xml", include_images=True, include_links= False, with_metadata=True, include_tables=True)
+            result = html.unescape(result)
+            self.xml_result = result
+            self.language = get_global_variable()
+            html_blocks = []
+            image_blocks = []
+
+            html_blocks = self.get_p_from_xml(result, html_blocks, self.language)
+            html_blocks = self.get_item_from_xml(result, html_blocks, self.language)
+            html_blocks = self.get_title_from_xml(result, html_blocks, self.language)
+            image_blocks = self.get_image_from_xml(result, image_blocks, self.domain_full)
+
+            self.html_blocks = html_blocks
+            self.image_blocks = image_blocks
+            self.title = self.get_title_url_from_xml(result)
+            self.top_image = self.get_top_image_from_xml(result)
+            print("finish scrapping ")
+        except Exception as e:
+            print(f"--------+++++++++++++ Failed trafilatura ( crashed ) crash cause: {e}")
+            check_and_refresh(self.driver, self.url, timeout=60)
+            pass
+        
+    def fusionner_phrases_courtes(self, phrases):
+        phrases_fusionnees = [] 
+        phrase_temporaire = "" 
+
+        for phrase in phrases:
+            if len(phrase.split()) <= 5:
+                phrase_temporaire += " " + phrase
+            else:
+                if phrase_temporaire.strip():
+                    phrases_fusionnees.append(phrase_temporaire.strip())
+                phrase_temporaire = phrase
+
+        if phrase_temporaire.strip():
+            phrases_fusionnees.append(phrase_temporaire.strip())
+
+        return phrases_fusionnees
+
+    def split_into_sentences(self, paragraph):
+        punctuation_marks = ['.', '!', '?']
+        sentences = []
+        start = 0
+
+        for i, char in enumerate(paragraph):
+            if char in punctuation_marks:
+                sentence = paragraph[start:i+1].strip()
+                if sentence:
+                    sentences.append(sentence)
+                start = i + 1
+
+        last_sentence = paragraph[start:].strip()
+        if last_sentence:
+            sentences.append(last_sentence)
+
+        return sentences
+
+
+    def remove_ref_and_hi_and_img_keep_text(self, text):
+        pattern = '|'.join([f'<{tag}[^>]*>(.*?)<\/{tag}>' for tag in ['hi', 'cell', 'item', 'code', 'graphic', 'head', 'lb', 'list', 'p', 'quote', 'row', 'table']])
+        text = re.sub(pattern, r'\1', text)
+        
+        text = re.sub(r'<graphic[^>]*\/?>', '', text)
+        text = text.strip()
+        
+        return text
+
+
+    def get_title_url_from_xml(self, result):
+        title_match = re.search(r'title="([^"]+)"', result)
+        if title_match:
+            title = title_match.group(1)
+            print(title)
+        else:
+            print("Title not found")
+            title = ""
+        return title
+
+
+    def process_image_link(self, image_link, domain_name):
+        parsed_link = urlparse(image_link)
+        if parsed_link.scheme in ["http", "https"]:
+            return image_link
+        if not domain_name.endswith('/'):
+            domain_name += '/'
+
+        if not image_link.startswith('/'):
+            image_link = '/' + image_link
+
+        full_link = domain_name.rstrip('/') + image_link
+
+        if not full_link.startswith(("http://", "https://")):
+            full_link = "https://" + full_link.lstrip('/')
+
+        return full_link
+
+
+    def get_image_from_xml(self, result, image_blocks, domain_full):
+        pattern = r'<graphic[^>]*\s+src="([^"]*)"(?:[^>]*\s+alt="([^"]*)")?(?:[^>]*\s+title="([^"]*)")?(?:[^>]*\s+position="([^"]*)")?[^>]*\/?>'
+        matches = re.finditer(pattern, result)
+        
+        for match in matches:
+            src = match.group(1)
+            image_description = match.group(2) if match.group(2) else None
+            image_title = match.group(3) if match.group(3) else None
+            position = match.group(4) if match.group(4) else match.start()
+                
+            if src and len(src) > 1:
+                image_link = self.process_image_link(src, domain_full)
+                
+                debut = position if position else str(match.start())
+                info = {
+                        "figcaption": image_title,
+                        "x": 0,
+                        "y": int(debut),
+                        "caption": image_description,
+                        "src": image_link,
+                        "text": image_description
+                    }
+                image_blocks.append(info)
+        return image_blocks
+
+    def get_title_from_xml(self, result, html_blocks, language):
+        
+        regex = r'<head[^>]*\s+rend="([^"]*)"[^>]*\s+position="([^"]*)"[^>]*>(.*?)<\/head>'
+        resultats = re.finditer(regex, result, re.DOTALL)
+        
+        if resultats:
+            for resultat in resultats:
+                rend = resultat.group(1) if resultat.group(1) else None
+                debut = resultat.group(2) if resultat.group(2) else resultat.start()
+                texte_head = resultat.group(3) if resultat.group(3) else None
+                
+                array_sentence_text = self.remove_ref_and_hi_and_img_keep_text(texte_head)
+                array_sentence = self.fusionner_phrases_courtes(array_sentence_text)
+                info = {
+                    "language": language,
+                    "component": None,
+                    "font_size": None,
+                    "tag": str(rend),
+                    "sentences": array_sentence,
+                    "size": {
+                        'height': 200.0,
+                        'width': 500.0,
+                    },
+                    "x": 0,
+                    "y": int(debut),
+                    "caption": None,
+                    "src": None,
+                    "text": array_sentence_text
+                }
+                html_blocks.append(info)
+        return html_blocks
+
+
+    def get_item_from_xml(self, result, html_blocks, language):
+        
+        regex = r'<item[^>]*?(?:\s+position="([^"]*)")?[^>]*>(.*?)<\/item>'
+        matches = re.finditer(regex, result, re.DOTALL)
+        
+        if matches:
+            for match in matches:
+                debut = match.group(1) if match.group(1) else match.start()
+                text_item = match.group(2)
+                array_sentence_text = self.remove_ref_and_hi_and_img_keep_text(text_item)
+                array_sentence = self.fusionner_phrases_courtes(array_sentence_text)
+                info = {
+                    "language": language,
+                    "component": None,
+                    "font_size": None,
+                    "tag": "li",
+                    "sentences": array_sentence,
+                    "size": {
+                        'height': 200.0,
+                        'width': 500.0,
+                    },
+                    "x": 0,
+                    "y": int(debut),
+                    "caption": None,
+                    "src": None,
+                    "text": array_sentence_text
+                }
+                html_blocks.append(info)
+        return html_blocks
+
+    def get_p_from_xml(self, result, html_blocks, language):
+        
+        pattern = r'<p[^>]*\sposition="([^"]*)"[^>]*>(.*?)<\/p>'
+        matches = re.finditer(pattern, result, re.DOTALL)
+        
+        if matches:
+            for match in matches:
+                debut= match.group(1) if match.group(1) else int(match.start())
+                array_sentence_text = self.remove_ref_and_hi_and_img_keep_text(match.group(2))
+                array_sentence = self.fusionner_phrases_courtes(array_sentence_text)
+                info = {
+                    "language": language,
+                    "component": None,
+                    "font_size": None,
+                    "tag": "p",
+                    "sentences": array_sentence,
+                    "size": {
+                        'height': 200.0,
+                        'width': 500.0,
+                    },
+                    "x": 0,
+                    "y": int(debut),
+                    "caption": None,
+                    "src": None,
+                    "text": array_sentence_text
+                }
+                html_blocks.append(info)
+        return html_blocks
+
+    def get_top_image_from_xml(self, result):
+        top_image = re.search(r'<doc(.*)image="([^"]+)"', result)
+        if top_image:
+            top_image = top_image.group(2)
+        else:
+            top_image = None
+            print("Image in <doc> not found")
+
+        return top_image
+
+
+    def run(self):
+        self.scrapping_type = "trafilatura"
+        try:
+            self.scrapping_trafilatura()
+            check_and_refresh(self.driver, self.url, timeout=60)
+            return self
+        except :
+            check_and_refresh(self.driver, self.url, timeout=60)
+            return self
