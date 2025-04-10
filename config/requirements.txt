@@ -10,3 +10,7 @@ google-auth
 google-auth-oauthlib 
 google-auth-httplib2
 together
+justext
+lxml
+courlan
+htmldate
