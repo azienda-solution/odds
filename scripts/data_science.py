@@ -1,11 +1,11 @@
 import pandas as pd
 
-from function import addition_var, compare_variables, convert_sheet_csv, extract_hour, get_day_of_week, parse_score, pourcentage_predict, pourcentage_proche, result_predict
+from function import addition_var, compare_variables, convert_sheet_csv_read_excel, extract_hour, get_day_of_week, parse_score, pourcentage_predict, pourcentage_proche, result_predict
 
 
 
 def data_inge():
-    data = convert_sheet_csv('one', 'echant.xlsx')
+    data = convert_sheet_csv_read_excel('one', 'echant.xlsx')
     matches = []
     for match__ in data:
         link = match__['link']

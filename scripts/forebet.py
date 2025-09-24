@@ -15,11 +15,11 @@ def ffunc(page=None):
         content_html = forebet_per_page(driver, page)
         append_new_line(r'forebet/data.html', str(content_html))
         game_oddspedia = forebet(content_html)
-        save_to_excel(game_oddspedia, excel_file)
+        save_to_excel(game_oddspedia, excel_file, False)
         #upload_text_file_to_drive("1iAwsrdawNPeww_FrSmB0AimH0Vzhz8L4",excel_file)
         print('done ')
         diff_analyse = analys_per_link(game_oddspedia, driver)
-        save_to_excel(diff_analyse, "IA_forebet.xlsx")
+        save_to_excel(diff_analyse, "IA_forebet.xlsx", True)
     else:
         """ 
         
@@ -32,11 +32,11 @@ def ffunc(page=None):
         content_html = forebet_scrap(driver)
         append_new_line(r'forebet/data.html', str(content_html))
         game_oddspedia = forebet(content_html)
-        save_to_excel(game_oddspedia, excel_file)
+        save_to_excel(game_oddspedia, excel_file, False)
         #upload_text_file_to_drive("1iAwsrdawNPeww_FrSmB0AimH0Vzhz8L4",excel_file)
         print('done ')
         diff_analyse = analys_per_link(game_oddspedia, driver)
-        save_to_excel(diff_analyse, "IA_forebet.xlsx")
+        save_to_excel(diff_analyse, "IA_forebet.xlsx", True)
         upload_text_file_to_drive("1iAwsrdawNPeww_FrSmB0AimH0Vzhz8L4","IA_forebet.xlsx")
         #trend_content = forebet_scrap_trend(driver, "https://www.forebet.com/en/football-tips-and-predictions-for-today/stat-trends")
         #append_new_line(r'analyse-log.txt', str(trend_content))

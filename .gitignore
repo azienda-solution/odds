@@ -11,6 +11,7 @@ github/*
 scripts/env.py
 selenium/
 */trash/*
+trash/*
 forebet/file/*.html
 config/*.json
 *log*.txt
@@ -28,3 +29,12 @@ content.txt
 *.lzma
 daily_data/202**
 daily_data/2024-*
+daily_data/2024-08-12/2024-08-12.txt
+daily_data/2024-08-12/2024-08-12.txt
+daily_data/2024-08-10/2024-08-10.txt
+daily_data/2024-08-04/2024-08-04.txt
+daily_data/01-08-2024/111.html
+1x2lucksport/04-08-2024.html
+Wvenv/*
+*data.html*
+forebet/data.html

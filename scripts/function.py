@@ -6,6 +6,7 @@ import json
 import math
 import mimetypes
 import os
+from pathlib import Path
 import pickle
 import re
 import subprocess
@@ -50,7 +51,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 
-from webdriver_manager.chrome import ChromeDriverManager
+#from webdriver_manager.chrome import ChromeDriverManager
 import undetected_chromedriver as uc
 
 import time
@@ -62,7 +63,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from trafilatura.trafilatura import *
 from trafilatura.trafilatura.core import get_global_variable
 
-env_path = "/media/ds/DATA/Documents/Advanced-Python/ODDS/scripts/env.py"
+env_path = "D:\Documents\Advanced-Python\ODDS\scripts\env.py"
 spec = importlib.util.spec_from_file_location("env", env_path)
 env = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(env)
@@ -330,10 +331,16 @@ def check_price_difference(events):
 
 def load_file(path):
     try:
-        with open(path, "r") as f:
-            return set(line.strip() for line in f)
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return set(line.strip() for line in f)
+        except UnicodeDecodeError:
+            with open(path, 'r', encoding='latin-1') as f:
+                return set(line.strip() for line in f)
     except FileNotFoundError:
         return set() 
+
+        
 
 def download_video(url, save_path):
     # Send a GET request to the video URL
@@ -745,15 +752,33 @@ def scrap_selenium_v1(init_url):
     # pip3 install seleniumbase
     from seleniumbase import Driver
 
-    # initialize the driver in GUI mode with UC enabled
-    driver = Driver(uc=True, headless=False)
 
-    initGoogle(driver)
-    waitloading(2, driver=driver)
-    driver.uc_open_with_reconnect(init_url, reconnect_time=6)
-    driver.uc_gui_click_captcha()
-    return driver
+    driver = Driver(
+        uc=True,
+        headless=False,          # run visible for debugging; set True in CI
+        incognito=True,          # helps avoid cookie tracking
+        no_sandbox=True,         # avoid sandbox issues in Docker/VMs
+        block_images=True,       # faster loading (disable if you need images)
+        disable_gpu=True,        # more stable in some environments
+        page_load_strategy="eager",  # don't wait for all images/css
+        undetectable=True        # maximize stealth
+    )
 
+    try:
+        # Open Google first to warm up the driver
+        initGoogle(driver)  # auto-handle captcha if shown
+
+        waitloading(2, driver=driver)
+        # Then go to your target URL
+        driver.uc_open_with_reconnect(init_url, reconnect_time=6)
+        driver.uc_gui_click_captcha()
+
+        return driver
+
+    except Exception as e:
+        print(f" Driver init failed: {e}")
+        driver.quit()
+        return None
     """driver.save_screenshot("cloudflare-challenge.png")
     driver.quit()"""
     
@@ -1015,8 +1040,17 @@ def oddsportal(file_path):
 
     return match_info_list
 
-            
-def save_to_excel(games, excel_file):
+def last_line_simple(path: str | Path, encoding: str = "utf-8") -> str:
+    """
+    Simple method: loads and splits lines (OK for smaller files).
+    Uses splitlines() so it works whether or not the file ends with a newline.
+    """
+    text = Path(path).read_text(encoding=encoding, errors="replace")
+    lines = text.splitlines()
+    return lines[-1] if lines else ""
+
+
+def save_to_excel(games, excel_file, save_last = None):
     df = pd.DataFrame(games)
     today_date = datetime.now().strftime('%Y-%m-%d')
     
@@ -1032,6 +1066,8 @@ def save_to_excel(games, excel_file):
         except Exception as e:
             print(f"Error: {e}. Retrying with a new sheet name.")
             counter += 1
+    if save_last:
+        append_new_line('last-sheet-on-excel-IA.txt', sheet_name)
 
 def check_and_refresh(driver, expected_url, timeout=120):
     """
@@ -1136,9 +1172,23 @@ def add_row_sheet(sheet, array_row):
         print("Row added successfully!")
     except Exception as e:
         print(f"Failed to save Excel file: {e}")
-
+        
+def safe_odds_from_pct_str(pct, invalid_symbol="-"):
+    try:
+        p = float(pct)
+        if not math.isfinite(p) or p < 0:
+            return invalid_symbol
+        if p == 0:
+            return "0"  # per request
+        v = 100.0 / p  # fair decimal odds
+        s = f"{v:.2f}".rstrip('0').rstrip('.')  # keep up to 2 decimals
+        return s.replace('.', ',')  # comma as decimal separator
+    except Exception:
+        return invalid_symbol
+    
 def extract_list_from_google(driverinstance, title, by_day=None):
-    driverinstance.get('https://www.google.com/')
+    driverinstance.uc_open_with_reconnect('https://www.google.com/', reconnect_time=6)
+    driverinstance.uc_gui_click_captcha()
     waitloading(4, driver=driverinstance)
     my_list = list()
     try:
@@ -1150,12 +1200,12 @@ def extract_list_from_google(driverinstance, title, by_day=None):
         actions.send_keys(Keys.ENTER)
         actions.perform()
         time.sleep(5)
-        google_url = (driverinstance.current_url)
+        """google_url = (driverinstance.current_url)
         if by_day:
             google_url = google_url.replace('search?q=', 'search?num=30&tbs=qdr:d&q=')
         else:
             google_url = google_url.replace('search?q=', 'search?num=80&q=')
-        driverinstance.get(google_url)
+        driverinstance.get(google_url)"""
         waitloading(4, driver=driverinstance)
         links = driverinstance.find_elements(By.XPATH,"//div[contains(@data-snhf, '0')]//a")
         to_delete = []
@@ -1319,7 +1369,7 @@ TAGS_CONSENT = {
     },
     'en': {
         'exact': ['ok'],
-        'rel': ['accept', 'consent', 'agree', 'allow', 'authorize', 'autor']
+        'rel': ['accept', 'consent', 'agree', 'allow', 'authorize', 'autor', 'confirm', 'Confirm', 'CONFIRM']
     },
 }
 
@@ -1384,7 +1434,7 @@ def is_evening():
     hour = datetime.now().hour
     if hour >= 17 and hour <= 23:
         return array_tomorrow
-    if hour >= 0 and hour < 15:
+    if hour >= 0 and hour <= 17:
         return array_today
 
 def extract_html_from_link(driver, link, xpath):
@@ -1413,6 +1463,12 @@ def forebet_scrap(driver):
             tryAndRetryClickXpath(driver, '//div[contains(@class, "fc-dialog-container")]//div[contains(@class, "fc-close fc-icon-button")]//span')
         else:
             waitloading(1, driver=driver)
+        try:
+            if check_exists_by_xpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]') == 0:
+                tryAndRetryClickXpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]')
+                time.sleep(4)
+        except Exception as e:
+            print(f"More button missing: {e}")
         content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
         content = (content.get_attribute('outerHTML'))
         if content:
@@ -1492,7 +1548,8 @@ def clean_html_and_return_innertext(elements):
     except Exception as e:
         return ""
 
-def convert_sheet_csv(sheet_name, file_path):
+def convert_sheet_csv_read_excel(sheet_name, file_path):
+    # read excel to json
     # load_excel_file load_excel load excel file
     df = pd.read_excel(file_path, sheet_name=sheet_name)
     json_data = df.to_json(orient='records', date_format='iso')
@@ -1891,6 +1948,18 @@ def wait_for_element(driver, xpath, timeout=120):
                 print("Max retries reached. Element not found.")
                 return None  # Fail gracefully
 
+def convertodds_to_percent(odds):
+    try:
+        if odds:
+            if odds and len(odds.strip()) > 0:
+                odds = float(odds)
+                odds = (1 / (odds)) * 100
+                return str(odds)
+    except ValueError:
+        return ""
+    except Exception as e:
+        return ""
+    
 def analys_per_link(array, driver):
     matches = []
     analyse_manual = []
@@ -1907,13 +1976,14 @@ def analys_per_link(array, driver):
         link = match__['link'] if (match__ and len(match__['link'])>2) else None
         useless = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
         processed_links = load_file("./already-done.txt")
-        mots_interdits = ["ncaa", "chile", "tb2l", "u21", "georgi", "u19", "bulgar", "ligue-b", "espoir", "-a2-", "-a2/", "2-bundesliga"]
+        mots_interdits = ["ncaa", "chile", "-ii-", "tb2l", "u21", "zealand", "georgi", "u19", "bulgar", "ligue-b", "mpbl", "nbl1","espoir", "-a2-", "-a2/", "2-bundesliga"]
         paires_interdites = [("basket", "al-"), ("basket", "-w-"),("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
         if link and (link not in processed_links) and (useless not in processed_links) and all(mot not in link for mot in mots_interdits) and all(not (mot1 in link and mot2 in link) for mot1, mot2 in paires_interdites):
             try:
                 link = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
                 print(f"Navigating to: {link}")
                 driver.get(link)
+                waitloading(4, driver)
                 content_xpath = '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]'
                 content = wait_for_element(driver, content_xpath)
                 if not content:
@@ -1950,6 +2020,8 @@ def analys_per_link(array, driver):
                         final_score = ""
                         
                     GPT_prompt = prompt(match__, last_match, trend)
+                    GPT_prompt = GPT_prompt.replace("View all", " ")
+
                     #json_result = callAi(GPT_prompt)
                     json_result = get_gpt_response_name(" ", GPT_prompt)
                     if json_result:
@@ -1972,10 +2044,11 @@ def analys_per_link(array, driver):
                                 'initial_difference': match__['initial_difference'],
                                 'initial_difference_api': abs(float(home_probability_api) - float(away_probability_api)),
                                 "home_probability_api": home_probability_api if home_probability_api else '',
-                                "draw_probability_api": draw_probability_api if draw_probability_api else '',
+                                "draw_probability_api": draw_probability_api if (draw_probability_api and "basket" not in match__['sport']) else '',
                                 "away_probability_api": away_probability_api if away_probability_api else '',
                                 'prediction': match__['prediction'],
                                 "prediction_api": json_result["prediction_api"] if json_result["prediction_api"] else '',
+                                'prediction_odds': "Odds:" + match__['get_odds'] + " %" + convertodds_to_percent(match__['get_odds']),
                                 'correct_score': match__['correct_score'],
                                 "correct_score_api": json_result["correct_score_api"] if json_result["correct_score_api"] else '',
                                 'average_score': average_score,
@@ -1998,10 +2071,70 @@ def analys_per_link(array, driver):
                 continue
     if len(matches) < 2 :
         if len(filtered_array) > 2:
-            save_to_excel(filtered_array, "IA_forebet.xlsx")
+            save_to_excel(filtered_array, "IA_forebet.xlsx", False)
     if len(analyse_manual) > 2 :
-        save_to_excel(analyse_manual, "analyse-manual.xlsx")
+        save_to_excel(analyse_manual, "analyse-manual.xlsx", False)
     return matches
+
+
+import numpy as np
+from typing import Optional, Dict, Union
+
+def compute_understandy(
+    total_votes: int,
+    home_pct: float,
+    away_pct: float,
+    draw_pct: Optional[float] = None,
+    bot_rate: float = 0.20,
+    prior_per_category: float = 0.5  # Jeffreys ≈ 0.5 per category
+) -> Dict[str, Union[float, None]]:
+    """
+    Returns only the posterior mean percentages for home/draw/away after
+    discounting an estimated bot_rate proportionally.
+    Keys: 'home', 'draw', 'away'. Draw is None if no draw option exists.
+    """
+    # Set categories and normalize percentages
+    if draw_pct is None:
+        labels = ["home", "away"]
+        p = np.array([home_pct, away_pct], dtype=float)
+        want_draw = False
+    else:
+        labels = ["home", "draw", "away"]
+        p = np.array([home_pct, draw_pct, away_pct], dtype=float)
+        want_draw = True
+
+    s = p.sum()
+    if s <= 0:
+        raise ValueError("Percentages must sum to > 0.")
+    p = p / s
+
+    # Effective counts after proportional bot discount
+    eff_counts = (1.0 - bot_rate) * total_votes * p
+
+    # Dirichlet posterior with Jeffreys prior (alpha = 0.5 per category)
+    k = len(labels)
+    alpha_prior = np.full(k, prior_per_category, dtype=float)
+    alpha_post = alpha_prior + eff_counts
+
+    # Posterior mean
+    mean = alpha_post / alpha_post.sum()
+    mean_pct = np.round(mean * 100.0, 3)
+
+    # Build result with only the requested keys
+    if want_draw:
+        understandy = {
+            "home": float(mean_pct[0]),
+            "draw": float(mean_pct[1]),
+            "away": float(mean_pct[2]),
+        }
+    else:
+        understandy = {
+            "home": float(mean_pct[0]),
+            "draw": None,
+            "away": float(mean_pct[1]),
+        }
+    return understandy
+
 
 def forebet_per_page(driver, page):
     allcontent = str("")
@@ -2013,6 +2146,13 @@ def forebet_per_page(driver, page):
     if "football" in page:
         time.sleep(6)
         waitloading(2, driver=driver)
+    try:
+        if check_exists_by_xpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]') == 0:
+            tryAndRetryClickXpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]')
+            time.sleep(4)
+    except Exception as e:
+        print(f"More button missing: {e}")
+    
     if check_exists_by_xpath(driver, '//div[contains(@Class, "fc-dialog-container")]//div[contains(@Class, "fc-close fc-icon-button")]//span') == 0:
         tryAndRetryClickXpath(driver, '//div[contains(@Class, "fc-dialog-container")]//div[contains(@Class, "fc-close fc-icon-button")]//span')
     else:
@@ -2092,11 +2232,11 @@ def forebet_add_title_on_htmlElement(home_team, away_team, first_divs):
             
             # Determine the title based on the word counts
             if count_word1 > 0 and (count_word1 - 3) > count_word2:
-                title = " . Recent Match History: " + str(home_team) + " Last Matches Overview : "
+                title = " \n . Recent Match History: " + str(home_team) + " Last Matches Overview : \n "
             elif count_word2 > 0 and (count_word2 - 3) > count_word1:
-                title = " . Recent Match History: " + str(away_team) + " Last Matches Overview : "
+                title = " \n . Recent Match History: " + str(away_team) + " Last Matches Overview : \n "
             else:
-                title = " . Comprehensive Statistics: " + str(home_team) + " and " + str(away_team) + " Analysis : "
+                title = " \n . Comprehensive Statistics: " + str(home_team) + " and " + str(away_team) + " Analysis : \n "
             
             # Append the title and the block content
             content_final += title + text_extract

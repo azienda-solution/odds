@@ -1,5 +1,5 @@
 
-from function import analys_per_link, click_consent, convert_sheet_csv, forebet, forebet_scrap_history, save_to_excel, scrap_selenium_v1
+from function import analys_per_link, click_consent, convert_sheet_csv_read_excel, forebet, forebet_scrap_history, save_to_excel, scrap_selenium_v1
 
 
 def ffunc():
@@ -18,12 +18,12 @@ def ffunc():
     #content_html = forebet_scrap_history(driver)
     #game = forebet("forebet/data.html", types="folder", folder="forebet/file/")
     """game = forebet("forebet/data.html", types="file", folder="")
-    save_to_excel(game, excel_file)
+    save_to_excel(game, excel_file, False)
     print('done ')"""
     driver = scrap_selenium_v1("forebet.com")
     click_consent(driver, 'en')
-    game = convert_sheet_csv("2025-04-06-1", excel_file)
+    game = convert_sheet_csv_read_excel("2025-08-21", excel_file)
     diff_analyse = analys_per_link(game, driver)
-    save_to_excel(diff_analyse, "IA_forebet.xlsx")
+    save_to_excel(diff_analyse, "IA_forebet.xlsx", False)
     
 ffunc()

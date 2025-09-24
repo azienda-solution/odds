@@ -1,10 +1,10 @@
+seleniumbase
 beautifulsoup4
 pandas
 openpyxl
 requests
-undetected-chromedriver
-pickle
 playsound
+undetected_chromedriver
 google-api-python-client
 google-auth 
 google-auth-oauthlib 
