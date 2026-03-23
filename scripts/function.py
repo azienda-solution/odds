@@ -1464,12 +1464,12 @@ def forebet_scrap(driver):
         else:
             waitloading(1, driver=driver)
         try:
-            if check_exists_by_xpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]') == 0:
-                tryAndRetryClickXpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]')
+            if check_exists_by_xpath(driver, '//*[@id="mrows"]/span') == 0:
+                tryAndRetryClickXpath(driver, '//*[@id="mrows"]/span')
                 time.sleep(4)
         except Exception as e:
             print(f"More button missing: {e}")
-        content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+        content = driver.find_element(By.XPATH, '//div[contains(@id, "body-main")]//div[contains(@class, "schema")]')
         content = (content.get_attribute('outerHTML'))
         if content:
             content = ajouter_sportfill(content, sport)
@@ -1580,7 +1580,7 @@ def forebet_scrap_trend(driver, link):
         waitloading(1, driver=driver)
     
     waitloading(2, driver=driver)
-    content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+    content = driver.find_element(By.XPATH, '//div[contains(@id, "body-main")]//div[contains(@class, "schema")]')
     content = (content.get_attribute('outerHTML'))
     allcontent += content
             
@@ -1596,7 +1596,7 @@ def forebet_scrap_trend(driver, link):
             print(f"Navigating to: {href}")
             driver.get(href)
             waitloading(2, driver=driver)
-            content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+            content = driver.find_element(By.XPATH, '//div[contains(@id, "body-main")]//div[contains(@class, "schema")]')
             content = (content.get_attribute('outerHTML'))
             allcontent += content
     return allcontent
@@ -1732,7 +1732,7 @@ def format_text_score(text):
 def get_trend_forebet(driver):
     html_text = ""
     try:
-        divs = driver.find_elements(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "short_trends")]')
+        divs = driver.find_elements(By.XPATH, '//div[contains(@id, "body-main")]//div[contains(@class, "short_trends")]')
         if divs:
             if len(divs) > 1:
                 for el in divs:
@@ -1748,6 +1748,7 @@ def cleaner(file):
         bash_command = "scripts/cleaner.sh "+file
         process = subprocess.run(bash_command, shell=True, text=True, capture_output=True)
     except Exception as e:
+        print('pas de cleaner trouvé, erreur: ' + str(e))
         pass
 
 def to_percentage(value):
@@ -1883,8 +1884,13 @@ def prompt(match__, last_match, trend):
     Ok chat, you are a highly skilled sports analyst specializing in the analysis of all sports. Your task is to evaluate and refine the given forecast based on an advanced analysis of the following data:
 
     ### Important Notes:
-    - My initial forecast is based on **data sources and statistical models** that I cannot fully provide here (e.g., external trends, proprietary analysis).
-    - While this forecast is **reliable and well-researched**, it is **not perfect** and does not reflect all situational variables (e.g., player injuries, live game conditions).
+    - My initial forecast is grounded in **reliable statistical models and data sources**. Treat it as a strong baseline.
+    - **Do not challenge it unless the recent performance data provided explicitly and consistently contradicts it**.
+    - **Prioritize patterns over isolated results**: One unexpected result does not invalidate a trend. Look for consistency across multiple recent matches.
+    - **Commit to a winner when the data supports it**. A confident and well-argued prediction is more valuable than a vague or hedged one.
+    - **Recent form is your strongest signal**. A team winning consistently, scoring regularly, and conceding little is likely to continue doing so.
+    - **Do not introduce uncertainty as a default**. Uncertainty is only valid when the data is genuinely mixed or contradictory.
+    - **Your role is to be a sharp analyst, not a commentator**. Avoid narrative filler. Focus on what the numbers and trends actually tell you.
 
     ### Match Details:
     - **Home Team**: {match__['home_team']}
@@ -1905,13 +1911,14 @@ def prompt(match__, last_match, trend):
     ### Task:
     1. Analyze the **consistency of the provided forecast** (`prediction` and `correct_score`) using probabilities, recent matches, and trends.
     2. Evaluate the **strength of my forecast** in light of the data provided and identify any gaps or inconsistencies.
-    3. Provide a **realistic prediction** based on:
-        - The team's recent performance (e.g., win/loss streaks, scoring trends).
+    3. Provide a **realistic and decisive prediction** based on:
+        - The team's recent performance (e.g., win/loss streaks, scoring trends). **Recent good form is a strong signal, weight it seriously.**
         - Head-to-head performance.
         - Team-level trends (e.g., scoring patterns, defensive consistency).
-    4. **If you are confident that one team will win and the recent matches and form confirm this, clearly state that the home or away team is the likely winner**.
-    5. **If you have any doubts or see elements that might cause the prediction to change, mention them clearly**.
-    6. Output the following in JSON format:
+    4. **If one team is clearly stronger based on recent form and statistics, commit to that team as the likely winner. Be assertive and clear in your conclusion. Do not dilute a strong prediction with unnecessary doubt.**
+    5. **Only mention doubts or uncertainties if there are concrete and specific elements in the data that justify them** (e.g., very close recent form, head-to-head history favoring the underdog). Do not introduce generic uncertainty just because sports are unpredictable.
+    6. My forecast is a useful starting point and is generally well-informed. **Use it as a baseline** and adjust only if the recent form and trends clearly contradict it.
+    7. Output the following in JSON format:
     ```json
     {{
         "home_probability_api": <float>,
@@ -1966,31 +1973,33 @@ def analys_per_link(array, driver):
     filtered_array = [
         match__ for match__ in array
         if (
-            (float(match__['initial_difference']) >= 38 and ("football" in str(match__['sport']).lower() or "football" in match__['link']))
-            or (float(match__['initial_difference']) >= 45)
-            or (float(match__['initial_difference']) >= 15 and "american" in str(match__['sport']).lower())
-            or (float(match__['initial_difference']) >= 30  and ("rugby" in str(match__['sport']).lower() or "rugby" in match__['link']))
+            (float(match__['initial_difference']) >= 45 and ("football" in str(match__['sport']).lower() or "football" in match__['link']))
+            or (float(match__['initial_difference']) >= 48)
+            or (float(match__['initial_difference']) >= 20 and "american" in str(match__['sport']).lower())
+            or (float(match__['initial_difference']) >= 35  and ("rugby" in str(match__['sport']).lower() or "rugby" in match__['link']))
+            or (float(match__['initial_difference']) >= 45  and ("hockey" in str(match__['sport']).lower() or "hockey" in match__['link']))
         )
     ]
     for match__ in filtered_array:
         link = match__['link'] if (match__ and len(match__['link'])>2) else None
         useless = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
         processed_links = load_file("./already-done.txt")
-        mots_interdits = ["ncaa", "chile", "-ii-", "tb2l", "u21", "zealand", "georgi", "u19", "bulgar", "ligue-b", "mpbl", "nbl1","espoir", "-a2-", "-a2/", "2-bundesliga"]
+        mots_interdits = ["ncaa", "chile", "-ii-", "tb2l", "u21", "zealand", "georgi", "u19", "bulgar", "ligue-b", "mpbl", "nbl1","espoir", "-a2-", "-a2/", "2-bundesliga", "santa", "casti", "cruz", "verde","scher", "yama", "melb", "liga-2", "liga-3", "liga-4", "liga-5", "liga-6", "liga-7", "liga-8", "liga-9", "liga-10","a2-bask","a2-bask","a2-bas","a2-ba","a2-b", "irty", "-ksar", "kobl", "cameroun", "camer", "oberl", "nigeria", "niger", "ghana", "ghan", "sierra", "oubz", "al-","-w-", "austr", "nbb", "serie-b", "mhl", "serie-c", "austra"]
         paires_interdites = [("basket", "al-"), ("basket", "-w-"),("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
         if link and (link not in processed_links) and (useless not in processed_links) and all(mot not in link for mot in mots_interdits) and all(not (mot1 in link and mot2 in link) for mot1, mot2 in paires_interdites):
             try:
                 link = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
                 print(f"Navigating to: {link}")
                 driver.get(link)
-                waitloading(4, driver)
-                content_xpath = '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]'
+                waitloading(6, driver)
+                content_xpath = '//div[contains(@id, "body-main")]'
                 content = wait_for_element(driver, content_xpath)
                 if not content:
                     print("Critical element missing. Skipping this page.")
                     return
                 div_xpaths = [
                     './/div[contains(@class, "st_scrblock")]',
+                    './/div[contains(@class, "mptlt")]',
                     './/div[contains(@class, "mx-width_hc")]'
                 ]
                 divs = []
@@ -2011,11 +2020,11 @@ def analys_per_link(array, driver):
                     first_divs = divs[:3] if div_count > 3 else divs
                     last_match = forebet_add_title_on_htmlElement(match__['home_team'], match__['away_team'], first_divs)
                     trend = clean_text(get_trend_forebet(driver))
-                    if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]') == 0:
-                        trend += getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[contains(@class, "match_intro_tab")]')
+                    if check_exists_by_xpath(driver, '//div[contains(@id, "body-main")]//div[contains(@class, "match_intro_tab")]') == 0:
+                        trend += getinnertextXpath(driver, '//div[contains(@id, "body-main")]//div[contains(@class, "match_intro_tab")]')
                     #find result if present
-                    if check_exists_by_xpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span') == 0:
-                        final_score = getinnertextXpath(driver, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]//div[@class="lscr_td"]//span')
+                    if check_exists_by_xpath(driver, '//div[contains(@id, "body-main")]//div[@class="lscr_td"]//span') == 0:
+                        final_score = getinnertextXpath(driver, '//div[contains(@id, "body-main")]//div[@class="lscr_td"]//span')
                     else:
                         final_score = ""
                         
@@ -2147,8 +2156,8 @@ def forebet_per_page(driver, page):
         time.sleep(6)
         waitloading(2, driver=driver)
     try:
-        if check_exists_by_xpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]') == 0:
-            tryAndRetryClickXpath(driver, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]')
+        if check_exists_by_xpath(driver, '//div[contains(@id, "body-main")]//div[contains(@class, "schema")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]') == 0:
+            tryAndRetryClickXpath(driver, '//div[contains(@id, "body-main")]//div[contains(@class, "schema")]//div[contains(@Class, "schema")]//div[contains(@id, "mrows")]//span[contains(@onclick, "ltodrows")]')
             time.sleep(4)
     except Exception as e:
         print(f"More button missing: {e}")
@@ -2157,7 +2166,7 @@ def forebet_per_page(driver, page):
         tryAndRetryClickXpath(driver, '//div[contains(@Class, "fc-dialog-container")]//div[contains(@Class, "fc-close fc-icon-button")]//span')
     else:
         waitloading(1, driver=driver)
-        content = driver.find_element(By.XPATH, '//table[contains(@Class, "allcontent")]//td[contains(@Class, "contentmiddle")]')
+        content = driver.find_element(By.XPATH, '//div[contains(@id, "body-main")]//div[contains(@class, "schema")]')
         content = (content.get_attribute('outerHTML'))
         if content:
             content = ajouter_sportfill(content, sport)
@@ -2196,7 +2205,7 @@ def forebet_scrap_history(driver):
             print(clean_text(date))
             driver.get(date)
             waitloading(1, driver=driver)
-            content = driver.find_element(By.XPATH, '//table[contains(@class, "allcontent")]//td[contains(@class, "contentmiddle")]')
+            content = driver.find_element(By.XPATH, '//div[contains(@id, "body-main")]//div[contains(@class, "schema")]')
             content = (content.get_attribute('outerHTML'))
             if content:
                 content = ajouter_sportfill(content, sport)

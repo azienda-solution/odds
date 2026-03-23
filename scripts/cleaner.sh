@@ -49,6 +49,7 @@ process_file() {
 for file in "$@"; do
     if [[ -f "$file" ]]; then
         process_file "$file"
+        echo "665"
     else
         echo "$file is not a valid file."
     fi

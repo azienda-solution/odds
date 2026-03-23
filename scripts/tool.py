@@ -1,12 +1,12 @@
 import json
-from function import clean_text, cleaner, click_consent, convert_sheet_csv, getinnertextXpath, save_to_excel, scrap_selenium_v1, waitloading
+from function import clean_text, cleaner, click_consent, convert_sheet_csv_read_excel, getinnertextXpath, save_to_excel, scrap_selenium_v1, waitloading
 
 def find_result():
     json_array = []
     cleaner('forebet/data.html')
     driver = scrap_selenium_v1("forebet.com")
     click_consent(driver, 'en')
-    data = convert_sheet_csv('one', 'echant.xlsx')
+    data = convert_sheet_csv_read_excel('one', 'echant.xlsx')
     matches = []
     for match__ in data:
         link = match__['link']
@@ -18,6 +18,6 @@ def find_result():
             json_array.append(match__)
         except Exception as e:
             pass
-    save_to_excel(json_array, "AI_RESULT.xlsx")
+    save_to_excel(json_array, "AI_RESULT.xlsx", False)
 
 find_result()

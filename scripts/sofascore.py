@@ -7,19 +7,41 @@ import argparse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from urllib.parse import unquote
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.action_chains import ActionChains
+
 
 def xpath_literal(s: str) -> str:
-    """
-    Retourne un literal XPath valide pour n'importe quelle chaîne Python,
-    même si elle contient des apostrophes et/ou des guillemets.
-    """
     if "'" not in s:
         return f"'{s}'"
     if '"' not in s:
         return f'"{s}"'
-    # s contient à la fois ' et " -> utiliser concat
     parts = s.split("'")
-    return "concat(" + ", ".join([f"'{p}'" if i == len(parts) - 1 else f"'{p}', \"'\", " for i, p in enumerate(parts)]) + ")"
+    # concat('a', "'", 'b', "'", 'c')
+    return "concat(" + ", ".join(sum(([f"'{p}'", "\"'\""] for p in parts[:-1]), []) + [f"'{parts[-1]}'"]) + ")"
+
+def build_team_hints(first_word: str):
+    # ex: 'sc-freiburg' -> ['sc freiburg', 'freiburg', 'sc']
+    raw = unquote(first_word).strip()
+    base = re.sub(r"[_\-]+", " ", raw).strip()
+    parts = [p for p in base.split() if p]
+    hints = []
+    if base:
+        hints.append(base)
+    if parts:
+        # token le plus long en priorité (souvent le nom distinctif)
+        parts_sorted = sorted(parts, key=len, reverse=True)
+        hints += parts_sorted
+    # dédoublonner en gardant l'ordre
+    seen = set()
+    uniq = []
+    for h in hints:
+        k = h.lower()
+        if k not in seen:
+            uniq.append(h)
+            seen.add(k)
+    return uniq
 
 def ffunc(page=None):
 
@@ -54,53 +76,103 @@ def ffunc(page=None):
                         
                         try:
                             first_word = re.search(r'/match/([^-/#?]+)', list_link[0]).group(1)
+                            team_hints = build_team_hints(first_word)
 
-                            # 1) XPaths
-                            # Carte qui contient "Qui va gagner" (insensible à la casse, ignore espaces et "?")
-                            card_xpath = (
-                                "//div[contains(@class,'card-component')]"
-                                "[.//span[contains(translate(normalize-space(.),"
-                                " 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ? ',"
-                                " 'abcdefghijklmnopqrstuvwxyzàâäçéèêëîïôöùûüÿ  '),"
-                                " 'qui va gagner')]]"
+                            # XPath pour trouver le bouton de l’option dont l’img @alt contient le hint
+                            # ET qui est dans la même "card-component" que la question "Qui va gagner"
+                            # On neutralise casse + espaces (et insécable) côté texte question
+                            question_predicate = (
+                                "contains(translate(normalize-space(.), "
+                                "'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ? ', "
+                                "'abcdefghijklmnopqrstuvwxyzàâäçéèêëîïôöùûüÿ  '), "
+                                "'Qui va gagner ?')"
                             )
 
-                            # Image dont l'alt contient first_word, puis remonter au bouton cliquable
-                            alt_literal = xpath_literal(first_word)
-                            target_xpath = (
-                                f"{card_xpath}//img[contains(@alt, {alt_literal})]/ancestor::button[1]"
-                            )
+                            # On va essayer plusieurs hints jusqu’à trouver un bouton cliquable
+                            target_btn = None
+                            last_xpath = None
+                            wait = WebDriverWait(driver, 10)
 
-                            # 2) Attendre la présence de la carte (utile ensuite pour lire le texte)
-                            card = WebDriverWait(driver, 10).until(
-                                EC.presence_of_element_located((By.XPATH, card_xpath))
-                            )
+                            for hint in team_hints:
+                                hint_lit = xpath_literal(hint)
+                                # comparaison insensible à la casse sur @alt via translate()
+                                img_predicate = (
+                                    f"contains(translate(@alt, "
+                                    f"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ', "
+                                    f"'abcdefghijklmnopqrstuvwxyzàâäçéèêëîïôöùûüÿ'), "
+                                    f"translate({hint_lit}, "
+                                    f"'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ', "
+                                    f"'abcdefghijklmnopqrstuvwxyzàâäçéèêëîïôöùûüÿ'))"
+                                )
 
-                            # 3) Faire défiler jusqu’à la carte (souvent nécessaire avant un clic)
-                            driver.execute_script("arguments[0].scrollIntoView({block:'center'});", card)
+                                xpath = (
+                                    "//div[contains(@class,'card-component')][.//span[" + question_predicate + "]]"
+                                    f"//button[.//img[{img_predicate}]]"
+                                )
+                                last_xpath = xpath
 
-                            # 4) Attendre que le bouton contenant l'image soit cliquable, puis cliquer
-                            target_btn = WebDriverWait(driver, 10).until(
-                                EC.element_to_be_clickable((By.XPATH, target_xpath))
-                            )
+                                try:
+                                    # attendre présence de la carte (utile pour récupérer le texte plus tard)
+                                    card = wait.until(EC.presence_of_element_located((
+                                        By.XPATH, "//div[contains(@class,'card-component')][.//span[" + question_predicate + "]]"
+                                    )))
+                                    # scroll jusqu’à la carte
+                                    driver.execute_script("arguments[0].scrollIntoView({block:'center'});", card)
+
+                                    # attendre que le bouton avec l'image soit visible/cliquable
+                                    btn = wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
+                                    # bouger la souris dessus pour déclencher tout hover éventuel
+                                    try:
+                                        ActionChains(driver).move_to_element(btn).perform()
+                                    except Exception:
+                                        pass
+
+                                    target_btn = wait.until(EC.element_to_be_clickable((By.XPATH, xpath)))
+                                    try:
+                                        target_btn.click()
+                                    except Exception:
+                                        driver.execute_script("arguments[0].click();", target_btn)
+
+                                    # si on a cliqué sans exception, on sort de la boucle
+                                    break
+
+                                except TimeoutException as te:
+                                    # on essaye le hint suivant
+                                    continue
+
+                            if target_btn is None:
+                                # rien trouvé/cliqué — diagnostics utiles
+                                print("DEBUG: aucun bouton trouvé. Dernier XPath testé:\n", last_xpath)
+                                # Log des alts présents dans la carte pour comprendre quoi matcher
+                                try:
+                                    card = driver.find_element(By.XPATH,
+                                        "//div[contains(@class,'card-component')][.//span[" + question_predicate + "]]"
+                                    )
+                                    alts = [e.get_attribute("alt") for e in card.find_elements(By.XPATH, ".//img[@alt]")]
+                                    print("DEBUG: alts détectés dans la carte:", alts)
+                                    print("DEBUG: team_hints utilisés:", team_hints)
+                                except Exception as _:
+                                    print("DEBUG: carte non trouvée non plus.")
+                                raise TimeoutException("Impossible de localiser/clicker le bouton de l’équipe.")
+
+                            # petite pause si l’UI met à jour le texte
+                            time.sleep(0.5)
+
+                            # récupérer le texte de la même carte
+                            card = target_btn.find_element(By.XPATH, "ancestor::div[contains(@class,'card-component')][1]")
+                            vote_text = card.text
+                            vote = clean_text(vote_text)
+
+                        except TimeoutException as e:
+                            print(f"Timeout while waiting for element. Details: {e}")
+                            # optionnel: capture d’écran pour diagnostiquer
                             try:
-                                target_btn.click()
+                                driver.save_screenshot("debug_vote.png")
+                                print("DEBUG: screenshot saved to debug_vote.png")
                             except Exception:
-                                # fallback JS click si un overlay capte le clic
-                                driver.execute_script("arguments[0].click();", target_btn)
-
-                            # 5) Récupérer le texte (ou HTML) de la même carte
-                            time.sleep(0.5)  # petit délai si le contenu se met à jour après le clic
-                            vote_text = card.text  # texte visible
-                            # ou si vous avez besoin du HTML:
-                            vote_html = card.get_attribute("innerHTML")
-                            vote = clean_text(vote_text)  # votre fonction
-                            if len(vote) < 6:
-                                vote = vote_html
-
+                                pass
                         except Exception as e:
-                            print(f"An error occurred: {e}")
-
+                            print(f"Unexpected error: {type(e).__name__}: {e}")
 
                         """if vote and len(vote) < 5:
                             

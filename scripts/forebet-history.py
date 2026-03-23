@@ -22,7 +22,7 @@ def ffunc():
     print('done ')"""
     driver = scrap_selenium_v1("forebet.com")
     click_consent(driver, 'en')
-    game = convert_sheet_csv_read_excel("2025-08-21", excel_file)
+    game = convert_sheet_csv_read_excel("2026-03-21", excel_file)
     diff_analyse = analys_per_link(game, driver)
     save_to_excel(diff_analyse, "IA_forebet.xlsx", False)
     

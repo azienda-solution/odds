@@ -6,7 +6,7 @@ from google.oauth2.service_account import Credentials
 def add_permission(file_id):
         # Créez le service Google Drive
     SCOPES = ['https://www.googleapis.com/auth/drive']
-    creds = Credentials.from_service_account_file('D:/Documents/Advanced-Python/ODDS/config/life-cm-f5238641f3f9.json', scopes=SCOPES)
+    creds = Credentials.from_service_account_file('../config/life-cm-f5238641f3f9.json', scopes=SCOPES)
     service = build('drive', 'v3', credentials=creds)
     email_account_service = 'life-942@life-cm.iam.gserviceaccount.com'  # Email du compte de service
     permission = {

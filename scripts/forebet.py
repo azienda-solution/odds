@@ -3,6 +3,8 @@ from function import analys_per_link, append_new_line, forebet, forebet_per_page
 from upload_drive import upload_file_to_drive, upload_text_file_to_drive
 import argparse
 
+env_path = "D:\Documents\Advanced-Python\ODDS\scripts\env.py"
+
 def ffunc(page=None):
     file_html = 'forebet/data.html'
     excel_file = 'forebet.xlsx'
