@@ -1973,18 +1973,18 @@ def analys_per_link(array, driver):
     filtered_array = [
         match__ for match__ in array
         if (
-            (float(match__['initial_difference']) >= 45 and ("football" in str(match__['sport']).lower() or "football" in match__['link']))
-            or (float(match__['initial_difference']) >= 48)
-            or (float(match__['initial_difference']) >= 20 and "american" in str(match__['sport']).lower())
-            or (float(match__['initial_difference']) >= 35  and ("rugby" in str(match__['sport']).lower() or "rugby" in match__['link']))
-            or (float(match__['initial_difference']) >= 45  and ("hockey" in str(match__['sport']).lower() or "hockey" in match__['link']))
+            (float(match__['initial_difference']) >= 40 and ("football" in str(match__['sport']).lower() or "football" in match__['link']))
+            or (float(match__['initial_difference']) >= 46)
+            or (float(match__['initial_difference']) >= 18 and "american" in str(match__['sport']).lower())
+            or (float(match__['initial_difference']) >= 31  and ("rugby" in str(match__['sport']).lower() or "rugby" in match__['link']))
+            or (float(match__['initial_difference']) >= 40  and ("hockey" in str(match__['sport']).lower() or "hockey" in match__['link']))
         )
     ]
     for match__ in filtered_array:
         link = match__['link'] if (match__ and len(match__['link'])>2) else None
         useless = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
         processed_links = load_file("./already-done.txt")
-        mots_interdits = ["ncaa", "chile", "-ii-", "tb2l", "u21", "zealand", "georgi", "u19", "bulgar", "ligue-b", "mpbl", "nbl1","espoir", "-a2-", "-a2/", "2-bundesliga", "santa", "casti", "cruz", "verde","scher", "yama", "melb", "liga-2", "liga-3", "liga-4", "liga-5", "liga-6", "liga-7", "liga-8", "liga-9", "liga-10","a2-bask","a2-bask","a2-bas","a2-ba","a2-b", "irty", "-ksar", "kobl", "cameroun", "camer", "oberl", "nigeria", "niger", "ghana", "ghan", "sierra", "oubz", "al-","-w-", "austr", "nbb", "serie-b", "mhl", "serie-c", "austra"]
+        mots_interdits = ["ncaa", "chile", "-ii-", "tb2l", "u21", "zealand", "georgi", "u19", "bulgar", "ligue-b", "mpbl", "nbl1","espoir", "-a2-", "-a2/", "2-bundesliga", "santa", "casti", "cruz", "verde","scher", "yama", "melb", "liga-2", "liga-3", "liga-4", "liga-5", "liga-6", "liga-7", "liga-8", "liga-9", "liga-10","a2-bask","a2-bask","a2-bas","a2-ba","a2-b", "irty", "-ksar", "kobl", "cameroun", "camer", "oberl", "nigeria", "niger", "ghana", "ghan", "sierra", "oubz", "al-", "austr", "nbb", "serie-b", "mhl", "serie-c"]
         paires_interdites = [("basket", "al-"), ("basket", "-w-"),("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
         if link and (link not in processed_links) and (useless not in processed_links) and all(mot not in link for mot in mots_interdits) and all(not (mot1 in link and mot2 in link) for mot1, mot2 in paires_interdites):
             try:
@@ -2080,7 +2080,7 @@ def analys_per_link(array, driver):
                 continue
     if len(matches) < 2 :
         if len(filtered_array) > 2:
-            save_to_excel(filtered_array, "IA_forebet.xlsx", False)
+            save_to_excel(filtered_array, "IA-FOREBET-2026.xlsx", False)
     if len(analyse_manual) > 2 :
         save_to_excel(analyse_manual, "analyse-manual.xlsx", False)
     return matches

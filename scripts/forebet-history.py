@@ -13,7 +13,7 @@ def ffunc():
     """
          
     file_html = 'forebet/data.html' 
-    excel_file = 'forebet.xlsx'
+    excel_file = 'FOREBET-2026.xlsx'
     
     #content_html = forebet_scrap_history(driver)
     #game = forebet("forebet/data.html", types="folder", folder="forebet/file/")
@@ -22,8 +22,8 @@ def ffunc():
     print('done ')"""
     driver = scrap_selenium_v1("forebet.com")
     click_consent(driver, 'en')
-    game = convert_sheet_csv_read_excel("2026-03-21", excel_file)
+    game = convert_sheet_csv_read_excel("2026-03-26-1", excel_file)
     diff_analyse = analys_per_link(game, driver)
-    save_to_excel(diff_analyse, "IA_forebet.xlsx", False)
+    save_to_excel(diff_analyse, "IA-FOREBET-2026.xlsx", False)
     
 ffunc()

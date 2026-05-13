@@ -7,7 +7,7 @@ env_path = "D:\Documents\Advanced-Python\ODDS\scripts\env.py"
 
 def ffunc(page=None):
     file_html = 'forebet/data.html'
-    excel_file = 'forebet.xlsx'
+    excel_file = 'FOREBET-2026.xlsx'
 
     cleaner('forebet/data.html')
     driver = scrap_selenium_v1("forebet.com")
@@ -21,7 +21,7 @@ def ffunc(page=None):
         #upload_text_file_to_drive("1iAwsrdawNPeww_FrSmB0AimH0Vzhz8L4",excel_file)
         print('done ')
         diff_analyse = analys_per_link(game_oddspedia, driver)
-        save_to_excel(diff_analyse, "IA_forebet.xlsx", True)
+        save_to_excel(diff_analyse, "IA-FOREBET-2026.xlsx", True)
     else:
         """ 
         
@@ -38,8 +38,8 @@ def ffunc(page=None):
         #upload_text_file_to_drive("1iAwsrdawNPeww_FrSmB0AimH0Vzhz8L4",excel_file)
         print('done ')
         diff_analyse = analys_per_link(game_oddspedia, driver)
-        save_to_excel(diff_analyse, "IA_forebet.xlsx", True)
-        upload_text_file_to_drive("1iAwsrdawNPeww_FrSmB0AimH0Vzhz8L4","IA_forebet.xlsx")
+        save_to_excel(diff_analyse, "IA-FOREBET-2026.xlsx", True)
+        upload_text_file_to_drive("1iAwsrdawNPeww_FrSmB0AimH0Vzhz8L4","IA-FOREBET-2026.xlsx")
         #trend_content = forebet_scrap_trend(driver, "https://www.forebet.com/en/football-tips-and-predictions-for-today/stat-trends")
         #append_new_line(r'analyse-log.txt', str(trend_content))
         #forebet_trend = analyse_trend(trend_content)
