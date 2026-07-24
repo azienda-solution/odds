@@ -41,3 +41,20 @@ forebet/data.html
 forebet/data.html
 forebet/data.html
 daily_data/111.html
+scraped_pages
+# Ignore tout le venv
+Bvenv/
+
+# Exception : ne pas ignorer les dossiers parents nécessaires
+!Bvenv/Lib/
+!Bvenv/Lib/site-packages/browser_use/
+!Bvenv/Lib/site-packages/browser_use/agent/
+
+scripts/.env*
+scripts/**/.env*
+scripts/editing-video/media_cache/*
+scripts/editing-video/daily_data/*
+
+scripts/editing-video/*.mp4
+scripts/gmail/credentials.json
+scripts/gmail/token.json

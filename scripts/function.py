@@ -691,6 +691,9 @@ def check_and_load_cookies(driver, cookie_file="cookies.pkl", sound_file="D:/Doc
         print("Cookies saved successfully.")
 
 def scrap_selenium_v1(init_url):
+    # version seleniumbaseMetadata-Version: 2.4
+    #Name: seleniumbase
+    #Version: 4.48.4
     """
     
     VERSION 1
@@ -749,16 +752,18 @@ def scrap_selenium_v1(init_url):
     VERSION 3
     _____________________________________________________2025-2025
     """
-    # pip3 install seleniumbase
+    # pip3 install seleniumbase==4.48.4
+    #Name: seleniumbase
+    #Version: 4.48.4
     from seleniumbase import Driver
 
 
     driver = Driver(
         uc=True,
         headless=False,          # run visible for debugging; set True in CI
-        incognito=True,          # helps avoid cookie tracking
+        incognito=False,          # helps avoid cookie tracking
         no_sandbox=True,         # avoid sandbox issues in Docker/VMs
-        block_images=True,       # faster loading (disable if you need images)
+        block_images=False,       # faster loading (disable if you need images)
         disable_gpu=True,        # more stable in some environments
         page_load_strategy="eager",  # don't wait for all images/css
         undetectable=True        # maximize stealth
@@ -1365,14 +1370,13 @@ def click_consent(driver, language):
 TAGS_CONSENT = {
     'fr': {
         'exact': ['ok'],
-        'rel': ['accept', 'accord', 'autor', 'Autor', 'accepter', 'continuer']
+        'rel': ['accept', 'accord', 'autor', 'Autor', 'accepter', 'continuer', 'consent', 'agree']
     },
     'en': {
         'exact': ['ok'],
         'rel': ['accept', 'consent', 'agree', 'allow', 'authorize', 'autor', 'confirm', 'Confirm', 'CONFIRM']
     },
 }
-
 
 def click_consent_list(btns_list, driver, language):
     if not btns_list:
@@ -1390,12 +1394,26 @@ def click_consent_list(btns_list, driver, language):
             btn_id = (btn.get_attribute("id") or "").lower()
             btn_class = (btn.get_attribute("class") or "").lower()
             btn_data = (btn.get_attribute("data-gdpr-expression") or "").lower()
+            btn_aria = (btn.get_attribute("aria-label") or "").lower()
+
+            # ✅ Récupère le texte des éléments enfants si btn.text est vide
+            if not btn_text:
+                try:
+                    child_elements = btn.find_elements(By.XPATH, ".//*")
+                    btn_text = " ".join(
+                        (el.text or "").lower() 
+                        for el in child_elements 
+                        if el.text
+                    )
+                except Exception:
+                    pass
 
             match = (
                 any(tag in btn_text for tag in consent_tags['rel']) or
                 any(tag in btn_id for tag in consent_tags['rel']) or
                 any(tag in btn_class for tag in consent_tags['rel']) or
                 any(tag in btn_data for tag in consent_tags['rel']) or
+                any(tag in btn_aria for tag in consent_tags['rel']) or  # ✅ aria-label ajouté
                 btn_text in consent_tags['exact']
             )
 
@@ -1409,7 +1427,7 @@ def click_consent_list(btns_list, driver, language):
         except Exception as e:
             print(f"[!] Erreur inattendue: {e}")
             continue
-    
+
     return False
 
 
@@ -1984,8 +2002,8 @@ def analys_per_link(array, driver):
         link = match__['link'] if (match__ and len(match__['link'])>2) else None
         useless = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
         processed_links = load_file("./already-done.txt")
-        mots_interdits = ["ncaa", "chile", "-ii-", "tb2l", "u21", "zealand", "georgi", "u19", "bulgar", "ligue-b", "mpbl", "nbl1","espoir", "-a2-", "-a2/", "2-bundesliga", "santa", "casti", "cruz", "verde","scher", "yama", "melb", "liga-2", "liga-3", "liga-4", "liga-5", "liga-6", "liga-7", "liga-8", "liga-9", "liga-10","a2-bask","a2-bask","a2-bas","a2-ba","a2-b", "irty", "-ksar", "kobl", "cameroun", "camer", "oberl", "nigeria", "niger", "ghana", "ghan", "sierra", "oubz", "al-", "austr", "nbb", "serie-b", "mhl", "serie-c"]
-        paires_interdites = [("basket", "al-"), ("basket", "-w-"),("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
+        mots_interdits = ["ncaa", "chile", "tb2l", "zealand", "georgi", "u19", "bulgar", "ligue-b", "mpbl", "nbl1","espoir", "-a2-", "-a2/", "2-bundesliga", "casti", "cruz", "verde","scher", "yama", "melb", "liga-2", "liga-3", "liga-4", "liga-5", "liga-6", "liga-7", "liga-8", "liga-9", "liga-10","a2-bask","a2-bask","a2-bas","a2-ba","a2-b", "irty", "-ksar", "kobl", "cameroun", "camer", "oberl", "nigeria", "niger", "ghana", "ghan", "sierra", "oubz", "al-", "austr", "nbb", "serie-b", "mhl", "serie-c"]
+        paires_interdites = [("basket", "al-"),("basket", "austr"), ("foot", "austr"), ("basket", "nbb"), ("basket", "mhl"), ("rugby", "women")]
         if link and (link not in processed_links) and (useless not in processed_links) and all(mot not in link for mot in mots_interdits) and all(not (mot1 in link and mot2 in link) for mot1, mot2 in paires_interdites):
             try:
                 link = link.replace('https:/www.forebet.com/https:/www.forebet.com/', 'https:/www.forebet.com/')
